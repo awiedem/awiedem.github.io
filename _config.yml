@@ -22,7 +22,7 @@ title: GERDA
 email: hhilbig@ucdavis.edu
 description: >- # this means to ignore newlines until "baseurl:"
   German Election Database -- Election results at the county and municipal level, for federal, state and local elections in Germany.
-baseurl: "/gerda_website" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
