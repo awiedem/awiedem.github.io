@@ -5,6 +5,8 @@ order: 1
 ---
 # GERDA -- German Election Database
 
+![](/assets/images/map_elec_fed_combined.png)
+
 The German Election Database provides a comprehensive dataset of local, state, and federal election results in Germany. The data is intended to facilitate research on electoral behavior, representation, and political responsiveness at multiple levels of government. All datasets include turnout and vote shares for all major parties. Moreover, we provide geographically harmonized datasets that account for changes in municipal boundaries and mail-in voting districts.
 
 **[Data download links](election-data/)**
