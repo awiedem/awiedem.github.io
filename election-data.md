@@ -27,7 +27,7 @@ The following datasets are included in the repository:
 
 ## R Package
 
-Alternatively to downloading the data files, you can use the R package `gerda` to load the data into your R session. You can install the development version of GERDA from GitHub using the `devtools` package:
+Alternatively to downloading the data files, you can use the R package `gerda` to load the data into your R session. You can install the development version of GERDA from GitHub using the `devtools` package. The package is work in progress - in case you encounter any issues, please send an email to <hhilbig@ucdavis.edu>.
 
 ```R
 # Install devtools if you haven't already
@@ -60,7 +60,9 @@ library(gerda)
 available_data <- gerda_data_list()
 
 # Load a dataset
-data_municipal_harm <- load_gerda_web("municipal_harm", verbose = TRUE, file_format = "rds")
+data_municipal_harm <- load_gerda_web("municipal_harm", 
+    verbose = TRUE, file_format = "rds")
+
 ```
 
 ## Note
