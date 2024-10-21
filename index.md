@@ -73,3 +73,6 @@ Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2024.
   doi = {https://doi.org/10.31235/osf.io/q28ex}
 }
 ```
+## Work in progress
+
+The database is work in progress. If you have any suggestions, comments, or issues, please feel free to email us or to file an [issue](https://github.com/awiedem/awiedem.github.io/issues).
