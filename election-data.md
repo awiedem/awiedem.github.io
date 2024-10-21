@@ -48,7 +48,7 @@ devtools::install_github("hhilbig/gerda")
   - `verbose`: If set to `TRUE`, it prints messages about the loading process (default is `FALSE`).
   - `file_format`: Specifies the format of the file to load, either "rds" or "csv" (default is "rds").
 
-  The function checks for matches in the data dictionary, retrieves the corresponding data from a URL, and returns the dataset as a tibble.
+The function checks for matches in the data dictionary, retrieves the corresponding data from a URL, and returns the dataset as a tibble.
 
 ## Usage Examples
 
