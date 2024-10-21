@@ -33,6 +33,7 @@ plugins:
 header_pages:
   - index.md
   - election-data.md
+  - r-package.md
   - usage_notes.md
 
 # Exclude from processing.
