@@ -2,7 +2,7 @@
 layout: default
 title: Usage notes
 permalink: /usage-notes/
-order: 3
+order: 4
 ---
 ## Usage Notes
 
