@@ -53,10 +53,10 @@ Weird...
 
 ## Authors
 
-- Vincent Heddesheimer (<vincent.heddesheimer@princeton.edu>)
-- Hanno Hilbig (<hhilbig@ucdavis.edu>)
-- Florian Sichart (<fsichart@princeton.edu>)
-- Andreas Wiedemann (<awiedemann@princeton.edu>)
+- [Vincent Heddesheimer](https://vincentheddesheimer.github.io/) (<vincent.heddesheimer@princeton.edu>)
+- [Hanno Hilbig](https://www.hannohilbig.com/) (<hhilbig@ucdavis.edu>)
+- [Florian Sichart](https://politics.princeton.edu/people/florian-sichart) (<fsichart@princeton.edu>)
+- [Andreas Wiedemann](https://www.abwiedemann.com/) (<awiedemann@princeton.edu>)
 
 ## Citation
 
