@@ -23,7 +23,8 @@ The code used to generate the datasets and perform the analyses is available in 
 
 ## Authors
 
-Andreas Wiedemann, Hanno Hilbig, Vincent Heddesheimer, and Florian Sichart.
+[Andreas Wiedemann](https://www.abwiedemann.com/), [Hanno Hilbig](https://www.hannohilbig.com/), [Vincent Heddesheimer](https://vincentheddesheimer.github.io/), and [Florian Sichart](https://politics.princeton.edu/people/florian-sichart).
+
 
 ![](/assets/images/authors.jpeg)
 
