@@ -1,17 +1,41 @@
 ---
 layout: default
-title: Overview
-order: 1
+title: "Overview | German Election Database"
+description: "The German Election Database provides comprehensive datasets of local, state, and federal election results in Germany for research on electoral behavior. Bundestagswahlergebnissen, Landeswahlergebnissen und Kommunalwahlergebnissen in Deutschland, die die Forschung zu Wahlverhalten, politischer Repräsentation und politischer Reaktionsfähigkeit ermöglicht."
+keywords: "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
 ---
+
 # GERDA -- German Election Database
 
-![](/assets/images/map_elec_fed_combined.png)
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Hanno Hilbig, Vincent Heddesheimer, Florian Sichart, Andreas Wiedemann">
+<meta property="og:title" content="GERDA: German Election Database">
+<meta property="og:image" content="https://german-elections.com/assets/images/map_elec_fed_combined.png"><meta property="og:url" content="https://german-elections.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://german-elections.com/">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "GERDA -- German Election Database",
+  "description": "Comprehensive dataset of local, state, and federal election results in Germany, facilitating research on electoral behavior, representation, and political responsiveness. Umfassende Datenbank von: Bundestagswahlergebnissen, Landeswahlergebnissen und Kommunalwahlergebnissen in Deutschland, die die Forschung zu Wahlverhalten, politischer Repräsentation und politischer Reaktionsfähigkeit ermöglicht.",
+  "url": "https://german-elections.com",
+  "creator": {
+    "@type": "Person",
+    "name": ["Hanno Hilbig", "Vincent Heddesheimer", "Florian Sichart", "Andreas Wiedemann"]
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "keywords": "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
+}
+</script>
+
+![](/assets/images/map_elec_fed_combined.png "Map showing federal election results in Germany"){:loading="lazy"}
 
 The German Election Database provides a comprehensive dataset of local, state, and federal election results in Germany. The data is intended to facilitate research on electoral behavior, representation, and political responsiveness at multiple levels of government. All datasets include turnout and vote shares for all major parties. Moreover, we provide geographically harmonized datasets that account for changes in municipal boundaries and mail-in voting districts.
 
-**[Read the paper](https://osf.io/preprints/socarxiv/q28ex)**
-
-**[Data download links](election-data/)**
+**[Download the Election Data](election-data.md)**
+**[Read the Usage Notes](usage_notes.md)**
 
 ## Dataset Features
 
@@ -73,6 +97,7 @@ Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2024.
   doi = {https://doi.org/10.31235/osf.io/q28ex}
 }
 ```
+
 ## Work in progress
 
 The database is work in progress. If you have any suggestions, comments, or issues, please feel free to email us or to file an [issue](https://github.com/awiedem/awiedem.github.io/issues).

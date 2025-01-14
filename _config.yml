@@ -18,17 +18,25 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: GERDA
+title: "German Election Database | GERDA"
+author: "Hanno Hilbig, Vincent Heddesheimer, Florian Sichart, Andreas Wiedemann"
 email: hhilbig@ucdavis.edu
 description: >- # this means to ignore newlines until "baseurl:"
-  German Election Database -- Election results at the county and municipal level, for federal, state and local elections in Germany.
+  Comprehensive dataset of local, state, and federal election results in Germany, facilitating research on electoral behavior, representation, and political responsiveness. Umfassende Datenbank von: Bundestagswahlergebnissen, Landeswahlergebnissen und Kommunalwahlergebnissen in Deutschland, die die Forschung zu Wahlverhalten, politischer Repräsentation und politischer Reaktionsfähigkeit ermöglicht.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://german-elections.com" # the base hostname & protocol for your site, e.g. http://example.com
+
+# Add these SEO-related fields:
+keywords: "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
+twitter_username: "hannohilbig"
+github_username: "hhilbig"
+language: "en"
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 
 header_pages:
   - index.md
