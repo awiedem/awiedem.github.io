@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Election data download
+title: Data download
 permalink: /election-data/
 order: 2
 ---

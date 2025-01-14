@@ -21,6 +21,11 @@
 title: "German Election Database | GERDA"
 author: "Hanno Hilbig, Vincent Heddesheimer, Florian Sichart, Andreas Wiedemann"
 email: hhilbig@ucdavis.edu
+author_emails:
+  - vincent.heddesheimer@princeton.edu
+  - hhilbig@ucdavis.edu
+  - fsichart@princeton.edu
+  - awiedemann@princeton.edu
 description: >- # this means to ignore newlines until "baseurl:"
   Comprehensive dataset of local, state, and federal election results in Germany, facilitating research on electoral behavior, representation, and political responsiveness. Umfassende Datenbank von: Bundestagswahlergebnissen, Landeswahlergebnissen und Kommunalwahlergebnissen in Deutschland, die die Forschung zu Wahlverhalten, politischer Repräsentation und politischer Reaktionsfähigkeit ermöglicht.
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -28,8 +33,6 @@ url: "https://german-elections.com" # the base hostname & protocol for your site
 
 # Add these SEO-related fields:
 keywords: "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
-twitter_username: "hannohilbig"
-github_username: "hhilbig"
 language: "en"
 
 # Build settings
