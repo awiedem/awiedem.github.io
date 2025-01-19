@@ -6,9 +6,22 @@ order: 4
 ---
 ## Usage Notes
 
-This dataset significantly advances electoral research by harmonizing data over time, mapping historical election results onto consistent 2021 municipal boundaries despite administrative changes. It unifies previously scattered and inconsistently reported election data into a centralized, standardized format, overcoming past accessibility challenges. By addressing previous data gaps at the municipal level in Germany, it provides the most complete and harmonized election dataset available. Additionally, the dataset enables dynamic analysis across multiple election years, allowing researchers to study trends, changes in voting patterns, and the impacts of economic shocks over time.
+This dataset advances electoral research by harmonizing German electoral data over time, mapping historical election results onto consistent 2021 municipal boundaries despite administrative changes.
+
+It unifies previously scattered and inconsistently reported election data into a centralized, standardized format, overcoming past accessibility challenges.
+
+By addressing previous data gaps at the municipal level in Germany, we aim to provide the most complete and harmonized election dataset available. Additionally, the dataset enables dynamic analysis across multiple election years, allowing researchers to study trends, changes in voting patterns, and the impacts of economic shocks over time.
 
 Researchers are encouraged to use the harmonized datasets for longitudinal studies and the unharmonized datasets for cross-sectional analyses. When analyzing smaller municipalities or comparing across states, be aware of differences in electoral rules and reporting practices.
+
+More information about the dataset can be found in the accompanying [paper](https://osf.io/preprints/socarxiv/q28ex). The paper also includes information on data sources, and processing steps. Below, we list some known data issues and the steps we have taken to resolve them.
+
+### Known Data Issues and Resolutions
+
+- **Incongruent Municipality Keys**: Some official datasets used municipality identifiers that did not appear in crosswalk files. We manually corrected these keys by matching election results to the relevant crosswalk entries and verifying them against state archives.
+- **Mail-in Votes**: Joint mail-in voting districts complicate disaggregation. We address this by distributing mail-in votes according to each municipality’s share of polling-card voters. While this is an approximation, it avoids discarding mail-in votes altogether.
+- **Varying Reporting Standards**: States sometimes lump small local parties or independent candidates into an "Other" category. In such cases, we provide disaggregated results where possible but otherwise treat them as a single category. Researchers should be mindful of this when comparing across states.
+- **Rounding Errors**: Boundary harmonization and proportional allocation can cause minor discrepancies in total votes when comparing to official tallies. Any differences typically amount to fewer than a handful of votes, and we flag these cases in the data.
 
 ## Applications
 
@@ -24,7 +37,6 @@ The code used to generate the datasets and perform the analyses is available in 
 ## Authors
 
 [Andreas Wiedemann](https://www.abwiedemann.com/), [Hanno Hilbig](https://www.hannohilbig.com/), [Vincent Heddesheimer](https://vincentheddesheimer.github.io/), and [Florian Sichart](https://politics.princeton.edu/people/florian-sichart).
-
 
 ![](/assets/images/authors.jpeg)
 
