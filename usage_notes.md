@@ -14,7 +14,7 @@ By addressing previous data gaps at the municipal level in Germany, we aim to pr
 
 Researchers are encouraged to use the harmonized datasets for longitudinal studies and the unharmonized datasets for cross-sectional analyses. When analyzing smaller municipalities or comparing across states, be aware of differences in electoral rules and reporting practices.
 
-More information about the dataset can be found in the accompanying [paper](). The paper also includes information on data sources, and processing steps. Below, we list some known data issues and the steps we have taken to resolve them.
+More information about the dataset can be found in the accompanying [paper](https://www.nature.com/articles/s41597-025-04811-5). The paper also includes information on data sources, and processing steps. Below, we list some known data issues and the steps we have taken to resolve them.
 
 ### Known Data Issues and Resolutions
 
