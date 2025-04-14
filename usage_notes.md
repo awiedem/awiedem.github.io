@@ -14,7 +14,7 @@ By addressing previous data gaps at the municipal level in Germany, we aim to pr
 
 Researchers are encouraged to use the harmonized datasets for longitudinal studies and the unharmonized datasets for cross-sectional analyses. When analyzing smaller municipalities or comparing across states, be aware of differences in electoral rules and reporting practices.
 
-More information about the dataset can be found in the accompanying [paper](https://osf.io/preprints/socarxiv/q28ex). The paper also includes information on data sources, and processing steps. Below, we list some known data issues and the steps we have taken to resolve them.
+More information about the dataset can be found in the accompanying [paper](). The paper also includes information on data sources, and processing steps. Below, we list some known data issues and the steps we have taken to resolve them.
 
 ### Known Data Issues and Resolutions
 
@@ -42,16 +42,21 @@ The code used to generate the datasets and perform the analyses is available in 
 
 ## Citation
 
-Please cite the accompanying [paper](https://osf.io/preprints/socarxiv/q28ex) when using this dataset:
+Please cite the accompanying [paper](https://www.nature.com/articles/s41597-025-04811-5) when using this dataset:
 
-Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2024. "German Election Database".
-
+Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2025. *GERDA: German Election Database*. Nature: Scientific Data, 12: 618.
 ```
-@article{Heddesheimer2024GermanElections,
-  author = {Heddesheimer Vincent, and Hanno Hilbig, and Florian Sichart and Andreas Wiedemann},
-  title = {German Election Database},
-  year = {2024},
-  url = {https://osf.io/preprints/socarxiv/q28ex},
-  doi = {https://doi.org/10.31235/osf.io/q28ex}
+@article{Heddesheimer2025GERDA,
+   author = {Vincent Heddesheimer and Hanno Hilbig and Florian Sichart and Andreas Wiedemann},
+   doi = {10.1038/s41597-025-04811-5},
+   issn = {2052-4463},
+   issue = {1},
+   journal = {Scientific Data},
+   month = {4},
+   pages = {618},
+   title = {GERDA: The German Election Database},
+   volume = {12},
+   url = {https://www.nature.com/articles/s41597-025-04811-5},
+   year = {2025}
 }
 ```
