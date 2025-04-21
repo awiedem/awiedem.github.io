@@ -38,6 +38,8 @@ The German Election Database provides a comprehensive dataset of local, state, a
 
 **[Read the Usage Notes](usage_notes.md)**
 
+**[Read the Paper](https://www.nature.com/articles/s41597-025-04811-5)**
+
 ## Dataset Features
 
 ### 1. Municipal Elections
