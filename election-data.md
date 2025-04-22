@@ -10,8 +10,8 @@ order: 2
 
 | **Data** | **Geographic Level** | **Time Period** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|-------------------|---------------|------------------|
-| Local Elections | Municipality | 1990–2020 | No | `municipal_unharm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.rds) |
-| Local Elections | Municipality | 1990–2020 | Yes | `municipal_harm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.rds) |
+| Local Elections | Municipality | 1990–2021 | No | `municipal_unharm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.rds) |
+| Local Elections | Municipality | 1990–2021 | Yes | `municipal_harm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.rds) |
 
 ### State Elections
 
