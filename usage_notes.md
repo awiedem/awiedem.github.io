@@ -77,6 +77,12 @@ Bundesinstitut für Bau-, Stadt- und Raumforschung. Umsteigeschlüssel für kons
 
 Federal Agency for Cartography and Geodesy (BKG). Vg250: Administrative boundaries of germany. [http://www.bkg.bund.de](http://www.bkg.bund.de) (2021). Open Data Lizenz Deutschland – Namensnennung – Version 2.0. Source reference: © GeoBasis-DE / BKG (year of last data download).
 
+## Authors
+
+[Andreas Wiedemann](https://www.abwiedemann.com/), [Hanno Hilbig](https://www.hannohilbig.com/), [Vincent Heddesheimer](https://vincentheddesheimer.github.io/), and [Florian Sichart](https://politics.princeton.edu/people/florian-sichart).
+
+![](/assets/images/authors.jpeg)
+
 ## Acknowledgements
 
 We thank Cornelius Erfort, Sascha Riaz and Moritz Marbach for helpful comments. We also thank the anonymous reviewers at *Scientific Data* for their constructive feedback. Thanks to Daniela Gaus for excellent research assistance and Victor Kreitman for providing code and data on election dates.
