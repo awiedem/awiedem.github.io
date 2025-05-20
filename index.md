@@ -44,43 +44,39 @@ The German Election Database provides a comprehensive dataset of local, state, a
 
 ### 1. Municipal Elections
 
-- **Coverage**: Election results for all municipalities across Germany from 1990 to 2025.
+- **Coverage**: Election results for all municipalities across Germany from 1990 to 2020.
 - **Content**: Turnout and vote shares for major national parties (SPD, CDU/CSU, FDP, Greens, Die Linke) and other parties such as AfD and Freie Wähler.
-- **Data Types**: Raw data, unharmonized data, and harmonized data with different boundary versions.
 
 ### 2. State Elections
 
-- **Coverage**: State election results at the municipal level for the period 2006–2025.
+- **Coverage**: State election results at the municipal level for the period 2006–2019.
 - **Content**: Turnout and vote shares for major parties and additional parties such as AfD from 2012 onwards.
-- **Data Types**: Raw data, unharmonized data, and harmonized data with different boundary versions.
 
 ### 3. Federal Elections
 
-- **Coverage**: Federal election results at the municipal level since 1980 and county level since 1953, including the 2025 election.
+- **Coverage**: Federal election results at the municipal level since 1980 and county level since 1953.
 - **Content**: Turnout and vote shares for all parties that have contested elections, with special handling of mail-in votes.
-- **Data Types**: Raw data, unharmonized data, and harmonized data with different boundary versions.
 
-## Data Harmonization
+## Harmonization to 2021 Boundaries
 
-- All election results datasets are provided in three formats:
-  1. Raw data: Original election results as reported
-  2. Unharmonized data: Cleaned and standardized but not adjusted for boundary changes
-  3. Harmonized data: Adjusted to 2021 boundaries for consistent geographic analysis
+- We also provide all election results datasets in an adjusted format where we harmonize geographic entities (e.g. municipalities or counties) to 2021 boundaries.
 
-## Known Data Issues
+<!---
 
-- Some municipalities have missing data due to reporting inconsistencies
-- Mail-in voting districts are handled separately in federal elections
-- Boundary changes between elections may affect data comparability
-- Party name changes and mergers are documented in the codebook
+For some reason the link cannot start with a / 
+See below...
 
-## Usage Notes
+\title{\onehalfspacing German Election Database}
+\author{
+    Vincent Heddesheimer\thanks{Ph.D. Candidate, Department of Politics, Princeton University. Email: \texttt{vincent.heddesheimer@princeton.edu}.} \hspace{0.5cm}
+    Hanno Hilbig\thanks{Assistant Professor, Department of Political Science, UC Davis. Email: \texttt{hhilbig@ucdavis.edu}.} \hspace{0.5cm}
+    Florian Sichart\thanks{Ph.D. Candidate, Department of Politics, Princeton University. Email: \texttt{fsichart@princeton.edu}.} \hspace{0.5cm}
+    Andreas Wiedemann\thanks{Assistant Professor, Department of Politics, Princeton University. Email: \texttt{awiedemann@princeton.edu}.}
 
-- Data is provided in both CSV and RDS formats
-- R package available for easy data access and harmonization
-- Crosswalks provided for geographic boundary changes
-- Shapefiles available for mapping and visualization
-- Detailed documentation and codebook included
+However when setting the path in the subpage, it needs to start with a /
+Weird...
+
+-->
 
 ## Authors
 
