@@ -54,12 +54,16 @@ The German Election Database provides a comprehensive dataset of local, state, a
 
 ### 3. Federal Elections
 
-- **Coverage**: Federal election results at the municipal level since 1980 and county level since 1953.
+- **Coverage**: Federal election results at the municipal level since 1980 and county level since 1953, including the 2025 election.
 - **Content**: Turnout and vote shares for all parties that have contested elections, with special handling of mail-in votes.
+- **Data Types**: Raw data, unharmonized data, and harmonized data with different boundary versions.
+
 
 ## Harmonization to 2021 Boundaries
 
 - We also provide all election results datasets in an adjusted format where we harmonize geographic entities (e.g. municipalities or counties) to 2021 boundaries.
+
+- For federal elections, we also provide the data for 2025 municipality boundaries. These are based on crosswalk files that we created ourselves based on official cross-sectional information on municipality reforms for the years 2021--2025.
 
 <!---
 
