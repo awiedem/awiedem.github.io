@@ -95,29 +95,33 @@
   </li>
 </ul>
 
-<h2 id="harmonization-to-2021-and-2025-boundaries">Harmonization to 2021 and 2025 Boundaries</h2>
+<h2 id="harmonization-details">Harmonization Details</h2>
+
+<p>To facilitate consistent comparisons across time and regions, we provide files harmonized to both 2021 and 2025 municipal and county boundaries. The harmonization process includes:</p>
 
 <ul>
-  <li>We provide all election results datasets in adjusted formats where we harmonize geographic entities (e.g. municipalities or counties) to both 2021 and 2025 boundaries.</li>
-  <li>Our custom crosswalks handle municipality mergers and splits over time, enabling consistent longitudinal analysis of voting patterns across the past 35 years.</li>
+  <li>Creating custom crosswalks for each time period</li>
+  <li>Population-weighted aggregation of votes for merged municipalities</li>
+  <li>Special handling of mail-in voting districts</li>
+  <li>Validation of results against official totals</li>
 </ul>
 
-<!---
+<h2 id="known-data-issues">Known Data Issues and Resolutions</h2>
 
-For some reason the link cannot start with a / 
-See below...
+<ul>
+  <li><strong>Incongruent Municipality Keys</strong>: Some official datasets used municipality identifiers that did not appear in crosswalk files. We manually corrected these keys by matching election results to the relevant crosswalk entries.</li>
+  <li><strong>Mail-in Votes</strong>: Joint mail-in voting districts are handled by distributing votes according to each municipality's share of polling-card voters.</li>
+  <li><strong>Varying Reporting Standards</strong>: States sometimes lump small local parties into an "Other" category. We provide disaggregated results where possible.</li>
+  <li><strong>Rounding Errors</strong>: Boundary harmonization can cause minor discrepancies in total votes, typically fewer than a handful of votes per municipality.</li>
+</ul>
 
-\title{\onehalfspacing German Election Database}
-\author{
-    Vincent Heddesheimer\thanks{Ph.D. Candidate, Department of Politics, Princeton University. Email: \texttt{vincent.heddesheimer@princeton.edu}.} \hspace{0.5cm}
-    Hanno Hilbig\thanks{Assistant Professor, Department of Political Science, UC Davis. Email: \texttt{hhilbig@ucdavis.edu}.} \hspace{0.5cm}
-    Florian Sichart\thanks{Ph.D. Candidate, Department of Politics, Princeton University. Email: \texttt{fsichart@princeton.edu}.} \hspace{0.5cm}
-    Andreas Wiedemann\thanks{Assistant Professor, Department of Politics, Princeton University. Email: \texttt{awiedemann@princeton.edu}.}
+<h2 id="usage-notes">Usage Notes</h2>
 
-However when setting the path in the subpage, it needs to start with a /
-Weird...
-
--->
+<ul>
+  <li><strong>Harmonized Datasets</strong>: Recommended for time-series analyses or when comparing multiple election cycles under stable geographic units.</li>
+  <li><strong>Unharmonized Datasets</strong>: Useful for single-election or cross-sectional analyses, especially where original boundaries are essential.</li>
+  <li><strong>Small Municipalities</strong>: Be aware that "Other" party votes might be large in places where major parties do not field candidates.</li>
+</ul>
 
 <h2 id="authors">Authors</h2>
 
