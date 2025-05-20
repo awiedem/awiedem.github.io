@@ -79,14 +79,27 @@
 <h3 id="3-federal-elections">3. Federal Elections</h3>
 
 <ul>
-  <li><strong>Coverage</strong>: Federal election results at the municipal level since 1980 and county level since 1953.</li>
+  <li><strong>Coverage</strong>: Federal election results at the municipal level since 1980 and county level since 1953, now including the 2025 German federal election.</li>
   <li><strong>Content</strong>: Turnout and vote shares for all parties that have contested elections, with special handling of mail-in votes.</li>
+  <li><strong>Data Versions</strong>: 
+    <ul>
+      <li>Raw data: Original election results at municipality level from 1990-2025</li>
+      <li>Unharmonized data: Cleaned and standardized raw data with consistent variable names and formats</li>
+      <li>Harmonized data: Two versions available:
+        <ul>
+          <li>2021 borders: All elections (1990-2025) mapped to 2021 municipality boundaries</li>
+          <li>2025 borders: All elections (1990-2025) mapped to 2025 municipality boundaries</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="harmonization-to-2021-boundaries">Harmonization to 2021 Boundaries</h2>
+<h2 id="harmonization-to-2021-and-2025-boundaries">Harmonization to 2021 and 2025 Boundaries</h2>
 
 <ul>
-  <li>We also provide all election results datasets in an adjusted format where we harmonize geographic entities (e.g. municipalities or counties) to 2021 boundaries.</li>
+  <li>We provide all election results datasets in adjusted formats where we harmonize geographic entities (e.g. municipalities or counties) to both 2021 and 2025 boundaries.</li>
+  <li>Our custom crosswalks handle municipality mergers and splits over time, enabling consistent longitudinal analysis of voting patterns across the past 35 years.</li>
 </ul>
 
 <!---
@@ -119,7 +132,7 @@ Weird...
 
 <p>Please cite the accompanying <a href="https://osf.io/preprints/socarxiv/q28ex">paper</a> when using this dataset:</p>
 
-<p>Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, &amp; Andreas Wiedemann. 2024. “German Election Database”.</p>
+<p>Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, &amp; Andreas Wiedemann. 2024. "German Election Database".</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@article{Heddesheimer2024GermanElections,
   author = {Heddesheimer Vincent, and Hanno Hilbig, and Florian Sichart and Andreas Wiedemann},
