@@ -113,4 +113,4 @@ Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2025.
 
 ## Work in progress
 
-The database is work in progress. If you have any suggestions, comments, or issues, please feel free to email us or to file an [issue](https://github.com/awiedem/awiedem.github.io/issues).
+The database is work in progress. If you have any suggestions, comments, or issues, please feel free to email us or to file an [issue](https://github.com/awiedem/german_election_data/issues).
