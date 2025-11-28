@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Overview | German Election Database"
+title: "Overview"
 description: "The German Election Database provides comprehensive datasets of local, state, and federal election results in Germany for research on electoral behavior. Bundestagswahlergebnissen, Landeswahlergebnissen und Kommunalwahlergebnissen in Deutschland, die die Forschung zu Wahlverhalten, politischer Repräsentation und politischer Reaktionsfähigkeit ermöglicht."
 keywords: "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
 ---
@@ -40,6 +40,8 @@ The German Election Database provides a comprehensive dataset of local, state, a
 
 **[Read the Paper](https://www.nature.com/articles/s41597-025-04811-5)**
 
+**[Check updates](update-log.md)**
+
 ## Dataset Features
 
 ### 1. Municipal Elections
@@ -59,7 +61,7 @@ The German Election Database provides a comprehensive dataset of local, state, a
 - **Data Types**: Raw data, unharmonized data, and harmonized data with different boundary versions.
 
 
-## Harmonization to 2021 Boundaries
+## Harmonization to 2021 (and 2025) Boundaries
 
 - We also provide all election results datasets in an adjusted format where we harmonize geographic entities (e.g. municipalities or counties) to 2021 boundaries.
 

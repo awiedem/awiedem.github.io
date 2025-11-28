@@ -46,6 +46,7 @@ header_pages:
   - election-data.md
   - r-package.md
   - usage_notes.md
+  - update-log.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.
