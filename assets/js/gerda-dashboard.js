@@ -68,6 +68,17 @@
     note: document.querySelector(".timeseries-note")
   };
 
+  const dataSources = {
+    geojson: [
+      "/assets/data/gerda_municipalities_2021.geojson",
+      "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/gerda_municipalities_2021.geojson"
+    ],
+    csv: [
+      "/assets/data/gerda_elections.csv",
+      "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/gerda_elections.csv"
+    ]
+  };
+
   let geoData = null;
   let electionData = [];
   let dataByKey = new Map();
@@ -87,6 +98,19 @@
   const formatNumber = d3.format(",");
 
   const normalizeAgs = (value) => String(value || "").padStart(8, "0");
+
+  const fetchWithFallback = (urls, parser) => {
+    return urls.reduce((chain, url) => {
+      return chain.catch(() =>
+        fetch(url).then((response) => {
+          if (!response.ok) {
+            throw new Error(`Fetch failed: ${url}`);
+          }
+          return parser(response);
+        })
+      );
+    }, Promise.reject());
+  };
 
   const buildIndexes = () => {
     dataByKey = new Map();
@@ -543,22 +567,26 @@
     });
   };
 
+  const parseElectionRow = (row) => ({
+    dataset: row.dataset,
+    ags: normalizeAgs(row.ags),
+    election_year: Number(row.election_year),
+    turnout: row.turnout === "" ? NaN : Number(row.turnout),
+    cdu_csu: row.cdu_csu === "" ? NaN : Number(row.cdu_csu),
+    spd: row.spd === "" ? NaN : Number(row.spd),
+    gruene: row.gruene === "" ? NaN : Number(row.gruene),
+    fdp: row.fdp === "" ? NaN : Number(row.fdp),
+    linke_pds: row.linke_pds === "" ? NaN : Number(row.linke_pds),
+    afd: row.afd === "" ? NaN : Number(row.afd),
+    number_voters: row.number_voters === "" ? NaN : Number(row.number_voters),
+    eligible_voters: row.eligible_voters === "" ? NaN : Number(row.eligible_voters)
+  });
+
   Promise.all([
-    d3.json("/assets/data/gerda_municipalities_2021.geojson"),
-    d3.csv("/assets/data/gerda_elections.csv", (row) => ({
-      dataset: row.dataset,
-      ags: normalizeAgs(row.ags),
-      election_year: Number(row.election_year),
-      turnout: row.turnout === "" ? NaN : Number(row.turnout),
-      cdu_csu: row.cdu_csu === "" ? NaN : Number(row.cdu_csu),
-      spd: row.spd === "" ? NaN : Number(row.spd),
-      gruene: row.gruene === "" ? NaN : Number(row.gruene),
-      fdp: row.fdp === "" ? NaN : Number(row.fdp),
-      linke_pds: row.linke_pds === "" ? NaN : Number(row.linke_pds),
-      afd: row.afd === "" ? NaN : Number(row.afd),
-      number_voters: row.number_voters === "" ? NaN : Number(row.number_voters),
-      eligible_voters: row.eligible_voters === "" ? NaN : Number(row.eligible_voters)
-    }))
+    fetchWithFallback(dataSources.geojson, (response) => response.json()),
+    fetchWithFallback(dataSources.csv, (response) =>
+      response.text().then((text) => d3.csvParse(text, parseElectionRow))
+    )
   ])
     .then(([geo, data]) => {
       geoData = geo;
