@@ -1,0 +1,148 @@
+.gerda-dashboard {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+  margin: 24px 0 32px;
+}
+
+.dashboard-sidebar {
+  background: #f8f8f8;
+  border: 1px solid #e2e2e2;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.dashboard-sidebar h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.control-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.control-group select,
+.control-group input {
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+}
+
+.legend {
+  margin-top: 16px;
+}
+
+.legend-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.legend-bar {
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f2f2f2, #1f4e79);
+  border: 1px solid #d0d0d0;
+}
+
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+.dashboard-map {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#map {
+  width: 100%;
+  height: 640px;
+  border-radius: 12px;
+  border: 1px solid #dcdcdc;
+}
+
+.hover-info,
+.selection-info {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  background: #ffffff;
+  font-size: 0.95rem;
+}
+
+.selection-info {
+  min-height: 96px;
+}
+
+.map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.map-toolbar label {
+  font-weight: 600;
+}
+
+.map-toolbar input {
+  flex: 1 1 220px;
+}
+
+.map-toolbar button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #bdbdbd;
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+.dashboard-timeseries {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e2e2;
+}
+
+.dashboard-timeseries h2 {
+  margin-top: 0;
+}
+
+.timeseries-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+#timeseries-chart {
+  min-height: 380px;
+}
+
+.timeseries-note {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+@media (max-width: 980px) {
+  .gerda-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  #map {
+    height: 520px;
+  }
+}
