@@ -43,12 +43,12 @@
 
   const state = {
     dataset: "federal",
-    year: null,
+    year: 2025,
     variable: "turnout",
-    selectedAgs: null,
+    selectedAgs: "11000000",
     compareAgs: null,
     timeDatasets: ["federal"],
-    timeMetrics: ["turnout", "cdu_csu", "spd"]
+    timeMetrics: ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd"]
   };
 
   const elements = {
@@ -76,18 +76,12 @@
   let municipalityByAgs = new Map();
   let municipalityOptions = [];
   let colorScale = null;
+  let svg = null;
+  let mapGroup = null;
+  let pathGenerator = null;
   let geoLayer = null;
   let selectedLayer = null;
-
-  const map = L.map("map", {
-    zoomControl: true,
-    scrollWheelZoom: true
-  }).setView([51.1657, 10.4515], 6);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 12,
-    attribution: "&copy; OpenStreetMap contributors"
-  }).addTo(map);
+  const mapContainer = document.getElementById("map");
 
   const formatPercent = d3.format(".1%");
   const formatNumber = d3.format(",");
@@ -132,7 +126,11 @@
       elements.yearSelect.appendChild(option);
     });
 
-    state.year = years.length ? years[years.length - 1] : null;
+    if (state.dataset === "federal" && years.includes(2025)) {
+      state.year = 2025;
+    } else {
+      state.year = years.length ? years[years.length - 1] : null;
+    }
     if (state.year) {
       elements.yearSelect.value = state.year;
     }
@@ -186,30 +184,71 @@
     updateLegend(colorScale, state.variable, minValue, maxValue || minValue + 1);
   };
 
-  const styleFeature = (feature) => {
-    const value = getValue(feature.properties.AGS);
+  const getMapSize = () => {
+    const rect = mapContainer.getBoundingClientRect();
     return {
-      weight: 0.4,
-      color: "#6a6a6a",
-      fillOpacity: value === null ? 0.2 : 0.75,
-      fillColor: value === null ? "#f2f2f2" : colorScale(value)
+      width: rect.width || 800,
+      height: rect.height || 600
     };
   };
 
-  const resetHighlight = (layer) => {
-    if (layer !== selectedLayer) {
-      geoLayer.resetStyle(layer);
+  const getFeatureFill = (feature) => {
+    const value = getValue(feature.properties.AGS);
+    return value === null ? "#f2f2f2" : colorScale(value);
+  };
+
+  const brighten = (color) => {
+    const c = d3.color(color);
+    return c ? c.brighter(0.7).formatHex() : color;
+  };
+
+  const applyBaseStyle = (selection, feature) => {
+    const fill = getFeatureFill(feature);
+    selection
+      .attr("fill", fill)
+      .attr("fill-opacity", fill === "#f2f2f2" ? 0.25 : 0.8)
+      .attr("stroke", "#6a6a6a")
+      .attr("stroke-width", 0.4);
+  };
+
+  const applyHoverStyle = (selection, feature) => {
+    const fill = getFeatureFill(feature);
+    selection
+      .attr("fill", brighten(fill))
+      .attr("fill-opacity", fill === "#f2f2f2" ? 0.35 : 0.9)
+      .attr("stroke", "#333333")
+      .attr("stroke-width", 1.4);
+  };
+
+  const applySelectedStyle = (selection, feature) => {
+    const fill = getFeatureFill(feature);
+    selection
+      .attr("fill", brighten(fill))
+      .attr("fill-opacity", fill === "#f2f2f2" ? 0.4 : 0.95)
+      .attr("stroke", "#111111")
+      .attr("stroke-width", 1.6);
+  };
+
+  const resetHighlight = (layer, feature) => {
+    if (layer && selectedLayer && layer.node() === selectedLayer.node()) {
+      applySelectedStyle(layer, feature);
+      return;
     }
+    applyBaseStyle(layer, feature);
   };
 
   const setSelectedAgs = (ags) => {
     if (!ags) return;
     state.selectedAgs = ags;
     const feature = geoData.features.find((item) => item.properties.AGS === ags);
-    if (feature && feature.geometry) {
-      const bounds = L.geoJSON(feature).getBounds();
-      if (bounds.isValid()) {
-        map.fitBounds(bounds.pad(0.5));
+    if (feature && geoLayer) {
+      const layer = geoLayer.filter((item) => item.properties.AGS === ags);
+      if (!layer.empty()) {
+        if (selectedLayer) {
+          resetHighlight(selectedLayer, selectedLayer.datum());
+        }
+        selectedLayer = layer;
+        applySelectedStyle(selectedLayer, feature);
       }
     }
     updateSelectionInfo();
@@ -336,7 +375,12 @@
     if (!geoLayer) return;
     if (!state.year) return;
     buildColorScale();
-    geoLayer.setStyle(styleFeature);
+    geoLayer.each(function (feature) {
+      applyBaseStyle(d3.select(this), feature);
+    });
+    if (selectedLayer) {
+      applySelectedStyle(selectedLayer, selectedLayer.datum());
+    }
     updateSelectionInfo();
   };
 
@@ -394,7 +438,7 @@
       elements.selectionInfo.innerHTML = "Click a municipality to see detailed results.";
       elements.hoverInfo.textContent = "Hover a municipality to see details.";
       if (selectedLayer) {
-        geoLayer.resetStyle(selectedLayer);
+        resetHighlight(selectedLayer, selectedLayer.datum());
         selectedLayer = null;
       }
       updateTimeSeries();
@@ -421,52 +465,57 @@
   };
 
   const initMapLayer = () => {
-    geoLayer = L.geoJSON(geoData, {
-      style: styleFeature,
-      onEachFeature: (feature, layer) => {
-        const tooltipName = feature.properties.GEN || feature.properties.AGS;
-        layer.bindTooltip(tooltipName, { sticky: true, opacity: 0.9 });
-        layer.on({
-          mouseover: (event) => {
-            const target = event.target;
-            const ags = feature.properties.AGS;
-            const name = municipalityByAgs.get(ags) || ags;
-            const value = getValue(ags);
+    const { width, height } = getMapSize();
+    svg = d3.select(mapContainer).append("svg");
+    svg.attr("viewBox", `0 0 ${width} ${height}`).attr("preserveAspectRatio", "xMidYMid meet");
+    mapGroup = svg.append("g");
 
-            target.setStyle({
-              weight: 2,
-              color: "#333333",
-              fillOpacity: 0.9
-            });
+    const projection = d3.geoMercator().fitSize([width, height], geoData);
+    pathGenerator = d3.geoPath().projection(projection);
 
-            elements.hoverInfo.textContent = `${name} - ${metricLabels[state.variable]}: ${formatValue(
-              state.variable,
-              value
-            )}`;
-          },
-          mouseout: (event) => {
-            resetHighlight(event.target);
-            elements.hoverInfo.textContent = "Hover a municipality to see details.";
-          },
-          click: (event) => {
-            if (selectedLayer) {
-              geoLayer.resetStyle(selectedLayer);
-            }
-            selectedLayer = event.target;
-            selectedLayer.setStyle({
-              weight: 2,
-              color: "#111111",
-              fillOpacity: 0.95
-            });
-            setSelectedAgs(feature.properties.AGS);
-            const name = municipalityByAgs.get(feature.properties.AGS) || "";
-            elements.searchInput.value = name ? `${name} (${feature.properties.AGS})` : "";
-          }
-        });
-      }
-    }).addTo(map);
+    geoLayer = mapGroup
+      .selectAll("path")
+      .data(geoData.features)
+      .join("path")
+      .attr("d", pathGenerator)
+      .each(function (feature) {
+        applyBaseStyle(d3.select(this), feature);
+      })
+      .on("mouseover", function (event, feature) {
+        const ags = feature.properties.AGS;
+        const name = municipalityByAgs.get(ags) || ags;
+        const value = getValue(ags);
+        applyHoverStyle(d3.select(this), feature);
+        elements.hoverInfo.textContent = `${name} - ${metricLabels[state.variable]}: ${formatValue(
+          state.variable,
+          value
+        )}`;
+      })
+      .on("mouseout", function (event, feature) {
+        resetHighlight(d3.select(this), feature);
+        elements.hoverInfo.textContent = "Hover a municipality to see details.";
+      })
+      .on("click", function (event, feature) {
+        if (selectedLayer) {
+          resetHighlight(selectedLayer, selectedLayer.datum());
+        }
+        selectedLayer = d3.select(this);
+        applySelectedStyle(selectedLayer, feature);
+        setSelectedAgs(feature.properties.AGS);
+        const name = municipalityByAgs.get(feature.properties.AGS) || "";
+        elements.searchInput.value = name ? `${name} (${feature.properties.AGS})` : "";
+      });
 
-    map.fitBounds(geoLayer.getBounds().pad(0.1));
+    geoLayer.append("title").text((feature) => feature.properties.GEN || feature.properties.AGS);
+
+    window.addEventListener("resize", () => {
+      if (!geoData || !svg) return;
+      const size = getMapSize();
+      svg.attr("viewBox", `0 0 ${size.width} ${size.height}`);
+      const nextProjection = d3.geoMercator().fitSize([size.width, size.height], geoData);
+      pathGenerator = d3.geoPath().projection(nextProjection);
+      geoLayer.attr("d", pathGenerator);
+    });
   };
 
   const populateMunicipalityLists = () => {
@@ -530,7 +579,15 @@
 
       setMultiSelect(elements.timeDatasetSelect, state.timeDatasets);
       setMultiSelect(elements.timeMetricSelect, state.timeMetrics);
-      updateSelectionInfo();
+
+      if (state.selectedAgs && municipalityByAgs.has(state.selectedAgs)) {
+        setSelectedAgs(state.selectedAgs);
+        const name = municipalityByAgs.get(state.selectedAgs);
+        elements.searchInput.value = name ? `${name} (${state.selectedAgs})` : "";
+      } else {
+        state.selectedAgs = null;
+        updateSelectionInfo();
+      }
     })
     .catch((error) => {
       console.error("Failed to load GERDA dashboard data.", error);

@@ -4,7 +4,6 @@ title: "GERDA Dashboard"
 permalink: /dashboard/
 ---
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="/assets/css/gerda-dashboard.css">
 
 <div class="gerda-dashboard">
@@ -105,7 +104,6 @@ permalink: /dashboard/
   <p class="timeseries-note">Select a municipality to see its time series.</p>
 </section>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 <script src="/assets/js/gerda-dashboard.js"></script>
