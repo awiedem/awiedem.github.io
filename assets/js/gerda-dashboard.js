@@ -45,7 +45,7 @@
     cdu_csu: "#000000",
     spd: "#E3000F",
     gruene: "#46962B",
-    fdp: "#FFFF00",
+    fdp: "#C9A400",
     linke_pds: "#BE3075",
     afd: "#009EE0",
     turnout: "#3F7FBF",
@@ -548,6 +548,15 @@
       });
 
     geoLayer.append("title").text((feature) => feature.properties.GEN || feature.properties.AGS);
+
+    const zoom = d3
+      .zoom()
+      .scaleExtent([1, 8])
+      .on("zoom", (event) => {
+        mapGroup.attr("transform", event.transform);
+      });
+
+    svg.call(zoom);
 
     window.addEventListener("resize", () => {
       if (!geoData || !svg) return;

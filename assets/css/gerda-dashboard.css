@@ -1,7 +1,7 @@
 .gerda-dashboard {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 24px;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
   align-items: start;
   margin: 24px 0 32px;
 }
@@ -11,6 +11,7 @@
   border: 1px solid #e2e2e2;
   border-radius: 12px;
   padding: 20px;
+  max-width: 220px;
 }
 
 .dashboard-sidebar h2 {
