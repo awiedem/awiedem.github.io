@@ -63,6 +63,12 @@
     timeMetrics: ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd"]
   };
 
+  const datasetSymbols = {
+    federal: "circle",
+    state: "square",
+    municipal: "triangle-up"
+  };
+
   const elements = {
     datasetSelect: document.getElementById("dataset-select"),
     yearSelect: document.getElementById("year-select"),
@@ -355,6 +361,10 @@
     }
 
     const traces = [];
+    const agsDash = {};
+    agsList.forEach((ags, index) => {
+      agsDash[ags] = index === 0 ? "solid" : "dash";
+    });
     metrics.forEach((metric) => {
       agsList.forEach((ags) => {
         datasets.forEach((dataset) => {
@@ -378,8 +388,11 @@
             y: points.map((item) => item.value),
             mode: "lines+markers",
             name,
-            line: traceColor ? { color: traceColor } : undefined,
-            marker: traceColor ? { color: traceColor } : undefined,
+            line: traceColor ? { color: traceColor, dash: agsDash[ags] } : { dash: agsDash[ags] },
+            marker: {
+              color: traceColor || undefined,
+              symbol: datasetSymbols[dataset] || "circle"
+            },
             yaxis: countMetrics.has(metric) ? "y2" : "y"
           });
         });
