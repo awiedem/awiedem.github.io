@@ -49,13 +49,7 @@ permalink: /dashboard/
   </aside>
 
   <section class="dashboard-map">
-    <div id="map">
-      <div class="map-zoom-controls">
-        <button type="button" id="zoom-in">+</button>
-        <button type="button" id="zoom-out">−</button>
-        <button type="button" id="zoom-reset">Reset</button>
-      </div>
-    </div>
+    <div id="map"></div>
     <div id="hover-info" class="hover-info">Hover a municipality to see details.</div>
 
     <div class="map-toolbar">
