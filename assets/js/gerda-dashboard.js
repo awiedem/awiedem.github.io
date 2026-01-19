@@ -41,6 +41,18 @@
     eligible_voters: d3.interpolateOranges
   };
 
+  const partyColors = {
+    cdu_csu: "#000000",
+    spd: "#E3000F",
+    gruene: "#46962B",
+    fdp: "#FFFF00",
+    linke_pds: "#BE3075",
+    afd: "#009EE0",
+    turnout: "#3F7FBF",
+    number_voters: "#E38D3F",
+    eligible_voters: "#9C6B3A"
+  };
+
   const state = {
     dataset: "federal",
     year: 2025,
@@ -359,12 +371,15 @@
 
           const muniName = municipalityByAgs.get(ags) || ags;
           const name = `${muniName} - ${datasetLabels[dataset]} - ${metricLabels[metric]}`;
+          const traceColor = partyColors[metric];
 
           traces.push({
             x: points.map((item) => item.year),
             y: points.map((item) => item.value),
             mode: "lines+markers",
             name,
+            line: traceColor ? { color: traceColor } : undefined,
+            marker: traceColor ? { color: traceColor } : undefined,
             yaxis: countMetrics.has(metric) ? "y2" : "y"
           });
         });
@@ -373,9 +388,9 @@
 
     const hasCount = traces.some((trace) => trace.yaxis === "y2");
     const layout = {
-      margin: { t: 20, r: 40, l: 60, b: 80 },
-      legend: { orientation: "h", y: -0.35, x: 0, xanchor: "left" },
-      xaxis: { title: "Election year" },
+      margin: { t: 20, r: 40, l: 60, b: 120 },
+      legend: { orientation: "h", y: -0.6, x: 0, xanchor: "left", yanchor: "top" },
+      xaxis: { title: "Election year", titlefont: { size: 12 }, title_standoff: 10 },
       yaxis: {
         title: "Vote share / turnout",
         tickformat: ".0%",

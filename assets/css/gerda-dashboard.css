@@ -93,9 +93,9 @@
 }
 
 .selection-info {
-  min-height: 64px;
-  padding: 10px 12px;
-  font-size: 0.9rem;
+  min-height: 40px;
+  padding: 8px 10px;
+  font-size: 0.85rem;
 }
 
 .selection-info ul {
