@@ -78,6 +78,33 @@
   position: relative;
 }
 
+#map .map-zoom-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 2;
+}
+
+#map .map-zoom-controls button {
+  width: 36px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #bdbdbd;
+  background: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#map .map-zoom-controls button#zoom-reset {
+  width: auto;
+  padding: 0 8px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
 #map svg {
   width: 100%;
   height: 100%;

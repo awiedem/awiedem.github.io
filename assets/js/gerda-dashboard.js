@@ -83,7 +83,10 @@
     timeMetricSelect: document.getElementById("timeseries-metrics"),
     compareSelect: document.getElementById("compare-municipality"),
     chart: document.getElementById("timeseries-chart"),
-    note: document.querySelector(".timeseries-note")
+    note: document.querySelector(".timeseries-note"),
+    zoomIn: document.getElementById("zoom-in"),
+    zoomOut: document.getElementById("zoom-out"),
+    zoomReset: document.getElementById("zoom-reset")
   };
 
   const dataSources = {
@@ -570,6 +573,18 @@
       });
 
     svg.call(zoom);
+
+    if (elements.zoomIn && elements.zoomOut && elements.zoomReset) {
+      elements.zoomIn.addEventListener("click", () => {
+        svg.transition().call(zoom.scaleBy, 1.2);
+      });
+      elements.zoomOut.addEventListener("click", () => {
+        svg.transition().call(zoom.scaleBy, 0.8);
+      });
+      elements.zoomReset.addEventListener("click", () => {
+        svg.transition().call(zoom.transform, d3.zoomIdentity);
+      });
+    }
 
     window.addEventListener("resize", () => {
       if (!geoData || !svg) return;
