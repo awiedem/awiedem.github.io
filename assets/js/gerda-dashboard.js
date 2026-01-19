@@ -53,6 +53,21 @@
     eligible_voters: "#9C6B3A"
   };
 
+  const datasetColorShift = {
+    federal: 0,
+    state: 0.6,
+    municipal: 1.2
+  };
+
+  const getDatasetColor = (metric, dataset) => {
+    const base = partyColors[metric];
+    if (!base) return undefined;
+    const color = d3.color(base);
+    if (!color) return base;
+    const shift = datasetColorShift[dataset] || 0;
+    return color.brighter(shift).formatHex();
+  };
+
   const state = {
     dataset: "federal",
     year: 2025,
@@ -381,7 +396,7 @@
 
           const muniName = municipalityByAgs.get(ags) || ags;
           const name = `${muniName} - ${datasetLabels[dataset]} - ${metricLabels[metric]}`;
-          const traceColor = partyColors[metric];
+          const traceColor = getDatasetColor(metric, dataset);
 
           traces.push({
             x: points.map((item) => item.year),
