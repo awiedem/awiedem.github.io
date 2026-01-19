@@ -53,19 +53,17 @@
     eligible_voters: "#9C6B3A"
   };
 
-  const datasetColorShift = {
-    federal: 0,
-    state: 0.6,
-    municipal: 1.2
-  };
-
   const getDatasetColor = (metric, dataset) => {
     const base = partyColors[metric];
     if (!base) return undefined;
-    const color = d3.color(base);
+    if (dataset === "federal") return base;
+
+    const color = d3.hsl(base);
     if (!color) return base;
-    const shift = datasetColorShift[dataset] || 0;
-    return color.brighter(shift).formatHex();
+
+    const lightnessBoost = dataset === "state" ? 0.25 : 0.45;
+    color.l = Math.min(1, color.l + lightnessBoost);
+    return color.formatHex();
   };
 
   const state = {
