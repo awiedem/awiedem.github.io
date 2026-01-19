@@ -71,11 +71,13 @@
   const dataSources = {
     geojson: [
       "/assets/data/gerda_municipalities_2021.geojson",
-      "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/gerda_municipalities_2021.geojson"
+      "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/gerda_municipalities_2021.geojson",
+      "https://cdn.jsdelivr.net/gh/awiedem/awiedem.github.io@main/assets/data/gerda_municipalities_2021.geojson"
     ],
     csv: [
       "/assets/data/gerda_elections.csv",
-      "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/gerda_elections.csv"
+      "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/gerda_elections.csv",
+      "https://cdn.jsdelivr.net/gh/awiedem/awiedem.github.io@main/assets/data/gerda_elections.csv"
     ]
   };
 
@@ -371,8 +373,8 @@
 
     const hasCount = traces.some((trace) => trace.yaxis === "y2");
     const layout = {
-      margin: { t: 20, r: 40, l: 60, b: 40 },
-      legend: { orientation: "h" },
+      margin: { t: 20, r: 40, l: 60, b: 80 },
+      legend: { orientation: "h", y: -0.35, x: 0, xanchor: "left" },
       xaxis: { title: "Election year" },
       yaxis: {
         title: "Vote share / turnout",
@@ -619,6 +621,14 @@
     })
     .catch((error) => {
       console.error("Failed to load GERDA dashboard data.", error);
-      elements.selectionInfo.textContent = "Unable to load data. Please refresh the page.";
+      elements.selectionInfo.innerHTML = `
+        <strong>Unable to load dashboard data.</strong><br>
+        Please make sure these files are reachable:
+        <ul>
+          <li><a href="/assets/data/gerda_elections.csv" target="_blank" rel="noopener">gerda_elections.csv</a></li>
+          <li><a href="/assets/data/gerda_municipalities_2021.geojson" target="_blank" rel="noopener">gerda_municipalities_2021.geojson</a></li>
+        </ul>
+        If the site domain blocks the files, the fallback CDN should work after deploy.
+      `;
     });
 })();

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "GERDA Dashboard"
+title: "Dashboard"
 permalink: /dashboard/
 ---
 
@@ -35,7 +35,6 @@ permalink: /dashboard/
         <option value="linke_pds">Die Linke</option>
         <option value="afd">AfD</option>
         <option value="number_voters">Voters</option>
-        <option value="eligible_voters">Eligible voters</option>
       </select>
     </div>
 

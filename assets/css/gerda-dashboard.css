@@ -93,7 +93,17 @@
 }
 
 .selection-info {
-  min-height: 96px;
+  min-height: 64px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.selection-info ul {
+  margin: 6px 0 0 16px;
+}
+
+.selection-info li {
+  margin: 0;
 }
 
 .map-toolbar {
