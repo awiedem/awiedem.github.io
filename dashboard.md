@@ -15,8 +15,8 @@ permalink: /dashboard/
     <div class="control-group">
       <label for="dataset-select">Election level</label>
       <select id="dataset-select" aria-label="Select election level">
-        <option value="federal">Federal (1980–2025)</option>
-        <option value="state">State (2006–2019)</option>
+        <option value="federal">Federal (1990–2025)</option>
+        <option value="state">State (2006–2018)</option>
         <option value="municipal">Municipal (1990–2021)</option>
       </select>
     </div>
