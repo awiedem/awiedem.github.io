@@ -49,6 +49,17 @@ header_pages:
   - usage_notes.md
   - update-log.md
 
+# SEO: Twitter card configuration
+twitter:
+  card: summary_large_image
+
+# SEO: Default values for all pages
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/map_elec_fed_combined.png
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

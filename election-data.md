@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Data download
+description: "Download German election datasets: municipal (1990-2021), state (2006-2019), and federal (1980-2025) results in CSV and RDS formats."
 permalink: /election-data/
 order: 2
 ---

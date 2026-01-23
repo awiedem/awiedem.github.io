@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Dashboard"
+description: "Interactive map of German election results by municipality. Explore turnout and party vote shares from 1990-2025."
 permalink: /dashboard/
 ---
 

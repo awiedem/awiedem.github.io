@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Usage notes
+description: "Documentation for GERDA: data harmonization methods, known issues, data sources, and citation guidelines."
 permalink: /usage-notes/
 order: 4
 ---

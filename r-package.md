@@ -1,6 +1,7 @@
 ---
 layout: default
 title: R package
+description: "The gerda R package: download and analyze German election data directly in R. Available on CRAN."
 permalink: /r-package/
 order: 3
 ---

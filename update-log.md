@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Update log
+description: "Changelog for GERDA datasets: track updates, corrections, and new data releases for German election data."
 permalink: /update-log/
 order: 5
 ---
