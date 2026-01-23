@@ -13,9 +13,12 @@
     fdp: "FDP",
     linke_pds: "Die Linke",
     afd: "AfD",
+    winning_party: "Winning party",
     number_voters: "Voters",
     eligible_voters: "Eligible voters"
   };
+
+  const partyMetrics = ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd"];
 
   const percentMetrics = new Set([
     "turnout",
@@ -44,10 +47,10 @@
   const partyColors = {
     cdu_csu: "#000000",
     spd: "#E3000F",
-    gruene: "#46962B",
-    fdp: "#C9A400",
+    gruene: "#1AA037",
+    fdp: "#FFEF00",
     linke_pds: "#BE3075",
-    afd: "#009EE0",
+    afd: "#0489DB",
     turnout: "#3F7FBF",
     number_voters: "#E38D3F",
     eligible_voters: "#9C6B3A"
@@ -127,6 +130,11 @@
   let selectedLayer = null;
   const mapContainer = document.getElementById("map");
 
+  const hideLoading = () => {
+    const overlay = mapContainer.querySelector(".loading-overlay");
+    if (overlay) overlay.remove();
+  };
+
   const formatPercent = d3.format(".1%");
   const formatNumber = d3.format(",");
 
@@ -205,18 +213,51 @@
     return formatNumber(value);
   };
 
-  const updateLegend = (scale, metric, minValue, maxValue) => {
+  const getWinningParty = (row) => {
+    if (!row) return null;
+    let maxParty = null;
+    let maxValue = -Infinity;
+    for (const party of partyMetrics) {
+      const value = Number(row[party]);
+      if (Number.isFinite(value) && value > maxValue) {
+        maxValue = value;
+        maxParty = party;
+      }
+    }
+    return maxParty;
+  };
+
+  const updateLegend = (scale, metric, minValue, maxValue, symlogScale) => {
     const bar = elements.legend.querySelector(".legend-bar");
     const labels = elements.legend.querySelector(".legend-labels");
     const title = elements.legend.querySelector(".legend-title");
 
-    const start = scale(minValue);
-    const mid = scale((minValue + maxValue) / 2);
-    const end = scale(maxValue);
+    // Sample multiple points for smoother gradient with symlog
+    const stops = [0, 0.25, 0.5, 0.75, 1].map((t) => {
+      const value = symlogScale ? symlogScale.invert(t) : minValue + t * (maxValue - minValue);
+      return scale(value);
+    });
 
-    bar.style.background = `linear-gradient(90deg, ${start}, ${mid}, ${end})`;
+    bar.style.background = `linear-gradient(90deg, ${stops.join(", ")})`;
     title.textContent = metricLabels[metric] || "Legend";
     labels.innerHTML = `<span>${formatValue(metric, minValue)}</span><span>${formatValue(metric, maxValue)}</span>`;
+  };
+
+  const updateCategoricalLegend = () => {
+    const bar = elements.legend.querySelector(".legend-bar");
+    const labels = elements.legend.querySelector(".legend-labels");
+    const title = elements.legend.querySelector(".legend-title");
+
+    title.textContent = "Winning party";
+    bar.style.background = "none";
+
+    const swatches = partyMetrics
+      .map(
+        (party) =>
+          `<span class="party-swatch"><span class="swatch-color" style="background:${partyColors[party]}"></span>${metricLabels[party]}</span>`
+      )
+      .join("");
+    labels.innerHTML = `<div class="party-legend">${swatches}</div>`;
   };
 
   const getValue = (ags) => {
@@ -228,6 +269,12 @@
   };
 
   const buildColorScale = () => {
+    if (state.variable === "winning_party") {
+      colorScale = null;
+      updateCategoricalLegend();
+      return;
+    }
+
     const rows = dataByDatasetYear.get(`${state.dataset}|${state.year}`) || [];
     const values = rows
       .map((row) => Number(row[state.variable]))
@@ -237,8 +284,19 @@
     const maxValue = values.length ? Math.max(...values) : 1;
     const interpolator = colorInterpolators[state.variable] || d3.interpolateViridis;
 
-    colorScale = d3.scaleSequential(interpolator).domain([minValue, maxValue || minValue + 1]);
-    updateLegend(colorScale, state.variable, minValue, maxValue || minValue + 1);
+    // Symlog scale maps values to [0,1] with log-like spread
+    // Smaller constant = stronger log effect; 0.01 works well for vote share data (0-0.5)
+    const symlogScale = d3
+      .scaleSymlog()
+      .constant(0.01)
+      .domain([minValue, maxValue || minValue + 1])
+      .range([0, 1]);
+
+    // Wrap: value -> symlog -> interpolator -> color
+    colorScale = (value) => interpolator(symlogScale(value));
+    colorScale.domain = () => [minValue, maxValue || minValue + 1];
+
+    updateLegend(colorScale, state.variable, minValue, maxValue || minValue + 1, symlogScale);
   };
 
   const getMapSize = () => {
@@ -250,7 +308,13 @@
   };
 
   const getFeatureFill = (feature) => {
-    const value = getValue(feature.properties.AGS);
+    const ags = feature.properties.AGS;
+    if (state.variable === "winning_party") {
+      const row = getRow(state.dataset, state.year, ags);
+      const winner = getWinningParty(row);
+      return winner ? partyColors[winner] : "#f2f2f2";
+    }
+    const value = getValue(ags);
     return value === null ? "#f2f2f2" : colorScale(value);
   };
 
@@ -350,7 +414,7 @@
 
   const updateTimeSeries = () => {
     if (!state.selectedAgs) {
-      elements.note.textContent = "Select a municipality to see its time series.";
+      elements.note.textContent = "Click a municipality on the map to see its time series.";
       Plotly.purge(elements.chart);
       return;
     }
@@ -551,12 +615,19 @@
       .on("mouseover", function (event, feature) {
         const ags = feature.properties.AGS;
         const name = municipalityByAgs.get(ags) || ags;
-        const value = getValue(ags);
         applyHoverStyle(d3.select(this), feature);
-        elements.hoverInfo.textContent = `${name} - ${metricLabels[state.variable]}: ${formatValue(
-          state.variable,
-          value
-        )}`;
+        if (state.variable === "winning_party") {
+          const row = getRow(state.dataset, state.year, ags);
+          const winner = getWinningParty(row);
+          const winnerLabel = winner ? metricLabels[winner] : "No data";
+          elements.hoverInfo.textContent = `${name} - Winning party: ${winnerLabel}`;
+        } else {
+          const value = getValue(ags);
+          elements.hoverInfo.textContent = `${name} - ${metricLabels[state.variable]}: ${formatValue(
+            state.variable,
+            value
+          )}`;
+        }
       })
       .on("mouseout", function (event, feature) {
         resetHighlight(d3.select(this), feature);
@@ -641,6 +712,7 @@
     )
   ])
     .then(([geo, data]) => {
+      hideLoading();
       geoData = geo;
       electionData = data;
 
@@ -670,15 +742,26 @@
       }
     })
     .catch((error) => {
+      hideLoading();
       console.error("Failed to load GERDA dashboard data.", error);
-      elements.selectionInfo.innerHTML = `
-        <strong>Unable to load dashboard data.</strong><br>
-        Please make sure these files are reachable:
-        <ul>
-          <li><a href="/assets/data/gerda_elections.csv" target="_blank" rel="noopener">gerda_elections.csv</a></li>
-          <li><a href="/assets/data/gerda_municipalities_2021.geojson" target="_blank" rel="noopener">gerda_municipalities_2021.geojson</a></li>
-        </ul>
-        If the site domain blocks the files, the fallback CDN should work after deploy.
+
+      mapContainer.innerHTML = `
+        <div class="error-message" role="alert">
+          <strong>Unable to load dashboard data</strong>
+          <p>The election data files could not be loaded. This may be due to:</p>
+          <ul>
+            <li>Network connectivity issues</li>
+            <li>The data files are temporarily unavailable</li>
+            <li>Browser security restrictions (if running locally)</li>
+          </ul>
+          <p style="margin-top: 12px;">Try refreshing the page. If the problem persists, the data files can be accessed directly:</p>
+          <ul>
+            <li><a href="/assets/data/gerda_elections.csv" target="_blank" rel="noopener">Election data (CSV)</a></li>
+            <li><a href="/assets/data/gerda_municipalities_2021.geojson" target="_blank" rel="noopener">Municipality boundaries (GeoJSON)</a></li>
+          </ul>
+        </div>
       `;
+
+      elements.selectionInfo.innerHTML = "";
     });
 })();

@@ -7,7 +7,6 @@ keywords: "German elections, election results, municipal elections, state electi
 
 # GERDA -- German Election Database
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Hanno Hilbig, Vincent Heddesheimer, Florian Sichart, Andreas Wiedemann">
 <meta property="og:title" content="GERDA: German Election Database">
 <meta property="og:image" content="https://german-elections.com/assets/images/map_elec_fed_combined.png"><meta property="og:url" content="https://german-elections.com/">
@@ -30,19 +29,19 @@ keywords: "German elections, election results, municipal elections, state electi
 }
 </script>
 
-![](/assets/images/map_elec_fed_combined.png "Map showing federal election results in Germany"){:loading="lazy"}
+![Map showing federal election results across German municipalities](/assets/images/map_elec_fed_combined.png "Map showing federal election results in Germany"){:loading="lazy"}
 
 The German Election Database provides a comprehensive dataset of local, state, and federal election results in Germany. The data is intended to facilitate research on electoral behavior, representation, and political responsiveness at multiple levels of government. All datasets include turnout and vote shares for all major parties. Moreover, we provide geographically harmonized datasets that account for changes in municipal boundaries and mail-in voting districts.
 
 **[Explore the Dashboard](/dashboard/)** — interactive maps and time series by municipality.
 
-**[Download the Election Data](election-data.md)**
+**[Download the Election Data](/election-data/)**
 
-**[Read the Usage Notes](usage_notes.md)**
+**[Read the Usage Notes](/usage-notes/)**
 
 **[Read the Paper](https://www.nature.com/articles/s41597-025-04811-5)**
 
-**[Check updates](update-log.md)**
+**[Check updates](/update-log/)**
 
 ## Dataset Features
 

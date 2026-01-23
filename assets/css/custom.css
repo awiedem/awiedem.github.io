@@ -1,0 +1,67 @@
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #424242;
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Active page indicator in navigation */
+.page-link.active {
+  font-weight: 600;
+  border-bottom: 2px solid #424242;
+  padding-bottom: 2px;
+}
+
+/* Wider content area on desktop */
+@media (min-width: 800px) {
+  .wrapper {
+    max-width: 1000px;
+  }
+}
+
+/* Table of contents styling */
+.toc {
+  background: #f8f9fa;
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  border-left: 3px solid #424242;
+}
+
+.toc ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.toc li {
+  margin: 4px 0;
+}
+
+.toc a {
+  text-decoration: none;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* File size styling in download table */
+.file-size {
+  color: #666;
+  font-size: 0.9em;
+}

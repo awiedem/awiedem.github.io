@@ -6,49 +6,73 @@ order: 3
 ---
 ## R Package
 
-Alternatively to downloading the data files, you can use the R package `gerda` to load the data into your R session. You can install the package from CRAN or get the development version from GitHub.
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.4.0** ([CRAN](https://cran.r-project.org/package=gerda)).
+
+### Installation
 
 ```R
 # Install from CRAN
 install.packages("gerda")
 
 # Or install development version from GitHub
-if (!requireNamespace("devtools", quietly = TRUE)) {
-  install.packages("devtools")
-}
 devtools::install_github("hhilbig/gerda")
 ```
 
 ## Main Functions
 
-- **`gerda_data_list(print_table = TRUE)`**: This function lists all available GERDA datasets along with their descriptions. Parameters:
-  - `print_table`: If `TRUE` (default), prints a formatted table to the console and invisibly returns a tibble. If `FALSE`, directly returns the tibble without printing.
+### Data Loading
 
-- **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds")`**: This function loads a GERDA dataset from a web source. It takes the following parameters:
-  - `file_name`: The name of the dataset to load (see `gerda_data_list()` for available options).
-  - `verbose`: If set to `TRUE`, it prints messages about the loading process (default is `FALSE`).
-  - `file_format`: Specifies the format of the file to load, either "rds" or "csv" (default is "rds"). Note that this only affects which file is downloaded, the data is always returned as a tibble. Therefore, changing this parameter currently does not affect the returned object.
+- **`gerda_data_list(print_table = TRUE)`**: Lists all available GERDA datasets with descriptions.
+  - `print_table`: If `TRUE` (default), prints a formatted table and invisibly returns a tibble. If `FALSE`, returns the tibble directly.
 
-The function includes fuzzy matching for file names and will suggest close matches if an exact match isn't found.
+- **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds")`**: Loads a GERDA dataset from the web.
+  - `file_name`: Dataset name (see `gerda_data_list()` for options).
+  - `verbose`: Print loading messages (default `FALSE`).
+  - `file_format`: File format to download, `"rds"` or `"csv"` (default `"rds"`).
+  - Includes fuzzy matching for file names and suggests close matches if exact match isn't found.
+
+### Covariates
+
+- **`add_gerda_covariates()`**: Appends socioeconomic indicators (population, unemployment, etc.) to election datasets. Use with piped data.
+
+- **`gerda_covariates()`**: Returns raw covariate data as a standalone dataset for manual merging.
+
+- **`gerda_covariates_codebook()`**: Returns the codebook with variable descriptions and metadata for all covariates.
+
+### Party Mapping
+
+- **`party_crosswalk(party_gerda, destination)`**: Maps GERDA party names to corresponding values from the [ParlGov database](http://www.parlgov.org/).
+  - `party_gerda`: Character vector of party names.
+  - `destination`: Target column name from ParlGov crosswalk.
 
 ## Usage Examples
 
 ```R
-# Load the package
 library(gerda)
 
 # List available datasets
-available_data <- gerda_data_list()
+gerda_data_list()
 
-# Load a dataset
-data_municipal_harm <- load_gerda_web("municipal_harm", 
-  verbose = TRUE)
+# Load harmonized municipal election data
+municipal <- load_gerda_web("municipal_harm", verbose = TRUE)
+
+# Load federal county data with socioeconomic covariates
+federal_county <- load_gerda_web("federal_cty_harm") %>%
+  add_gerda_covariates()
+
+# View covariate definitions
+gerda_covariates_codebook()
+
+# Map party names to ParlGov
+party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
 ```
 
-## Note
+## Documentation
 
-For a complete list of available datasets and their descriptions, use the `gerda_data_list()` function. This function either prints a formatted table to the console and invisibly returns a tibble or directly returns the tibble without printing.
+- [Vignette: Introduction to gerda](https://cran.r-project.org/web/packages/gerda/vignettes/gerda.html)
+- [Reference Manual (PDF)](https://cran.r-project.org/web/packages/gerda/gerda.pdf)
+- [GitHub Repository](https://github.com/hhilbig/gerda)
 
 ## Feedback
 
-As this package is a work in progress, feedback is welcome. Please send comments to <hhilbig@ucdavis.edu> or open an issue on the GitHub repository. The package is available on [GitHub](https://github.com/hhilbig/gerda).
+Feedback is welcome. Please email <hhilbig@ucdavis.edu> or open an [issue on GitHub](https://github.com/hhilbig/gerda/issues).

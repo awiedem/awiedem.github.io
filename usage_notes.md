@@ -4,6 +4,21 @@ title: Usage notes
 permalink: /usage-notes/
 order: 4
 ---
+
+<div class="toc" markdown="1">
+
+**Contents**
+- [Harmonization Details](#harmonization-details)
+- [Known Data Issues](#known-data-issues-and-resolutions)
+- [Applications](#applications)
+- [Code Availability](#code-availability)
+- [Detailed Data Sources](#detailed-data-sources)
+- [Authors](#authors)
+- [Acknowledgements](#acknowledgements)
+- [Citation](#citation)
+
+</div>
+
 ## Usage Notes
 
 This dataset advances electoral research by harmonizing German electoral data over time, mapping historical election results onto consistent 2021 municipal boundaries despite administrative changes.
