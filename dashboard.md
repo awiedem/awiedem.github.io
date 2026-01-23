@@ -53,6 +53,32 @@ permalink: /dashboard/
         <span>No data</span>
       </div>
     </div>
+
+    <div class="control-group layer-toggles-group">
+      <label>Map layers</label>
+      <div class="layer-toggles">
+        <label class="toggle-label">
+          <input type="checkbox" id="toggle-municipalities" checked>
+          <span>Municipality borders</span>
+        </label>
+        <label class="toggle-label">
+          <input type="checkbox" id="toggle-states">
+          <span>State borders</span>
+        </label>
+        <label class="toggle-label">
+          <input type="checkbox" id="toggle-cities">
+          <span>City labels</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group download-group">
+      <label>Download map</label>
+      <div class="download-buttons">
+        <button id="download-svg" type="button">SVG</button>
+        <button id="download-png" type="button">PNG</button>
+      </div>
+    </div>
   </aside>
 
   <section class="dashboard-map" role="region" aria-label="Interactive election map">

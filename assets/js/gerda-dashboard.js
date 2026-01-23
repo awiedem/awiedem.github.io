@@ -76,8 +76,22 @@
     selectedAgs: "11000000",
     compareAgs: null,
     timeDatasets: ["federal"],
-    timeMetrics: ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd"]
+    timeMetrics: ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd"],
+    showMunicipalities: true,
+    showStates: false,
+    showCities: false
   };
+
+  const majorCities = [
+    { name: "Berlin", lat: 52.52, lon: 13.405 },
+    { name: "Hamburg", lat: 53.5511, lon: 9.9937 },
+    { name: "Munich", lat: 48.1351, lon: 11.582 },
+    { name: "Cologne", lat: 50.9375, lon: 6.9603 },
+    { name: "Frankfurt", lat: 50.1109, lon: 8.6821 },
+    { name: "Stuttgart", lat: 48.7758, lon: 9.1829 },
+    { name: "Dresden", lat: 51.0504, lon: 13.7373 },
+    { name: "Hannover", lat: 52.3759, lon: 9.7320 }
+  ];
 
   const datasetSymbols = {
     federal: "circle",
@@ -99,7 +113,12 @@
     timeMetricSelect: document.getElementById("timeseries-metrics"),
     compareSelect: document.getElementById("compare-municipality"),
     chart: document.getElementById("timeseries-chart"),
-    note: document.querySelector(".timeseries-note")
+    note: document.querySelector(".timeseries-note"),
+    toggleMunicipalities: document.getElementById("toggle-municipalities"),
+    toggleStates: document.getElementById("toggle-states"),
+    toggleCities: document.getElementById("toggle-cities"),
+    downloadSvg: document.getElementById("download-svg"),
+    downloadPng: document.getElementById("download-png")
   };
 
   const dataSources = {
@@ -107,6 +126,11 @@
       "/assets/data/gerda_municipalities_2021.geojson",
       "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/gerda_municipalities_2021.geojson",
       "https://cdn.jsdelivr.net/gh/awiedem/awiedem.github.io@main/assets/data/gerda_municipalities_2021.geojson"
+    ],
+    states: [
+      "/assets/data/germany_states.geojson",
+      "https://raw.githubusercontent.com/awiedem/awiedem.github.io/main/assets/data/germany_states.geojson",
+      "https://cdn.jsdelivr.net/gh/awiedem/awiedem.github.io@main/assets/data/germany_states.geojson"
     ],
     csv: [
       "/assets/data/gerda_elections.csv",
@@ -116,6 +140,7 @@
   };
 
   let geoData = null;
+  let statesGeoData = null;
   let electionData = [];
   let dataByKey = new Map();
   let dataByDatasetYear = new Map();
@@ -128,6 +153,9 @@
   let pathGenerator = null;
   let geoLayer = null;
   let selectedLayer = null;
+  let stateBoundariesLayer = null;
+  let cityLabelsLayer = null;
+  let currentProjection = null;
   const mapContainer = document.getElementById("map");
 
   const hideLoading = () => {
@@ -593,6 +621,265 @@
       state.compareAgs = event.target.value || null;
       updateTimeSeries();
     });
+
+    elements.toggleMunicipalities.addEventListener("change", (e) => {
+      state.showMunicipalities = e.target.checked;
+      updateMunicipalityStrokes();
+    });
+
+    elements.toggleStates.addEventListener("change", (e) => {
+      state.showStates = e.target.checked;
+      renderStateBoundaries();
+    });
+
+    elements.toggleCities.addEventListener("change", (e) => {
+      state.showCities = e.target.checked;
+      renderCityLabels();
+    });
+
+    elements.downloadSvg.addEventListener("click", downloadMapSvg);
+    elements.downloadPng.addEventListener("click", downloadMapPng);
+  };
+
+  const getMapFilename = () => {
+    const variable = metricLabels[state.variable] || state.variable;
+    return `germany_${state.dataset}_${state.year}_${variable.toLowerCase().replace(/[^a-z0-9]/g, "_")}`;
+  };
+
+  const createSvgElement = (tag, attrs = {}) => {
+    const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+    return el;
+  };
+
+  const addLegendToSvg = (svgClone, width) => {
+    const legendGroup = createSvgElement("g", { transform: "translate(10, 10)" });
+
+    // Legend background
+    const bgHeight = state.variable === "winning_party" ? 140 : 80;
+    const legendBg = createSvgElement("rect", {
+      x: 0, y: 0, width: 160, height: bgHeight, rx: 8,
+      fill: "white", stroke: "#e0e0e0", "stroke-width": 1
+    });
+    legendGroup.appendChild(legendBg);
+
+    // Title
+    const title = createSvgElement("text", {
+      x: 10, y: 22, "font-size": "12px", "font-weight": "600", fill: "#333"
+    });
+    title.textContent = metricLabels[state.variable] || state.variable;
+    legendGroup.appendChild(title);
+
+    // Subtitle with year and dataset
+    const subtitle = createSvgElement("text", {
+      x: 10, y: 36, "font-size": "10px", fill: "#666"
+    });
+    subtitle.textContent = `${datasetLabels[state.dataset]} ${state.year}`;
+    legendGroup.appendChild(subtitle);
+
+    if (state.variable === "winning_party") {
+      // Party swatches
+      partyMetrics.forEach((party, i) => {
+        const y = 48 + i * 14;
+        const swatch = createSvgElement("rect", {
+          x: 10, y: y, width: 12, height: 10, rx: 2,
+          fill: partyColors[party], stroke: "#ccc", "stroke-width": 0.5
+        });
+        legendGroup.appendChild(swatch);
+
+        const label = createSvgElement("text", {
+          x: 28, y: y + 9, "font-size": "10px", fill: "#333"
+        });
+        label.textContent = metricLabels[party];
+        legendGroup.appendChild(label);
+      });
+    } else {
+      // Gradient bar
+      const gradientId = "legend-gradient-export";
+      const defs = createSvgElement("defs");
+      const gradient = createSvgElement("linearGradient", { id: gradientId, x1: "0%", x2: "100%" });
+
+      const domain = colorScale ? colorScale.domain() : [0, 1];
+      const interpolator = colorInterpolators[state.variable] || d3.interpolateViridis;
+      [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+        const stop = createSvgElement("stop", {
+          offset: `${t * 100}%`,
+          "stop-color": interpolator(t)
+        });
+        gradient.appendChild(stop);
+      });
+
+      defs.appendChild(gradient);
+      legendGroup.appendChild(defs);
+
+      const bar = createSvgElement("rect", {
+        x: 10, y: 44, width: 140, height: 10, rx: 3,
+        fill: `url(#${gradientId})`, stroke: "#ccc", "stroke-width": 0.5
+      });
+      legendGroup.appendChild(bar);
+
+      // Min/max labels
+      const minLabel = createSvgElement("text", {
+        x: 10, y: 68, "font-size": "10px", fill: "#666"
+      });
+      minLabel.textContent = formatValue(state.variable, domain[0]);
+      legendGroup.appendChild(minLabel);
+
+      const maxLabel = createSvgElement("text", {
+        x: 150, y: 68, "font-size": "10px", fill: "#666", "text-anchor": "end"
+      });
+      maxLabel.textContent = formatValue(state.variable, domain[1]);
+      legendGroup.appendChild(maxLabel);
+    }
+
+    svgClone.appendChild(legendGroup);
+  };
+
+  const downloadMapSvg = () => {
+    if (!svg) return;
+
+    const svgNode = svg.node();
+    const serializer = new XMLSerializer();
+    const svgClone = svgNode.cloneNode(true);
+    const { width } = getMapSize();
+
+    // Add styles inline for standalone SVG
+    const styleElement = createSvgElement("style");
+    styleElement.textContent = `
+      .state-boundaries { fill: none; stroke: #374151; stroke-width: 1.5; }
+      .city-label { font-size: 11px; font-weight: 600; fill: #1f2937; text-anchor: middle; }
+    `;
+    svgClone.insertBefore(styleElement, svgClone.firstChild);
+
+    // Add white background
+    const bg = createSvgElement("rect", { width: "100%", height: "100%", fill: "#fafafa" });
+    svgClone.insertBefore(bg, svgClone.firstChild);
+
+    // Add legend
+    addLegendToSvg(svgClone, width);
+
+    const svgString = serializer.serializeToString(svgClone);
+    const blob = new Blob([svgString], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${getMapFilename()}.svg`;
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  const downloadMapPng = () => {
+    if (!svg) return;
+
+    const svgNode = svg.node();
+    const serializer = new XMLSerializer();
+    const svgClone = svgNode.cloneNode(true);
+    const { width, height } = getMapSize();
+
+    // Add styles inline
+    const styleElement = createSvgElement("style");
+    styleElement.textContent = `
+      .state-boundaries { fill: none; stroke: #374151; stroke-width: 1.5; }
+      .city-label { font-size: 11px; font-weight: 600; fill: #1f2937; text-anchor: middle; }
+    `;
+    svgClone.insertBefore(styleElement, svgClone.firstChild);
+
+    // Add white background
+    const bg = createSvgElement("rect", { width: "100%", height: "100%", fill: "#fafafa" });
+    svgClone.insertBefore(bg, svgClone.firstChild);
+
+    // Add legend
+    addLegendToSvg(svgClone, width);
+
+    const svgString = serializer.serializeToString(svgClone);
+
+    // Scale up for higher resolution
+    const scale = 2;
+    const canvas = document.createElement("canvas");
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(scale, scale);
+
+    const img = new Image();
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${getMapFilename()}.png`;
+        link.click();
+        URL.revokeObjectURL(url);
+      }, "image/png");
+    };
+
+    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+    img.src = URL.createObjectURL(svgBlob);
+  };
+
+  const updateMunicipalityStrokes = () => {
+    if (!geoLayer) return;
+    geoLayer.attr("stroke-opacity", state.showMunicipalities ? 1 : 0);
+  };
+
+  const renderStateBoundaries = () => {
+    if (!statesGeoData || !mapGroup || !pathGenerator) return;
+
+    // Remove existing state boundaries
+    if (stateBoundariesLayer) {
+      stateBoundariesLayer.remove();
+      stateBoundariesLayer = null;
+    }
+
+    if (!state.showStates) return;
+
+    stateBoundariesLayer = mapGroup
+      .append("g")
+      .attr("class", "state-boundaries-group");
+
+    // Draw each state boundary
+    stateBoundariesLayer
+      .selectAll("path")
+      .data(statesGeoData.features)
+      .join("path")
+      .attr("class", "state-boundaries")
+      .attr("d", pathGenerator);
+  };
+
+  const renderCityLabels = () => {
+    if (!mapGroup || !currentProjection) return;
+
+    // Remove existing city labels
+    if (cityLabelsLayer) {
+      cityLabelsLayer.remove();
+      cityLabelsLayer = null;
+    }
+
+    if (!state.showCities) return;
+
+    cityLabelsLayer = mapGroup
+      .append("g")
+      .attr("class", "city-labels-group");
+
+    majorCities.forEach((city) => {
+      const [x, y] = currentProjection([city.lon, city.lat]);
+      cityLabelsLayer
+        .append("text")
+        .attr("class", "city-label")
+        .attr("x", x)
+        .attr("y", y)
+        .attr("dy", "-0.5em")
+        .text(city.name);
+    });
+  };
+
+  const updateLayerVisibility = () => {
+    updateMunicipalityStrokes();
+    renderStateBoundaries();
+    renderCityLabels();
   };
 
   const initMapLayer = () => {
@@ -601,8 +888,8 @@
     svg.attr("viewBox", `0 0 ${width} ${height}`).attr("preserveAspectRatio", "xMidYMid meet");
     mapGroup = svg.append("g");
 
-    const projection = d3.geoMercator().fitSize([width, height], geoData);
-    pathGenerator = d3.geoPath().projection(projection);
+    currentProjection = d3.geoMercator().fitSize([width, height], geoData);
+    pathGenerator = d3.geoPath().projection(currentProjection);
 
     geoLayer = mapGroup
       .selectAll("path")
@@ -659,10 +946,14 @@
       if (!geoData || !svg) return;
       const size = getMapSize();
       svg.attr("viewBox", `0 0 ${size.width} ${size.height}`);
-      const nextProjection = d3.geoMercator().fitSize([size.width, size.height], geoData);
-      pathGenerator = d3.geoPath().projection(nextProjection);
+      currentProjection = d3.geoMercator().fitSize([size.width, size.height], geoData);
+      pathGenerator = d3.geoPath().projection(currentProjection);
       geoLayer.attr("d", pathGenerator);
+      updateLayerVisibility();
     });
+
+    // Initial render of optional layers
+    updateLayerVisibility();
   };
 
   const populateMunicipalityLists = () => {
@@ -707,13 +998,15 @@
 
   Promise.all([
     fetchWithFallback(dataSources.geojson, (response) => response.json()),
+    fetchWithFallback(dataSources.states, (response) => response.json()),
     fetchWithFallback(dataSources.csv, (response) =>
       response.text().then((text) => d3.csvParse(text, parseElectionRow))
     )
   ])
-    .then(([geo, data]) => {
+    .then(([geo, states, data]) => {
       hideLoading();
       geoData = geo;
+      statesGeoData = states;
       electionData = data;
 
       geoData.features.forEach((feature) => {

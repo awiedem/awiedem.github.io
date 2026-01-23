@@ -192,6 +192,91 @@
   font-weight: 600;
 }
 
+.layer-toggles-group {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.download-group {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.download-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.download-buttons button {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.download-buttons button:hover {
+  background: #e5e7eb;
+}
+
+.download-buttons button:active {
+  transform: scale(0.98);
+}
+
+.download-buttons button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.layer-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #3b82f6;
+}
+
+.city-label {
+  font-size: 11px;
+  font-weight: 600;
+  fill: #1f2937;
+  text-anchor: middle;
+  pointer-events: none;
+  text-shadow:
+    1px 1px 2px white,
+    -1px -1px 2px white,
+    1px -1px 2px white,
+    -1px 1px 2px white;
+}
+
+.state-boundaries {
+  fill: none;
+  stroke: #374151;
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
 .map-toolbar input {
   flex: 1 1 220px;
 }
@@ -340,6 +425,25 @@
     margin-top: 8px;
   }
 
+  .layer-toggles-group {
+    grid-column: 1 / -1;
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  .layer-toggles {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .download-group {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
   #map {
     height: 450px;
   }
@@ -406,6 +510,14 @@
   .map-toolbar button {
     min-height: 44px;
     font-size: 1rem;
+  }
+
+  .layer-toggles-group {
+    grid-column: 1 / -1;
+  }
+
+  .city-label {
+    font-size: 9px;
   }
 
   .dashboard-timeseries {
