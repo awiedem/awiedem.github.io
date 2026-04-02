@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "Overview"
-description: "The German Election Database provides comprehensive datasets of local, state, and federal election results in Germany for research on electoral behavior. Bundestagswahlergebnissen, Landeswahlergebnissen und Kommunalwahlergebnissen in Deutschland, die die Forschung zu Wahlverhalten, politischer Repräsentation und politischer Reaktionsfähigkeit ermöglicht."
+title: "GERDA: German Election Database"
+description: "Comprehensive dataset of local, state, and federal election results in Germany at the municipality level, facilitating research on electoral behavior and representation."
 keywords: "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
 image: /assets/images/map_elec_fed_combined.png
 ---
@@ -12,15 +12,27 @@ image: /assets/images/map_elec_fed_combined.png
 {
   "@context": "https://schema.org",
   "@type": "Dataset",
-  "name": "GERDA -- German Election Database",
-  "description": "Comprehensive dataset of local, state, and federal election results in Germany, facilitating research on electoral behavior, representation, and political responsiveness. Umfassende Datenbank von: Bundestagswahlergebnissen, Landeswahlergebnissen und Kommunalwahlergebnissen in Deutschland, die die Forschung zu Wahlverhalten, politischer Repräsentation und politischer Reaktionsfähigkeit ermöglicht.",
+  "name": "GERDA: German Election Database",
+  "description": "Comprehensive dataset of local, state, and federal election results in Germany at the municipality level, facilitating research on electoral behavior, representation, and political responsiveness.",
   "url": "https://german-elections.com",
-  "creator": {
-    "@type": "Person",
-    "name": ["Hanno Hilbig", "Vincent Heddesheimer", "Florian Sichart", "Andreas Wiedemann"]
-  },
+  "creator": [
+    {"@type": "Person", "name": "Vincent Heddesheimer", "affiliation": {"@type": "Organization", "name": "Princeton University"}},
+    {"@type": "Person", "name": "Hanno Hilbig", "affiliation": {"@type": "Organization", "name": "UC Davis"}},
+    {"@type": "Person", "name": "Florian Sichart", "affiliation": {"@type": "Organization", "name": "Princeton University"}},
+    {"@type": "Person", "name": "Andreas Wiedemann", "affiliation": {"@type": "Organization", "name": "Princeton University"}}
+  ],
   "license": "https://creativecommons.org/licenses/by/4.0/",
-  "keywords": "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
+  "datePublished": "2025-04-14",
+  "dateModified": "2025-11-28",
+  "citation": "Heddesheimer, V., Hilbig, H., Sichart, F., & Wiedemann, A. (2025). GERDA: The German Election Database. Scientific Data, 12, 618.",
+  "temporalCoverage": "1953/2025",
+  "spatialCoverage": {"@type": "Place", "name": "Germany"},
+  "distribution": [
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/municipality_level/final/federal_muni_harm_21.csv", "name": "Federal elections (harmonized, 2021 boundaries)"},
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.csv", "name": "Municipal elections (harmonized)"},
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/state_harm.csv", "name": "State elections (harmonized)"}
+  ],
+  "keywords": ["German elections", "election results", "municipal elections", "state elections", "federal elections", "political science data", "GERDA"]
 }
 </script>
 

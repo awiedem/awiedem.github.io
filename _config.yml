@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "German Election Database | GERDA"
+title: "GERDA"
 author: "Hanno Hilbig, Vincent Heddesheimer, Florian Sichart, Andreas Wiedemann"
 email: hhilbig@ucdavis.edu
 author_emails:
@@ -49,9 +49,9 @@ header_pages:
   - usage_notes.md
   - update-log.md
 
-# SEO: Twitter card configuration
-twitter:
-  card: summary_large_image
+# SEO: Social card configuration
+# Note: twitter config block removed to avoid generating broken @-handle meta tags.
+# The card type is set via page defaults below.
 
 # SEO: Default values for all pages
 defaults:
