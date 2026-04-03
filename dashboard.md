@@ -107,6 +107,7 @@ permalink: /dashboard/
         <div class="loading-spinner" aria-hidden="true"></div>
         <div class="loading-text">Loading election data...</div>
       </div>
+      <button id="zoom-reset" class="zoom-reset-btn" type="button" aria-label="Reset map zoom" title="Reset zoom">&#x21BA;</button>
     </div>
     <div id="hover-info" class="hover-info" aria-live="polite">Hover a region to see details.</div>
     <p class="map-hint">Scroll to zoom · Drag to pan</p>

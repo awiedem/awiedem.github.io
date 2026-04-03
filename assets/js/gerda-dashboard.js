@@ -243,6 +243,7 @@
     searchInput: document.getElementById("municipality-search"),
     searchDropdown: document.getElementById("search-dropdown"),
     clearButton: document.getElementById("municipality-clear"),
+    zoomResetButton: document.getElementById("zoom-reset"),
     timeDatasetSelect: document.getElementById("timeseries-datasets"),
     timeMetricSelect: document.getElementById("timeseries-metrics"),
     compareInput: document.getElementById("compare-input"),
@@ -1842,6 +1843,10 @@
       zoomReset();
       updateTimeSeries();
       if (state.analysisTab === "profile") updateProfile();
+    });
+
+    elements.zoomResetButton.addEventListener("click", () => {
+      zoomReset();
     });
 
     elements.timeDatasetSelect.addEventListener("change", async () => {
