@@ -1,19 +1,17 @@
 ---
 layout: default
 title: "GERDA: German Election Database"
-description: "Comprehensive dataset of local, state, and federal election results in Germany at the municipality level, facilitating research on electoral behavior and representation."
-keywords: "German elections, election results, municipal elections, state elections, federal elections, political science data, GERDA, Deutsche Wahlen, Wahlergebnisse, Kommunalwahlen, Landtagswahlen, Bundestagswahlen, Politikwissenschaftliche Daten"
+description: "Comprehensive dataset of local, state, federal, European, mayoral, and county election results in Germany at the municipality level, plus subnational public opinion estimates."
+keywords: "German elections, election results, municipal elections, state elections, federal elections, European elections, mayoral elections, county elections, public opinion, MRP, political science data, GERDA"
 image: /assets/images/map_elec_fed_combined.png
 ---
-
-# GERDA -- German Election Database
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Dataset",
   "name": "GERDA: German Election Database",
-  "description": "Comprehensive dataset of local, state, and federal election results in Germany at the municipality level, facilitating research on electoral behavior, representation, and political responsiveness.",
+  "description": "Comprehensive dataset of local, state, federal, European, mayoral, and county election results in Germany at the municipality level, plus subnational public opinion estimates using MRP.",
   "url": "https://german-elections.com",
   "creator": [
     {"@type": "Person", "name": "Vincent Heddesheimer", "affiliation": {"@type": "Organization", "name": "Princeton University"}},
@@ -23,81 +21,106 @@ image: /assets/images/map_elec_fed_combined.png
   ],
   "license": "https://creativecommons.org/licenses/by/4.0/",
   "datePublished": "2025-04-14",
-  "dateModified": "2025-11-28",
+  "dateModified": "2026-04-02",
   "citation": "Heddesheimer, V., Hilbig, H., Sichart, F., & Wiedemann, A. (2025). GERDA: The German Election Database. Scientific Data, 12, 618.",
-  "temporalCoverage": "1953/2025",
+  "temporalCoverage": "1945/2026",
   "spatialCoverage": {"@type": "Place", "name": "Germany"},
   "distribution": [
     {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/municipality_level/final/federal_muni_harm_21.csv", "name": "Federal elections (harmonized, 2021 boundaries)"},
     {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.csv", "name": "Municipal elections (harmonized)"},
-    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/state_harm.csv", "name": "State elections (harmonized)"}
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/state_harm_21.csv", "name": "State elections (harmonized, 2021 boundaries)"},
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_harm.csv", "name": "European elections (harmonized)"},
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayoral_harm.csv", "name": "Mayoral elections (harmonized)"},
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21.csv", "name": "County elections (harmonized, 2021 boundaries)"}
   ],
-  "keywords": ["German elections", "election results", "municipal elections", "state elections", "federal elections", "political science data", "GERDA"]
+  "keywords": ["German elections", "election results", "municipal elections", "state elections", "federal elections", "European elections", "mayoral elections", "county elections", "public opinion", "MRP", "GERDA"]
 }
 </script>
 
-![Map showing federal election results across German municipalities](/assets/images/map_elec_fed_combined.png "Map showing federal election results in Germany"){:loading="lazy"}
-
-The German Election Database provides a comprehensive dataset of local, state, and federal election results in Germany. The data is intended to facilitate research on electoral behavior, representation, and political responsiveness at multiple levels of government. All datasets include turnout and vote shares for all major parties. Moreover, we provide geographically harmonized datasets that account for changes in municipal boundaries and mail-in voting districts.
-
-**[Explore the Dashboard](/dashboard/)** — interactive maps and time series by municipality.
-
-**[Download the Election Data](/election-data/)**
-
-**[Read the Usage Notes](/usage-notes/)**
-
-**[Read the Paper](https://www.nature.com/articles/s41597-025-04811-5)**
-
-**[Check updates](/update-log/)**
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><a href="https://www.nature.com/articles/s41597-025-04811-5" style="text-decoration:none;color:inherit;">Published in <strong>Nature: Scientific Data</strong> (2025)</a></div>
+    <h1>GERDA &mdash; German Election Database</h1>
+    <p>Comprehensive election results for Germany at the municipality level &mdash; spanning federal, state, local, European, mayoral, and county elections. Plus subnational public opinion estimates for 43 policy issues.</p>
+    <div class="hero-actions">
+      <a href="/dashboard/" class="btn btn-primary">Explore Dashboard</a>
+      <a href="/election-data/" class="btn btn-secondary">Download Data</a>
+      <a href="/meinungsbild/" class="btn btn-secondary">Meinungsbild <span class="badge-new">New</span></a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <picture>
+      <source srcset="/assets/images/map_elec_fed_combined.webp" type="image/webp">
+      <img src="/assets/images/map_elec_fed_combined.png" alt="Map showing federal election results across German municipalities" width="1200" height="900" loading="eager">
+    </picture>
+  </div>
+</div>
 
 ## Dataset Features
 
-### 1. Municipal Elections
+<div class="feature-grid">
+  <div class="feature-card">
+    <h3>Federal Elections</h3>
+    <div class="card-meta">Municipality level: 1980&ndash;2025 &middot; County level: 1953&ndash;2025</div>
+    <p>Turnout and vote shares for all parties, with harmonized datasets mapped to 2021 and 2025 boundaries.</p>
+    <a href="/usage-notes/#federal-elections" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>State Elections</h3>
+    <div class="card-meta">Municipality level: 1946&ndash;2025 &middot; 16 states</div>
+    <p>State election results with three harmonization versions (2021, 2023, 2025 boundaries).</p>
+    <a href="/usage-notes/#state-elections" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>Municipal Elections</h3>
+    <div class="card-meta">1984&ndash;2025 &middot; All municipalities</div>
+    <p>Local election results across all German municipalities with turnout and party vote shares.</p>
+    <a href="/usage-notes/#municipal-elections" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>European Elections <span class="badge-new">New</span></h3>
+    <div class="card-meta">2009&ndash;2024 &middot; Municipality level</div>
+    <p>European Parliament election results at the municipality level across four elections, harmonized to 2021 boundaries.</p>
+    <a href="/usage-notes/#european-elections" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>Mayoral Elections <span class="badge-new">New</span></h3>
+    <div class="card-meta">1945&ndash;2025 &middot; 7 states</div>
+    <p>Election-level, candidate-level, and mayor panel data with individual tracking across terms.</p>
+    <a href="/usage-notes/#mayoral-elections" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>County Elections <span class="badge-new">New</span></h3>
+    <div class="card-meta">1948&ndash;2024 &middot; Municipality &amp; county level</div>
+    <p>County council election results, harmonized to 2021 boundaries.</p>
+    <a href="/usage-notes/#county-elections" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>Meinungsbild <span class="badge-new">New</span></h3>
+    <div class="card-meta">43 policy issues &middot; MRP estimates</div>
+    <p>Subnational public opinion estimates across states, electoral districts, and counties based on ~118,000 survey responses.</p>
+    <a href="/meinungsbild/" class="card-link-subtle">Learn more &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>Harmonization</h3>
+    <div class="card-meta">Consistent boundaries across time</div>
+    <p>All datasets available in harmonized formats accounting for municipal boundary changes, using population-weighted crosswalks.</p>
+    <a href="/usage-notes/#harmonization" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+</div>
 
-- **Coverage**: Election results for all municipalities across Germany from 1990 to 2020.
-- **Content**: Turnout and vote shares for major national parties (SPD, CDU/CSU, FDP, Greens, Die Linke) and other parties such as AfD and Freie Wähler.
-
-### 2. State Elections
-
-- **Coverage**: State election results at the municipal level for the period 2006–2019.
-- **Content**: Turnout and vote shares for major parties and additional parties such as AfD from 2012 onwards.
-
-### 3. Federal Elections
-
-- **Coverage**: Federal election results at the municipal level since 1980 and county level since 1953, including the 2025 election.
-- **Content**: Turnout and vote shares for all parties that have contested elections, with special handling of mail-in votes.
-- **Data Types**: Raw data, unharmonized data, and harmonized data with different boundary versions.
-
-
-## Harmonization to 2021 (and 2025) Boundaries
-
-- We also provide all election results datasets in an adjusted format where we harmonize geographic entities (e.g. municipalities or counties) to 2021 boundaries.
-
-- For federal elections, we also provide the data for 2025 municipality boundaries. These are based on crosswalk files that we created ourselves based on official cross-sectional information on municipality reforms for the years 2021--2025.
-
-<!---
-
-For some reason the link cannot start with a / 
-See below...
-
-\title{\onehalfspacing German Election Database}
-\author{
-    Vincent Heddesheimer\thanks{Ph.D. Candidate, Department of Politics, Princeton University. Email: \texttt{vincent.heddesheimer@princeton.edu}.} \hspace{0.5cm}
-    Hanno Hilbig\thanks{Assistant Professor, Department of Political Science, UC Davis. Email: \texttt{hhilbig@ucdavis.edu}.} \hspace{0.5cm}
-    Florian Sichart\thanks{Ph.D. Candidate, Department of Politics, Princeton University. Email: \texttt{fsichart@princeton.edu}.} \hspace{0.5cm}
-    Andreas Wiedemann\thanks{Assistant Professor, Department of Politics, Princeton University. Email: \texttt{awiedemann@princeton.edu}.}
-
-However when setting the path in the subpage, it needs to start with a /
-Weird...
-
--->
+<hr class="section-divider">
 
 ## Authors
 
 - [Vincent Heddesheimer](https://vincentheddesheimer.github.io/) (<vincent.heddesheimer@princeton.edu>)
 - [Hanno Hilbig](https://www.hannohilbig.com/) (<hhilbig@ucdavis.edu>)
-- [Florian Sichart](https://politics.princeton.edu/people/florian-sichart) (<fsichart@princeton.edu>)
+- [Florian Sichart](https://www.floriansichart.com/) (<fsichart@princeton.edu>)
 - [Andreas Wiedemann](https://www.abwiedemann.com/) (<awiedemann@princeton.edu>)
+
+<hr class="section-divider">
+
+<div class="citation-card" markdown="1">
 
 ## Citation
 
@@ -121,6 +144,12 @@ Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2025.
 }
 ```
 
-## Work in progress
+</div>
 
-The database is work in progress. If you have any suggestions, comments, or issues, please feel free to email us or to file an [issue](https://github.com/awiedem/german_election_data/issues).
+<div class="contributing" markdown="1">
+
+## Contributing
+
+The database is actively maintained and expanding. If you have suggestions, find data issues, or want to contribute, please [open an issue](https://github.com/awiedem/german_election_data/issues) on GitHub or email us directly.
+
+</div>

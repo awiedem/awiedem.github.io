@@ -1,0 +1,361 @@
+/* ============================================
+   Meinungsbild page styles
+   ============================================ */
+
+.mb-dashboard {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  margin: 24px 0 48px;
+}
+
+/* Sidebar */
+.mb-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mb-sidebar .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mb-sidebar label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #4a5568);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mb-sidebar select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  background: var(--color-white, #fff);
+  font-size: 0.9rem;
+  color: var(--color-text, #1a1a2e);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.mb-sidebar select:focus {
+  outline: none;
+  border-color: var(--color-accent, #2c5f8a);
+  box-shadow: 0 0 0 3px rgba(44, 95, 138, 0.15);
+}
+
+/* Geographic level toggle */
+.mb-geo-toggle {
+  display: flex;
+  gap: 0;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.geo-btn {
+  flex: 1;
+  padding: 7px 6px;
+  border: none;
+  background: var(--color-white, #fff);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #4a5568);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.geo-btn:not(:last-child) {
+  border-right: 1px solid var(--color-border, #e2e8f0);
+}
+
+.geo-btn.active {
+  background: var(--color-accent, #2c5f8a);
+  color: white;
+  font-weight: 600;
+}
+
+.geo-btn:hover:not(.active) {
+  background: var(--color-surface, #f8f9fa);
+}
+
+/* Issue info */
+.mb-issue-info {
+  background: var(--color-surface, #f8f9fa);
+  border-radius: var(--radius-md, 8px);
+  padding: 12px;
+}
+
+.issue-question {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary, #4a5568);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Legend */
+.mb-legend {
+  padding: 12px;
+  background: var(--color-surface, #f8f9fa);
+  border-radius: var(--radius-md, 8px);
+}
+
+.mb-legend .legend-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #4a5568);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.legend-gradient {
+  height: 14px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, #4a5568);
+}
+
+.legend-direction {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary, #4a5568);
+  margin-top: 6px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* Hover card */
+.mb-hover-card {
+  background: var(--color-white, #fff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  padding: 12px;
+  min-height: 52px;
+}
+
+.hover-region {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-navy, #1a2332);
+}
+
+.hover-estimate {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary, #4a5568);
+  margin-top: 2px;
+}
+
+/* Map container */
+.mb-map-container {
+  position: relative;
+  width: 100%;
+  height: 640px;
+  background: var(--color-white, #fff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  overflow: hidden;
+}
+
+.mb-map-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading overlay (reuse dashboard pattern) */
+.mb-map-container .loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 35, 50, 0.7);
+  z-index: 10;
+  border-radius: var(--radius-lg, 12px);
+}
+
+.mb-map-container .loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: mb-spin 0.8s linear infinite;
+}
+
+@keyframes mb-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mb-map-container .loading-text {
+  color: white;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+/* Map paths */
+.mb-map-container path.region {
+  stroke: #fff;
+  stroke-width: 0.5;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.mb-map-container path.region:hover {
+  opacity: 0.8;
+  stroke-width: 1.5;
+  stroke: var(--color-navy, #1a2332);
+}
+
+.mb-map-container path.state-border {
+  fill: none;
+  stroke: var(--color-navy, #1a2332);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+/* Methodology section */
+.mb-methodology {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.methodology-details {
+  margin-top: 20px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+}
+
+.methodology-details summary {
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: var(--color-surface, #f8f9fa);
+  color: var(--color-navy, #1a2332);
+  transition: background 0.2s;
+}
+
+.methodology-details summary:hover {
+  background: #eef1f6;
+}
+
+.methodology-details .methodology-content {
+  padding: 16px 20px;
+}
+
+.methodology-details .methodology-content h3 {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  color: var(--color-navy, #1a2332);
+}
+
+.methodology-details .methodology-content h3:first-child {
+  margin-top: 0;
+}
+
+.methodology-details .methodology-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.methodology-details .methodology-content th,
+.methodology-details .methodology-content td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.methodology-details .methodology-content th {
+  background: var(--color-surface, #f8f9fa);
+  font-weight: 600;
+}
+
+.methodology-details .methodology-content ol {
+  padding-left: 20px;
+}
+
+.methodology-details .methodology-content li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+/* Tooltip */
+.mb-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--color-navy, #1a2332);
+  color: white;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm, 4px);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,0.1));
+  z-index: 20;
+  white-space: nowrap;
+}
+
+.mb-tooltip .tooltip-name {
+  font-weight: 600;
+}
+
+.mb-tooltip .tooltip-value {
+  opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mb-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .mb-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .mb-sidebar .control-group:first-child,
+  .mb-issue-info {
+    grid-column: 1 / -1;
+  }
+
+  .mb-map-container {
+    height: 450px;
+  }
+
+  .mb-geo-toggle {
+    flex-direction: column;
+  }
+
+  .geo-btn:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+  }
+}
+
+@media (max-width: 480px) {
+  .mb-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .mb-map-container {
+    height: 360px;
+  }
+}

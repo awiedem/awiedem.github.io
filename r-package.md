@@ -5,9 +5,10 @@ description: "The gerda R package: download and analyze German election data dir
 permalink: /r-package/
 order: 3
 ---
-## R Package
 
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.4.0** ([CRAN](https://cran.r-project.org/package=gerda)).
+# R Package
+
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.5.0** ([CRAN](https://cran.r-project.org/package=gerda)).
 
 ### Installation
 
@@ -23,7 +24,7 @@ devtools::install_github("hhilbig/gerda")
 
 ### Data Loading
 
-- **`gerda_data_list(print_table = TRUE)`**: Lists all available GERDA datasets with descriptions.
+- **`gerda_data_list(print_table = TRUE)`**: Lists all available GERDA datasets with descriptions, including federal, state, municipal, European, mayoral, and county elections.
   - `print_table`: If `TRUE` (default), prints a formatted table and invisibly returns a tibble. If `FALSE`, returns the tibble directly.
 
 - **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds")`**: Loads a GERDA dataset from the web.
@@ -34,11 +35,19 @@ devtools::install_github("hhilbig/gerda")
 
 ### Covariates
 
-- **`add_gerda_covariates()`**: Appends socioeconomic indicators (population, unemployment, etc.) to election datasets. Use with piped data.
+- **`add_gerda_covariates()`**: Appends county-level socioeconomic indicators (population, unemployment, etc.) to election datasets. Use with piped data.
 
 - **`gerda_covariates()`**: Returns raw covariate data as a standalone dataset for manual merging.
 
 - **`gerda_covariates_codebook()`**: Returns the codebook with variable descriptions and metadata for all covariates.
+
+### Census 2022
+
+- **`add_gerda_census()`**: Merges municipality-level Census 2022 data with GERDA election data. Works with both municipality-level (direct merge on AGS) and county-level data (aggregated with population-weighted means for shares, sums for counts).
+
+- **`gerda_census()`**: Returns raw Census 2022 municipality-level data (~10,800 municipalities, 16 variables covering demographics, migration, households, housing, and rents).
+
+- **`gerda_census_codebook()`**: Returns the data dictionary for Census 2022 variables.
 
 ### Party Mapping
 
@@ -58,11 +67,21 @@ gerda_data_list()
 municipal <- load_gerda_web("municipal_harm", verbose = TRUE)
 
 # Load federal county data with socioeconomic covariates
-federal_county <- load_gerda_web("federal_cty_harm") %>%
+federal_county <- load_gerda_web("federal_cty_harm") |>
   add_gerda_covariates()
 
-# View covariate definitions
+# Add Census 2022 demographics to municipality-level data
+federal_muni <- load_gerda_web("federal_muni_harm_21") |>
+  add_gerda_census()
+
+# Load new datasets
+mayoral <- load_gerda_web("mayoral_harm")
+european <- load_gerda_web("european_muni_harm")
+county <- load_gerda_web("county_elec_harm_21")
+
+# View covariate and census definitions
 gerda_covariates_codebook()
+gerda_census_codebook()
 
 # Map party names to ParlGov
 party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
