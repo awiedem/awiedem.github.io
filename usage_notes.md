@@ -254,6 +254,8 @@ To facilitate consistent comparisons across time and regions, we provide files h
 
 The Meinungsbild component provides subnational public opinion estimates for 43 policy issues, estimated using Multilevel Regression and Poststratification (MRP). Estimates are available at three geographic levels: federal states, electoral districts, and counties. For full details and interactive exploration, see the [Meinungsbild page](/meinungsbild/).
 
+**Note:** These estimates are intended for exploration and descriptive purposes. MRP estimates can suffer from validity concerns, particularly for small geographic units or issues with limited survey data. They should not be interpreted as ground truth. The Meinungsbild data is not available for download.
+
 ## Code Availability
 
 The code used to generate the datasets is available in the `code` folder of our [GitHub repository](https://github.com/awiedem/german_election_data). Additional details and instructions are provided in the scripts.
