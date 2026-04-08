@@ -2,7 +2,7 @@
   "use strict";
 
   // Data URLs from GitHub raw
-  const BASE = "https://raw.githubusercontent.com/awiedem/german_election_data/main/meinungsbild/web/public/data";
+  const BASE = "https://raw.githubusercontent.com/vincentheddesheimer/meinungsbild/main/web/public/data";
   const DATA_URLS = {
     issues: `${BASE}/issues.json`,
     bundeslaender: `${BASE}/estimates_bundesland.json`,
