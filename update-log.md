@@ -14,7 +14,7 @@ This page tracks major updates to the German Election Database datasets.
 <span class="update-date">2026-04-10</span>
 
 **State elections**: `state_unharm`, `state_harm`
-- Fixed Hamburg 2020: replaced Wahlkreislistenstimmen with Landesstimmen (state-wide list votes), consistent with all other Hamburg elections. Hat tip to Robert Stelzle.
+- Fixed Hamburg 2020: replaced Wahlkreislistenstimmen with Landesstimmen (state-wide list votes), consistent with all other Hamburg elections.
 </div>
 
 <div class="update-entry major" markdown="1">
