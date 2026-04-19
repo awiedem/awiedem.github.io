@@ -5,10 +5,9 @@ description: "The gerda R package: download and analyze German election data dir
 permalink: /r-package/
 order: 3
 ---
+## R Package
 
-# R Package
-
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.5.0** ([CRAN](https://cran.r-project.org/package=gerda)).
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current CRAN version: **0.5.0** ([CRAN](https://cran.r-project.org/package=gerda)); development version: **0.6.0** ([GitHub](https://github.com/hhilbig/gerda)). As of v0.6 the package exposes 39 datasets covering local, state, federal, mayoral, European Parliament, and county (Kreistag) elections, plus crosswalks and covariates.
 
 ### Installation
 
@@ -24,7 +23,7 @@ devtools::install_github("hhilbig/gerda")
 
 ### Data Loading
 
-- **`gerda_data_list(print_table = TRUE)`**: Lists all available GERDA datasets with descriptions, including federal, state, municipal, European, mayoral, and county elections.
+- **`gerda_data_list(print_table = TRUE)`**: Lists all available GERDA datasets with descriptions.
   - `print_table`: If `TRUE` (default), prints a formatted table and invisibly returns a tibble. If `FALSE`, returns the tibble directly.
 
 - **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds")`**: Loads a GERDA dataset from the web.
@@ -33,21 +32,21 @@ devtools::install_github("hhilbig/gerda")
   - `file_format`: File format to download, `"rds"` or `"csv"` (default `"rds"`).
   - Includes fuzzy matching for file names and suggests close matches if exact match isn't found.
 
-### Covariates
+### Covariates (INKAR county-level, 1995–2022)
 
-- **`add_gerda_covariates()`**: Appends county-level socioeconomic indicators (population, unemployment, etc.) to election datasets. Use with piped data.
+- **`add_gerda_covariates(election_data)`**: Appends 30 INKAR county-level socioeconomic indicators (demographics, economy, labour market, education, income, healthcare, housing, public finances) to county- or municipality-level election data. On municipality data, all municipalities in the same Kreis receive identical covariate values.
 
-- **`gerda_covariates()`**: Returns raw covariate data as a standalone dataset for manual merging.
+- **`gerda_covariates()`**: Returns the raw covariate data as a standalone tibble for manual merging.
 
-- **`gerda_covariates_codebook()`**: Returns the codebook with variable descriptions and metadata for all covariates.
+- **`gerda_covariates_codebook()`**: Returns the codebook with variable descriptions, original INKAR codes, and missing-data rates.
 
-### Census 2022
+### Census 2022 (Zensus, municipality-level)
 
-- **`add_gerda_census()`**: Merges municipality-level Census 2022 data with GERDA election data. Works with both municipality-level (direct merge on AGS) and county-level data (aggregated with population-weighted means for shares, sums for counts).
+- **`add_gerda_census(election_data)`**: Appends 14 Zensus 2022 indicators (population and age structure, migration background, household size, housing) to county- or municipality-level election data. The census is a single 2022 snapshot, so values do not vary across election years.
 
-- **`gerda_census()`**: Returns raw Census 2022 municipality-level data (~10,800 municipalities, 16 variables covering demographics, migration, households, housing, and rents).
+- **`gerda_census()`**: Returns the raw census data as a standalone tibble.
 
-- **`gerda_census_codebook()`**: Returns the data dictionary for Census 2022 variables.
+- **`gerda_census_codebook()`**: Returns the codebook with variable descriptions and coverage notes.
 
 ### Party Mapping
 
@@ -67,25 +66,19 @@ gerda_data_list()
 municipal <- load_gerda_web("municipal_harm", verbose = TRUE)
 
 # Load federal county data with socioeconomic covariates
-federal_county <- load_gerda_web("federal_cty_harm") |>
+federal_county <- load_gerda_web("federal_cty_harm") %>%
   add_gerda_covariates()
 
-# Add Census 2022 demographics to municipality-level data
-federal_muni <- load_gerda_web("federal_muni_harm_21") |>
-  add_gerda_census()
-
-# Load new datasets
-mayoral <- load_gerda_web("mayoral_harm")
-european <- load_gerda_web("european_muni_harm")
-county <- load_gerda_web("county_elec_harm_21")
-
-# View covariate and census definitions
+# View covariate definitions
 gerda_covariates_codebook()
-gerda_census_codebook()
 
 # Map party names to ParlGov
 party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
 ```
+
+## Deprecations
+
+As of v0.6, `federal_cty_unharm` exposes both the upstream columns (`ags`, `year`) and the canonical GERDA county-level names (`county_code`, `election_year`). The `ags` and `year` aliases will be removed in v0.7. New code should use `county_code` and `election_year`, which match the rest of the county-level datasets and work directly with `add_gerda_covariates()`.
 
 ## Documentation
 
