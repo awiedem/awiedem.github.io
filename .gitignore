@@ -1,4 +1,17 @@
+# macOS
 .DS_Store
+**/.DS_Store
+
+# Jekyll build output (GitHub Pages rebuilds from source)
 _site/
+.jekyll-cache/
+.sass-cache/
+
+# R session files
+.Rhistory
+.RData
+.Ruserdata
+
+# Tool / editor directories
 _scholar_papers/
 .claude/
