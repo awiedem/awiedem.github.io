@@ -38,3 +38,4 @@ Note: Changes to `_config.yml` require restarting the server.
 **Related Repositories**:
 - Data processing: https://github.com/awiedem/german_election_data
 - R package: https://github.com/hhilbig/gerda
+  - Local checkout: `/Users/hanno/Documents/GitHub/gerda` — consult when verifying that `r-package.md` matches the package's actual functions, signatures, dataset catalog, and version. Canonical sources inside the checkout: `DESCRIPTION` (version), `NAMESPACE` (exported functions), `NEWS.md` (change history), `README.md` (reference prose), and `R/*.R` (function signatures and roxygen help).

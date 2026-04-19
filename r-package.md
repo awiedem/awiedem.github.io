@@ -7,7 +7,7 @@ order: 3
 ---
 ## R Package
 
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current CRAN version: **0.5.0** ([CRAN](https://cran.r-project.org/package=gerda)); development version: **0.6.0** ([GitHub](https://github.com/hhilbig/gerda)). As of v0.6 the package exposes 39 datasets covering local, state, federal, mayoral, European Parliament, and county (Kreistag) elections, plus crosswalks and covariates.
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current CRAN version: **0.5.0** ([CRAN](https://cran.r-project.org/package=gerda)); development version: **0.6.0** ([GitHub](https://github.com/hhilbig/gerda)). As of v0.6 the package exposes 39 datasets covering local, state, federal, mayoral, European Parliament, and county (Kreistag) elections, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2025.
 
 ### Installation
 
@@ -26,15 +26,17 @@ devtools::install_github("hhilbig/gerda")
 - **`gerda_data_list(print_table = TRUE)`**: Lists all available GERDA datasets with descriptions.
   - `print_table`: If `TRUE` (default), prints a formatted table and invisibly returns a tibble. If `FALSE`, returns the tibble directly.
 
-- **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds")`**: Loads a GERDA dataset from the web.
+- **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds", on_error = "warn")`**: Loads a GERDA dataset from the web.
   - `file_name`: Dataset name (see `gerda_data_list()` for options).
   - `verbose`: Print loading messages (default `FALSE`).
   - `file_format`: File format to download, `"rds"` or `"csv"` (default `"rds"`).
-  - Includes fuzzy matching for file names and suggests close matches if exact match isn't found.
+  - `on_error`: How to handle failures (unknown name, download error, corrupt file). `"warn"` (default) emits a warning and returns `NULL`; `"stop"` raises an error, which is the safer default inside scripts and pipelines. The global default can be changed with `options(gerda.on_error = "stop")`.
+  - Includes fuzzy matching for file names and suggests close matches if an exact match isn't found.
+  - Party vote-share columns (`cdu`, `spd`, etc.) are fractions of valid votes and do not sum to 1 across named major parties: the remainder sits in smaller-party columns and an `other` category.
 
 ### Covariates (INKAR county-level, 1995–2022)
 
-- **`add_gerda_covariates(election_data)`**: Appends 30 INKAR county-level socioeconomic indicators (demographics, economy, labour market, education, income, healthcare, housing, public finances) to county- or municipality-level election data. On municipality data, all municipalities in the same Kreis receive identical covariate values.
+- **`add_gerda_covariates(election_data)`**: Appends 30 INKAR county-level socioeconomic indicators (demographics, economy, labour market, education, income, healthcare, childcare, housing, transport, public finances) to county- or municipality-level election data. On municipality data, all municipalities in the same Kreis receive identical covariate values. Coverage is strongest for 1998–2021; several newer indicators are only available for more recent years. See `gerda_covariates_codebook()` for per-variable coverage.
 
 - **`gerda_covariates()`**: Returns the raw covariate data as a standalone tibble for manual merging.
 
@@ -42,7 +44,7 @@ devtools::install_github("hhilbig/gerda")
 
 ### Census 2022 (Zensus, municipality-level)
 
-- **`add_gerda_census(election_data)`**: Appends 14 Zensus 2022 indicators (population and age structure, migration background, household size, housing) to county- or municipality-level election data. The census is a single 2022 snapshot, so values do not vary across election years.
+- **`add_gerda_census(election_data)`**: Appends 14 Zensus 2022 indicators (population and age structure, migration background, household size, housing) to county- or municipality-level election data. The census is a single 2022 snapshot, so values do not vary across election years; analyses relying on within-unit variation in these variables are not supported. For county-level data, municipality values are aggregated up using population-weighted means for shares and sums for counts. Most indicators have above 95% municipality coverage; `avg_household_size_census22` is missing for roughly 12.5% of municipalities because Destatis suppresses small-cell values.
 
 - **`gerda_census()`**: Returns the raw census data as a standalone tibble.
 
