@@ -11,6 +11,12 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry" markdown="1">
+<span class="update-date">2026-04-19</span>
+
+**Python package**: initial release of [`gerda` on PyPI](https://pypi.org/project/gerda/) — lightweight Python loader for GERDA datasets. Source at [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py). Mirrors `load_gerda_web`, `gerda_data_list`, and `party_crosswalk` from the R package; covariate / Census merge helpers not yet ported.
+</div>
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-04-10</span>
 
 **State elections**: `state_unharm`, `state_harm`
