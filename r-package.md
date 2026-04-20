@@ -9,6 +9,19 @@ order: 3
 
 The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current CRAN version: **0.5.0** ([CRAN](https://cran.r-project.org/package=gerda)); development version: **0.6.0** ([GitHub](https://github.com/hhilbig/gerda)). As of v0.6 the package exposes 39 datasets covering local, state, federal, mayoral, European Parliament, and county (Kreistag) elections, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2025.
 
+### Python users
+
+A lightweight Python loader is also available: [`gerda` on PyPI](https://pypi.org/project/gerda/) (source: [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py)). It exposes three functions — `gerda.load(name)`, `gerda.datasets()`, and `gerda.party_crosswalk(...)` — and returns pandas DataFrames (or polars, optionally). Bundled covariate / Census merge helpers are not yet ported; use the R package for those.
+
+```bash
+pip install gerda
+```
+
+```python
+import gerda
+df = gerda.load("federal_cty_harm")
+```
+
 ### Installation
 
 ```R
