@@ -13,6 +13,16 @@ This page tracks major updates to the German Election Database datasets.
 <div class="update-entry" markdown="1">
 <span class="update-date">2026-04-19</span>
 
+**State elections**: `state_unharm`, `state_harm`
+- Fixed turnout >100% caused by unallocated Briefwahl (mail-in) votes in Mecklenburg-Vorpommern (1994--2011) and Schleswig-Holstein (2017/2022). Briefwahl votes are now properly allocated to municipalities using Amt-level or Kreis-level mappings from the Gemeindeverzeichnis.
+- Improved Brandenburg 1994 OCR extraction with arithmetic validation and self-correction.
+- Fixed `eligible_voters` incorrectly showing 0 instead of NA for Bavaria 1994--2013 (source data lacks turnout information for these years).
+- Added turnout safety flags (`flag_harm_turnout_above_1`) and caps in harmonized data.
+</div>
+
+<div class="update-entry" markdown="1">
+<span class="update-date">2026-04-19</span>
+
 **Python package**: initial release of [`gerda` on PyPI](https://pypi.org/project/gerda/) — lightweight Python loader for GERDA datasets. Source at [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py). Mirrors `load_gerda_web`, `gerda_data_list`, and `party_crosswalk` from the R package; covariate / Census merge helpers not yet ported.
 </div>
 
