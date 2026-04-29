@@ -9,7 +9,7 @@ permalink: /meinungsbild/
 
 <h1>Meinungsbild <span class="badge-new">New</span></h1>
 
-<p class="page-intro">Subnational public opinion estimates for 43 policy issues in Germany, estimated using Multilevel Regression and Poststratification (MRP). Explore how opinions vary across states, electoral districts, and counties.</p>
+<p class="page-intro">Subnational public opinion estimates for 43 policy issues in Germany, estimated from GESIS data using Multilevel Regression and Poststratification (MRP). Explore how opinions vary across states, electoral districts, and counties.</p>
 
 <p class="page-note" style="font-size: 0.9rem; color: var(--color-text-secondary, #555); background: var(--color-surface, #f8f9fa); border-left: 3px solid var(--color-accent, #2563eb); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
 <strong>Note:</strong> These estimates are intended for exploration and descriptive purposes. MRP estimates can suffer from validity concerns, particularly for small geographic units or issues with limited survey data. They should not be interpreted as ground truth. The underlying data is not available for download.
