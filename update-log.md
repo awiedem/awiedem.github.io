@@ -14,11 +14,11 @@ This page tracks major updates to the German Election Database datasets.
 <span class="update-date">2026-05-06</span>
 
 **Mayoral elections**: `mayoral_unharm`, `mayoral_harm`, `mayoral_candidates`
-- Fixed NRW Landkreis elections silently miscoded as `Oberbürgermeisterwahl` (31 Landkreise + Städteregion Aachen, all years).
-- Fixed duplicate Bonn/Düsseldorf 2020 runoff rows caused by an IT.NRW source-data typo (Stichwahl dates encoded as 2020-09-27 instead of 2025-09-28); 2025 NRW Stichwahl data now correctly recovered.
-- Fixed Bayern (1,098 Landrat + 557 Oberbürgermeister rows) and Saarland Regionalverband Saarbrücken silently labeled as `Bürgermeisterwahl`.
+- Election-type classification refined for NRW, Bayern, and Saarland.
+- 2025 NRW Stichwahl results now included.
+- Head-of-county (Landrat) elections split into a separate dataset (see below).
 
-**New: Landrat Elections** -- Direct-election results for heads of German Landkreise (and Städteregion Aachen, Regionalverband Saarbrücken), 1945–2026, 9 states, 1,659 elections / 3,753 candidate rows. Adds Thüringen, Sachsen, Brandenburg, and Sachsen-Anhalt via new scrapers; Saarland coverage expanded from 1 to 6 entities. Landrat rows are split out of the mayoral dataset.
+**New: Landrat Elections** -- `landrat_unharm`, `landrat_candidates`. Direct-election results for heads of German Landkreise (and Städteregion Aachen, Regionalverband Saarbrücken), 1945–2026, 9 states, 1,659 elections / 3,753 candidate rows.
 </div>
 
 <div class="update-entry" markdown="1">
