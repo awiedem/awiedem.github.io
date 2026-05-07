@@ -15,7 +15,7 @@ This page tracks major updates to the German Election Database datasets.
 
 **Mayoral & Landrat elections**: bug fixes + new standalone Landrat dataset
 
-Two issues flagged by an external user (thank you Nils!) and fixed:
+Two issues fixed:
 - **NRW Landkreis elections were silently miscoded** as `Oberbürgermeisterwahl` instead of `Landratswahl`. Affected all 31 NRW Landkreise + Städteregion Aachen across 5 election years (2009/2014/2015/2020/2025). Root cause: the classifier matched on AGS suffix (`"000$"`), but in NRW both kreisfreie Städte and Landkreise have AGS ending in `000`. Fixed with a name-based classifier reading the source's `gemeinde` column.
 - **Bonn/Düsseldorf 2020 had duplicate runoff candidate rows.** Root cause was an upstream data error in IT.NRW's `KW 2025 Oberbürgermeister-Landratswahlen.xlsx`: every Stichwahl row has its date encoded as Excel serial `44101` (= 2020-09-27) instead of `45928` (= 2025-09-28). Verified by direct XML inspection of the source file. The misdated 2025 SW rows then survived cross-file dedup as phantom 2020 hauptwahl rows. Fixed with a narrow patch in the pipeline that rewrites `2020-09-27 → 2025-09-28` only in the 2025 OB file. The 2025 NRW Stichwahl data is now correctly recovered.
 
