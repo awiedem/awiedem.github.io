@@ -10,6 +10,31 @@ order: 5
 
 This page tracks major updates to the German Election Database datasets.
 
+<div class="update-entry major" markdown="1">
+<span class="update-date">2026-05-06</span>
+
+**Mayoral & Landrat elections**: bug fixes + new standalone Landrat dataset
+
+Two issues flagged by an external user (thank you Nils!) and fixed:
+- **NRW Landkreis elections were silently miscoded** as `Oberbürgermeisterwahl` instead of `Landratswahl`. Affected all 31 NRW Landkreise + Städteregion Aachen across 5 election years (2009/2014/2015/2020/2025). Root cause: the classifier matched on AGS suffix (`"000$"`), but in NRW both kreisfreie Städte and Landkreise have AGS ending in `000`. Fixed with a name-based classifier reading the source's `gemeinde` column.
+- **Bonn/Düsseldorf 2020 had duplicate runoff candidate rows.** Root cause was an upstream data error in IT.NRW's `KW 2025 Oberbürgermeister-Landratswahlen.xlsx`: every Stichwahl row has its date encoded as Excel serial `44101` (= 2020-09-27) instead of `45928` (= 2025-09-28). Verified by direct XML inspection of the source file. The misdated 2025 SW rows then survived cross-file dedup as phantom 2020 hauptwahl rows. Fixed with a narrow patch in the pipeline that rewrites `2020-09-27 → 2025-09-28` only in the 2025 OB file. The 2025 NRW Stichwahl data is now correctly recovered.
+
+Two more bonus discoveries (also fixed):
+- **Bayern**: 1,098 Landrat rows + 557 Oberbürgermeisterwahl rows were silently labeled `Bürgermeisterwahl` because the parser hardcoded `election_type` instead of reading the source's `Amtstitel` column. Fixed by classifying via `Amtstitel`.
+- **Saarland**: Regionalverband Saarbrücken (the SL Landkreis-equivalent) was silently labeled `Bürgermeisterwahl`. Fixed.
+
+**New standalone Landrat dataset** (`data/landrat_elections/final/`): direct-election results for heads of German Landkreise and equivalent administrative regions (Städteregion Aachen, Regionalverband Saarbrücken). Same schema as the mayoral dataset, but covers county-level units (8-digit AGS ending in `000`). 1,659 unharm rows / 3,753 candidate rows across 9 states.
+
+In addition to the BY/NRW/RLP/NI/SL data extracted from the existing mayoral pipeline, four new states were added via dedicated scrapers:
+- **Thüringen** (99 rows, 17 Kreise, 1994–2024): parsed from Thüringer Landesamt für Statistik xlsx files
+- **Sachsen** (38 rows, 13 Kreise, 2002–2025): mixed sources — wahlarchiv HTML for 2008/2015, Excel for 2020/2022/2025, single XLS for 2002
+- **Brandenburg** (24 rows, 14 Kreise, 2018–2026): scraped from `wahlen.brandenburg.de`
+- **Sachsen-Anhalt** (23 rows, 11 Kreise, 2007/2014/2015): CSV downloads + 1 HTML page
+- **Saarland** expanded from 1 entity (Regionalverband Saarbrücken) to 6: added Merzig-Wadern, Neunkirchen, Saarlouis, Saarpfalz-Kreis, St. Wendel — Neunkirchen 2024 with full clean PDF data, others with vote shares only.
+
+Audit infrastructure: 58+ regression checks across `code/mayoral_elections/99_audit.R` (28 checks: cross-leakage, IT.NRW typo, vote integrity, classifier coverage) and `code/landrat_elections/99_audit.R` (30+ checks: schema, AGS validity, date sanity, vote-count integrity, per-state coverage, external-truth spot checks, candidate-level integrity, Stichwahl logic). All checks pass. The audit also caught and led to fixes for 3 real bugs in the new scrapers during development.
+</div>
+
 <div class="update-entry" markdown="1">
 <span class="update-date">2026-04-19</span>
 

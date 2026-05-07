@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Data download
-description: "Download German election datasets: municipal (1984-2025), state (1946-2025), federal (1980-2025), European (2009-2024), mayoral (1945-2025), and county (1948-2024) elections in CSV and RDS formats."
+description: "Download German election datasets: municipal (1984-2025), state (1946-2025), federal (1980-2025), European (2009-2024), mayoral (1945-2025), Landrat (1945-2026), and county (1948-2024) elections in CSV and RDS formats."
 permalink: /election-data/
 order: 2
 ---
@@ -56,7 +56,18 @@ order: 2
 | Mayor Panel | Municipality | 1945–2025 | Yes (2021) | `mayor_panel_harm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_harm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_harm.rds) |
 | Mayor Panel (annual) | Municipality | 1945–2025 | Yes (2021) | `mayor_panel_annual_harm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_annual_harm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_annual_harm.rds) |
 
-Coverage: Bayern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, Schleswig-Holstein. Candidate-level data includes predicted gender and name-based migration background classification.
+Coverage: Bayern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, Schleswig-Holstein (mayors of municipalities only — head-of-county [Landrat] elections are now in their own dataset, see below). Candidate-level data includes predicted gender and name-based migration background classification.
+
+## Landrat Elections
+
+Direct-election results for heads of German Landkreise (rural counties) and equivalent administrative regions (Städteregion Aachen, Regionalverband Saarbrücken). Companion to the mayoral dataset; same schema, but covers county-level units (8-digit AGS ending in `000`).
+
+| **Data** | **Geographic Level** | **Time Period** | **Harmonization** | **File Name** | **Download Link** |
+|----------|---------------------|-----------------|-------------------|---------------|------------------|
+| Landrat Elections | County | 1945–2026 | No | `landrat_unharm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.rds) |
+| Landrat Candidates | County | 1945–2026 | — | `landrat_candidates` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.rds) |
+
+Coverage by state: Bayern (1945–2025, 71 Kreise), NRW (2009–2025, 31 Kreise + Städteregion Aachen), Niedersachsen (2006–2025), Rheinland-Pfalz (1994–2024), Thüringen (2006–2024), Sachsen (2002, 2008, 2015, 2020, 2022, 2025), Brandenburg (2018–2026), Sachsen-Anhalt (2007, 2014, 2015), Saarland (Regionalverband Saarbrücken + 5 Landkreise). 1,659 elections / 3,753 candidate rows total. Baden-Württemberg and Schleswig-Holstein are not included because their Landräte are elected by the Kreistag (no popular vote); Hessen and Mecklenburg-Vorpommern require per-Kreis scraping which is not yet implemented.
 
 ## County Elections (Kreistagswahlen)
 
