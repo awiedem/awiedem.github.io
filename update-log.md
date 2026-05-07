@@ -10,7 +10,7 @@ order: 5
 
 This page tracks major updates to the German Election Database datasets.
 
-<div class="update-entry major" markdown="1">
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-05-06</span>
 
 **Mayoral & Landrat elections**: bug fixes + new standalone Landrat dataset
