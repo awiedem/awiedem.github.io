@@ -16,6 +16,7 @@ order: 4
   <a href="#municipal-elections" class="section-nav-card">Municipal Elections</a>
   <a href="#european-elections" class="section-nav-card">European Elections</a>
   <a href="#mayoral-elections" class="section-nav-card">Mayoral Elections</a>
+  <a href="#landrat-elections" class="section-nav-card">Landrat Elections</a>
   <a href="#county-elections" class="section-nav-card">County Elections</a>
 </div>
 
@@ -180,7 +181,7 @@ European Parliament election results at the municipality level for **4 elections
 
 <div class="election-section-description" markdown="1">
 
-B&uuml;rgermeisterwahl results for **7 states** (Bayern, Niedersachsen, NRW, Rheinland-Pfalz, Saarland, Sachsen, Schleswig-Holstein), **1945&ndash;2025**. Includes election-level results, candidate-level data (with gender and migration background classifications), and an annual mayor panel for tracking individuals across terms. Mayoral elections are not synchronized&mdash;each municipality has its own schedule.
+B&uuml;rgermeisterwahl results for **7 states** (Bayern, Niedersachsen, NRW, Rheinland-Pfalz, Saarland, Sachsen, Schleswig-Holstein), **1945&ndash;2025**. Includes election-level results, candidate-level data (with gender and migration background classifications), and an annual mayor panel for tracking individuals across terms. Mayoral elections are not synchronized&mdash;each municipality has its own schedule. Heads of Landkreise (Landr&auml;te) are published in a [separate dataset](#landrat-elections).
 
 **Files:** `mayoral_unharm`, `mayoral_harm`, `mayoral_candidates`, `mayor_panel`, `mayor_panel_harm`, `mayor_panel_annual`, `mayor_panel_annual_harm`
 
@@ -198,6 +199,33 @@ B&uuml;rgermeisterwahl results for **7 states** (Bayern, Niedersachsen, NRW, Rhe
   <summary>Data sources</summary>
   <div>
     <p>Data procured from state statistical offices and election authorities in Bayern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, and Schleswig-Holstein (1945&ndash;2025) via their websites and direct email requests.</p>
+  </div>
+</details>
+
+---
+
+<h2 id="landrat-elections" class="election-section">Landrat Elections</h2>
+
+<div class="election-section-description" markdown="1">
+
+Direct-election results for heads of German Landkreise and equivalent administrative regions (St&auml;dteregion Aachen, Regionalverband Saarbr&uuml;cken), **1945&ndash;2026**, **9 states** (Bayern, NRW, Niedersachsen, Rheinland-Pfalz, Th&uuml;ringen, Sachsen, Brandenburg, Sachsen-Anhalt, Saarland). Same schema as the mayoral dataset but covers county-level units (8-digit AGS ending in `000`).
+
+**Files:** `landrat_unharm`, `landrat_candidates`
+
+</div>
+
+| Issue | Description |
+|-------|-------------|
+| **9 states only** | Landrat data is available only for the 9 states above. Baden-W&uuml;rttemberg and Schleswig-Holstein are not included because their Landr&auml;te are elected by the Kreistag (no popular vote). Hessen and Mecklenburg-Vorpommern are not yet integrated (per-Kreis web sources). |
+| **Coverage varies by state** | Coverage cycles depend on each state's introduction of direct Landrat elections (BY since 1945, RLP since 1994, SN/TH since 1994, NI since 1996, NRW since 1999, ST since 2007, BB since 2010). Mid-cycle elections are included where available. |
+| **Saarland: 5 Kreise with vote shares only** | Five Saarland Landratswahlen (Merzig-Wadern, Saarlouis, Saarpfalz, St. Wendel) have only `candidate_voteshare` populated; absolute vote counts and aggregate stats are NA. Identifiable via `is.na(eligible_voters)`. |
+| **Th&uuml;ringen: party may be NA** | Some Th&uuml;ringen source files (especially 2018 Stichwahl) list candidate names without party affiliation. `candidate_party` is NA for those rows. |
+| **Not harmonized** | County boundaries since 1975 are largely stable, so Landrat data is published only in unharmonized form (original boundaries at the time of each election). |
+
+<details>
+  <summary>Data sources</summary>
+  <div>
+    <p>Bayern: Bayerisches Landesamt f&uuml;r Statistik. NRW: IT.NRW. Rheinland-Pfalz: Statistisches Landesamt RLP. Niedersachsen: Nds. Landeswahlleiter (PDF extraction). Th&uuml;ringen: Th&uuml;ringer Landesamt f&uuml;r Statistik. Sachsen: Statistisches Landesamt Sachsen / wahlen.sachsen.de wahlarchiv. Brandenburg: wahlen.brandenburg.de. Sachsen-Anhalt: Statistisches Landesamt Sachsen-Anhalt. Saarland: Landeswahlleiterin Saarland + per-Kreis sources.</p>
   </div>
 </details>
 

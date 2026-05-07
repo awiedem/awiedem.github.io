@@ -1,8 +1,8 @@
 ---
 layout: default
 title: "GERDA: German Election Database"
-description: "Comprehensive dataset of local, state, federal, European, mayoral, and county election results in Germany at the municipality level, plus subnational public opinion estimates."
-keywords: "German elections, election results, municipal elections, state elections, federal elections, European elections, mayoral elections, county elections, public opinion, MRP, political science data, GERDA"
+description: "Comprehensive dataset of local, state, federal, European, mayoral, Landrat, and county election results in Germany at the municipality level, plus subnational public opinion estimates."
+keywords: "German elections, election results, municipal elections, state elections, federal elections, European elections, mayoral elections, Landrat elections, county elections, public opinion, MRP, political science data, GERDA"
 image: /assets/images/map_elec_fed_combined.png
 ---
 
@@ -11,7 +11,7 @@ image: /assets/images/map_elec_fed_combined.png
   "@context": "https://schema.org",
   "@type": "Dataset",
   "name": "GERDA: German Election Database",
-  "description": "Comprehensive dataset of local, state, federal, European, mayoral, and county election results in Germany at the municipality level, plus subnational public opinion estimates using MRP.",
+  "description": "Comprehensive dataset of local, state, federal, European, mayoral, Landrat, and county election results in Germany at the municipality level, plus subnational public opinion estimates using MRP.",
   "url": "https://german-elections.com",
   "creator": [
     {"@type": "Person", "name": "Vincent Heddesheimer", "affiliation": {"@type": "Organization", "name": "Princeton University"}},
@@ -31,9 +31,10 @@ image: /assets/images/map_elec_fed_combined.png
     {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/state_harm_21.csv", "name": "State elections (harmonized, 2021 boundaries)"},
     {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_harm.csv", "name": "European elections (harmonized)"},
     {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayoral_harm.csv", "name": "Mayoral elections (harmonized)"},
+    {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.csv", "name": "Landrat elections"},
     {"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21.csv", "name": "County elections (harmonized, 2021 boundaries)"}
   ],
-  "keywords": ["German elections", "election results", "municipal elections", "state elections", "federal elections", "European elections", "mayoral elections", "county elections", "public opinion", "MRP", "GERDA"]
+  "keywords": ["German elections", "election results", "municipal elections", "state elections", "federal elections", "European elections", "mayoral elections", "Landrat elections", "county elections", "public opinion", "MRP", "GERDA"]
 }
 </script>
 
@@ -41,7 +42,7 @@ image: /assets/images/map_elec_fed_combined.png
   <div class="hero-content">
     <div class="hero-badge"><a href="https://www.nature.com/articles/s41597-025-04811-5" style="text-decoration:none;color:inherit;">Published in <strong>Nature: Scientific Data</strong> (2025)</a></div>
     <h1>GERDA &mdash; German Election Database</h1>
-    <p>Comprehensive election results for Germany at the municipality level &mdash; spanning federal, state, local, European, mayoral, and county elections. Plus subnational public opinion estimates for 43 policy issues.</p>
+    <p>Comprehensive election results for Germany at the municipality level &mdash; spanning federal, state, local, European, mayoral, Landrat, and county elections. Plus subnational public opinion estimates for 43 policy issues.</p>
     <div class="hero-actions">
       <a href="/dashboard/" class="btn btn-primary">Explore Dashboard</a>
       <a href="/election-data/" class="btn btn-secondary">Download Data</a>
@@ -88,6 +89,12 @@ image: /assets/images/map_elec_fed_combined.png
     <div class="card-meta">1945&ndash;2025 &middot; 7 states</div>
     <p>Election-level, candidate-level, and mayor panel data with individual tracking across terms.</p>
     <a href="/usage-notes/#mayoral-elections" class="card-link-subtle">Usage notes &rarr;</a>
+  </div>
+  <div class="feature-card">
+    <h3>Landrat Elections <span class="badge-new">New</span></h3>
+    <div class="card-meta">1945&ndash;2026 &middot; 9 states</div>
+    <p>Direct elections for heads of German Landkreise and equivalent administrative regions, with election- and candidate-level data.</p>
+    <a href="/usage-notes/#landrat-elections" class="card-link-subtle">Usage notes &rarr;</a>
   </div>
   <div class="feature-card">
     <h3>County Elections <span class="badge-new">New</span></h3>
