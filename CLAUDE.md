@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the Jekyll-based website for GERDA (German Election Database), hosted at german-elections.com. The site provides documentation and download access for harmonized German election datasets (municipal, state, and federal elections).
 
+> Jekyll website repo — the research-root `../CLAUDE.md` R / stats conventions do not apply here.
+
 ## Development Commands
 
 ```bash
