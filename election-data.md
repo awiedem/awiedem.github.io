@@ -37,6 +37,10 @@ order: 2
 | Federal Elections | County | 1953–2025 | No | `federal_cty_unharm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/county_level/final/federal_cty_unharm.csv?download=) (4 MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/county_level/final/federal_cty_unharm.rds) |
 | Federal Elections | County | 1990–2025 | Yes (2021) | `federal_cty_harm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/county_level/final/federal_cty_harm.csv?download=) (2 MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/county_level/final/federal_cty_harm.rds) |
 
+Related external datasets extending federal coverage beyond GERDA:
+- [German Post-War Election Database (GPWED)](https://github.com/julian-voss/gpwed) — municipality-level results, 1949–1969 ([paper](https://www.nature.com/articles/s41597-025-06091-5))
+- [ZEIT Online Wahlkreis data](https://github.com/ZeitOnline/bundestagswahl-historische-wahlkreis-daten) — electoral-district (Wahlkreis) results recalculated to 2025 boundaries, 1949–2021
+
 ## European Elections
 
 | **Data** | **Geographic Level** | **Time Period** | **Harmonization** | **File Name** | **Download Link** |
