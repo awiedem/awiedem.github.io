@@ -7,7 +7,7 @@ order: 3
 ---
 ## R Package
 
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current CRAN version: **0.5.0** ([CRAN](https://cran.r-project.org/package=gerda)); development version: **0.6.0** ([GitHub](https://github.com/hhilbig/gerda)). As of v0.6 the package exposes 39 datasets covering local, state, federal, mayoral, European Parliament, and county (Kreistag) elections, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2025.
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current CRAN version: **0.6.0** ([CRAN](https://cran.r-project.org/package=gerda)); development version: **0.7.1** ([GitHub](https://github.com/hhilbig/gerda)). As of v0.7 the package exposes 46 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
 
 ### Python users
 
@@ -39,13 +39,18 @@ devtools::install_github("hhilbig/gerda")
 - **`gerda_data_list(print_table = TRUE)`**: Lists all available GERDA datasets with descriptions.
   - `print_table`: If `TRUE` (default), prints a formatted table and invisibly returns a tibble. If `FALSE`, returns the tibble directly.
 
-- **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds", on_error = "warn")`**: Loads a GERDA dataset from the web.
+- **`load_gerda_web(file_name, verbose = FALSE, file_format = "rds", on_error = "warn", timeout = 300, max_retries = 2, cache = FALSE, refresh = FALSE)`**: Loads a GERDA dataset from the web.
   - `file_name`: Dataset name (see `gerda_data_list()` for options).
   - `verbose`: Print loading messages (default `FALSE`).
   - `file_format`: File format to download, `"rds"` or `"csv"` (default `"rds"`).
   - `on_error`: How to handle failures (unknown name, download error, corrupt file). `"warn"` (default) emits a warning and returns `NULL`; `"stop"` raises an error, which is the safer default inside scripts and pipelines. The global default can be changed with `options(gerda.on_error = "stop")`.
+  - `timeout`: Download timeout in seconds (default `300`). Larger municipality panels can need more on slow connections.
+  - `max_retries`: Extra download attempts after the first, with backoff (default `2`). GERDA files are served through Git LFS; a download that returns the LFS pointer instead of the data is now caught and retried.
+  - `cache`: If `TRUE`, downloaded datasets are cached on disk and reused on later calls instead of being re-downloaded (default `FALSE`). `refresh = TRUE` forces a fresh download.
   - Includes fuzzy matching for file names and suggests close matches if an exact match isn't found.
   - Party vote-share columns (`cdu`, `spd`, etc.) are fractions of valid votes and do not sum to 1 across named major parties: the remainder sits in smaller-party columns and an `other` category.
+
+- **`clear_gerda_cache()`** and **`gerda_cache_dir()`**: Clear and locate the on-disk download cache used when `cache = TRUE`. The cache lives under `tools::R_user_dir("gerda", "cache")` and is only written when caching is switched on.
 
 ### Covariates (INKAR county-level, 1995–2022)
 
@@ -93,7 +98,7 @@ party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
 
 ## Deprecations
 
-As of v0.6, `federal_cty_unharm` exposes both the upstream columns (`ags`, `year`) and the canonical GERDA county-level names (`county_code`, `election_year`). The `ags` and `year` aliases will be removed in v0.7. New code should use `county_code` and `election_year`, which match the rest of the county-level datasets and work directly with `add_gerda_covariates()`.
+As of v0.6, `federal_cty_unharm` exposes both the upstream columns (`ags`, `year`) and the canonical GERDA county-level names (`county_code`, `election_year`). The `ags` and `year` aliases will be removed in v0.8. New code should use `county_code` and `election_year`, which match the rest of the county-level datasets and work directly with `add_gerda_covariates()`.
 
 ## Documentation
 
