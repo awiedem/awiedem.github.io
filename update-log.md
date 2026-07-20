@@ -11,6 +11,17 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry" markdown="1">
+<span class="update-date">2026-07-02</span>
+
+**Sachsen-Anhalt mayoral elections — 2019 – 2026 coverage from the official StaLA dataset.** ST (state `15`) mayoral coverage jumps from **66 Gemeinden × 2024 – 2026** (the earlier portal scrape) to **218 Gemeinden × 2019 – 2026** — the full universe of currently-serving hauptamtliche and ehrenamtliche mayors.
+- **Primary source:** the Statistisches Landesamt Sachsen-Anhalt Dezernat 13 "Datensatzbeschreibung Bürgermeisterwahlen" extract (`bmbm.csv`, Stand 26.02.2025). One row per Gemeinde covers the most recent Bürgermeisterwahl in the 7-year Amtszeit window (2019-11-10 through 2026-02-15) with every candidate (up to 15 slots), both rounds' turnout, and the elected mayor's identity + party.
+- **Fallback / supplement:** the Landeswahlleiter portal scrape (`wahlergebnisse.sachsen-anhalt.de/wahlen/bm{24,25,26}/`) is retained for the 5 post-cutoff 2026 elections (Zerbst 12 Apr, Karsdorf 22 Mar, Stößen 29 Mar, Steigra 7 Jun, Teutschenthal 7 Jun) and for one candidate row (the eighth candidate, Genthin 2024) missing from the StaLA CSV due to a corrupted record.
+- **All 3 kreisfreie Städte + 16 Große Kreisstädte** now have their Oberbürgermeisterwahl on record: Halle (Vogt, 2025), Magdeburg (Borris, 2022), Dessau-Roßlau (Reck, 2021), Merseburg, Wittenberg, Halberstadt, Wernigerode, Sangerhausen, Aschersleben, Bernburg, Stendal, Naumburg, Weißenfels, Zeitz, Quedlinburg, Staßfurt, Schönebeck, Bitterfeld-Wolfen, Köthen.
+- **The unharmonised dataset (`mayoral_unharm`) grows 68 → 275 round-results for ST; the candidate-level dataset (`mayoral_candidates`) grows 168 → 611 rows; the mayor-election panel goes from a handful of ST persons to 220.** All ten hand-verified named OB winners (Reck, Vogt, Borris, Buchheim, Müller, Szarata, Kascha, Schweiger, Amme, Ristow) match the official records; Genthin 2024 is fully re-completed via the portal supplement (correct 8-candidate list including its eighth candidate, 96 votes).
+- **Party attribution reflects the formal Wahlvorschlag** — in Sachsen-Anhalt it is common for party-affiliated politicians to run as *Einzelbewerber* without formal party nomination (e.g. Dr. Silvia Ristow — Bernburg OB, 2021 — is a Die Linke member but ran as an Einzelbewerberin, correctly recorded with empty party in the source).
+</div>
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-06-27</span>
 
 **Baden-Württemberg Landtagswahl 2026 and Kreistagswahl 2024 added.** Both come from the Statistisches Landesamt Baden-Württemberg's official GENESIS regional tables.
