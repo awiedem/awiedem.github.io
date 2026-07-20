@@ -57,9 +57,9 @@ More details can be found in the accompanying [paper](https://www.nature.com/art
 
 <div class="election-section-description" markdown="1">
 
-Bundestag election results at the municipality and county level. Municipality-level data covers **1980&ndash;2025** (unharmonized) and **1990&ndash;2025** (harmonized to 2021 or 2025 boundaries). County-level data covers **1990&ndash;2025** (harmonized). Includes turnout, valid/invalid votes, and vote shares for all parties.
+Bundestag election results at the municipality, county, and constituency (Wahlkreis) level. Municipality-level data covers **1980&ndash;2025** (unharmonized) and **1990&ndash;2025** (harmonized to 2021 or 2025 boundaries). County-level data covers **1990&ndash;2025** (harmonized). Constituency-level data covers the 299 Bundestag Wahlkreise for **2002&ndash;2025**, with first and second votes, party vote shares, and the Direktmandat winner in each district. Includes turnout, valid/invalid votes, and vote shares for all parties.
 
-**Files:** `federal_muni_unharm`, `federal_muni_harm_21`, `federal_muni_harm_25`, `federal_cty_unharm`, `federal_cty_harm`
+**Files:** `federal_muni_unharm`, `federal_muni_harm_21`, `federal_muni_harm_25`, `federal_cty_unharm`, `federal_cty_harm`, `federal_wkr_unharm`, `federal_wkr_unharm_long`, `federal_wkr_2021_on_2025`, `wkr_2021_to_2025_crosswalk`
 
 </div>
 
@@ -68,6 +68,7 @@ Bundestag election results at the municipality and county level. Municipality-le
 | **Mail-in vote allocation** | Shared Briefwahl districts require proportional allocation based on polling-card voters. This is an approximation. |
 | **Pre-1990 not harmonized** | Municipality-level data exists from 1980, but harmonization only starts at 1990 due to crosswalk limitations. |
 | **Rounding from harmonization** | Minor vote total discrepancies when aggregating merged municipalities; typically a handful of votes. |
+| **Constituencies redrawn over time** | Wahlkreise are unharmonized (each election on its own boundaries) and are not comparable across time without a crosswalk. For 2021 to 2025 we provide the official recomputation of the 2021 result onto the 2025 boundaries (`federal_wkr_2021_on_2025`) and a crosswalk that labels each 2025 district unchanged, redrawn, or new (`wkr_2021_to_2025_crosswalk`). Independent candidates sit in the `other` column; individual Einzelbewerber are recoverable as counts in the long file only. |
 
 <details>
   <summary>Data sources</summary>
@@ -82,9 +83,9 @@ Bundestag election results at the municipality and county level. Municipality-le
 
 <div class="election-section-description" markdown="1">
 
-Landtag election results at the municipality level for all 16 states, **1946&ndash;2025**. Harmonized versions cover **1990&ndash;2025** with three boundary targets (2021, 2023, 2025). The unharmonized file preserves all individual party columns.
+Landtag election results at the municipality level for all 16 states, **1946&ndash;2025**. Harmonized versions cover **1990&ndash;2025** with three boundary targets (2021, 2023, 2025). The unharmonized file preserves all individual party columns. Constituency-level (Wahlkreis) results are also available for **1990&ndash;2026** in `ltw_wkr_unharm` (with `ltw_wkr_unharm_long` giving vote counts in long form), with first and second votes per Wahlkreis. Wahlkreise are unharmonized (each election on its own boundaries).
 
-**Files:** `state_unharm`, `state_harm`, `state_harm_21`, `state_harm_23`, `state_harm_25`
+**Files:** `state_unharm`, `state_harm`, `state_harm_21`, `state_harm_23`, `state_harm_25`, `ltw_wkr_unharm`, `ltw_wkr_unharm_long`
 
 </div>
 
@@ -237,7 +238,7 @@ Direct-election results for heads of German Landkreise and equivalent administra
 
 Kreistag (county council) election results, **1948&ndash;2024**, at both municipality and county level. Available for 11 states. Harmonized to 2021 boundaries.
 
-**Files:** `county_elec_unharm`, `county_elec_harm_21`
+**Files:** `county_elec_unharm`, `county_elec_harm_21_cty`, `county_elec_harm_21_muni`
 
 </div>
 

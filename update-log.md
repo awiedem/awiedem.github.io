@@ -11,6 +11,25 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry" markdown="1">
+<span class="update-date">2026-07-15</span>
+
+**New: State Wahlkreis elections in the R package (`gerda` 0.7.1)**
+
+- **State Landtag elections at the Wahlkreis level** -- `ltw_wkr_unharm` (vote shares) and `ltw_wkr_unharm_long` (vote counts), 1990--2026, all 16 states, with first and second votes. The state counterpart to the federal Wahlkreis data.
+- Removed the `county_elec_harm_21` entry from the R package, which pointed to a file that was never published; use `county_elec_harm_21_cty` or `county_elec_harm_21_muni` instead.
+</div>
+
+<div class="update-entry major" markdown="1">
+<span class="update-date">2026-07-14</span>
+
+**New: Federal elections at the constituency level, plus `gerda` R package 0.7.0**
+
+- **Federal Wahlkreis data** -- Bundestag results at all 299 constituencies (Wahlkreise), 2002--2025, with first and second votes, party vote shares, and the Direktmandat winner in each district. Files: `federal_wkr_unharm` (wide, vote shares) and `federal_wkr_unharm_long` (long, vote counts).
+- **2021 on 2025 boundaries** -- `federal_wkr_2021_on_2025` gives the official recomputation of the 2021 result onto the 2025 Wahlkreis boundaries, so previous-election strength can be read off directly for every 2025 district, including the redrawn ones. `wkr_2021_to_2025_crosswalk` maps 2021 to 2025 districts and labels each as unchanged (283), redrawn (10), or new (6).
+- **R package 0.7.0** -- `load_gerda_web()` gains configurable download timeouts and retries, optional on-disk caching (`cache = TRUE`, with `clear_gerda_cache()`), and clearer errors when a Git LFS download fails to return the data. `gerda_data_list(print_table = FALSE)` now returns structured metadata (election type, geographic level, year range, boundary, formats) alongside the dataset names.
+</div>
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-07-02</span>
 
 **Sachsen-Anhalt mayoral elections — 2019 – 2026 coverage from the official StaLA dataset.** ST (state `15`) mayoral coverage jumps from **66 Gemeinden × 2024 – 2026** (the earlier portal scrape) to **218 Gemeinden × 2019 – 2026** — the full universe of currently-serving hauptamtliche and ehrenamtliche mayors.
