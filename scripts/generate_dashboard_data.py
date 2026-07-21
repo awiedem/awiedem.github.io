@@ -65,7 +65,43 @@ DATASET_DEFS = {
         "fallback": "mayoral_harm.csv",
         "type": "mayoral",
     },
+    # Landrat shares the mayoral schema (winner_party / winner_voteshare) but is
+    # county-level: its AGS are 8-digit county codes ending in "000", so the
+    # dashboard renders it on the Kreis geometry exactly like `county`.
+    # Published unharmonized only — county boundaries have been stable since 1975.
+    "landrat": {
+        "dir": "data/landrat_elections/final",
+        "pattern": r"landrat_unharm\.csv",
+        "fallback": "landrat_unharm.csv",
+        "type": "mayoral",
+    },
+    # Constituency (Wahlkreis) results, keyed on wkr_nr rather than AGS. The
+    # source carries both ballots; we keep the Zweitstimme (list vote), which is
+    # the ballot party vote shares are normally read off.
+    "constituency": {
+        "dir": "data/federal_elections/wahlkreis_level/final",
+        "pattern": r"federal_wkr_unharm\.csv",
+        "fallback": "federal_wkr_unharm.csv",
+        "type": "wkr",
+    },
 }
+
+# Known malformed AGS in the upstream data, corrected here so the unit still
+# lands on the map. These are WORKAROUNDS — the proper fix belongs in the GERDA
+# pipeline, and this table should shrink to nothing over time.
+#   10000041 -> 10041000  Regionalverband Saarbrücken (landrat_unharm). Its
+#     Kreisschlüssel is 10041; the sibling Saarland Landkreise are coded
+#     10042000, 10043000, ... and county_elec_unharm uses 10041100, so the
+#     digits are simply misplaced here.
+AGS_FIXES = {
+    "10000041": "10041000",
+}
+
+
+def fix_ags(value):
+    v = str(value or "").strip()
+    return AGS_FIXES.get(v, v)
+
 
 PARTY_COLS = ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw"]
 STANDARD_OUTPUT_COLS = ["ags", "election_year", "turnout"] + PARTY_COLS + ["number_voters", "eligible_voters"]
@@ -274,7 +310,7 @@ def process_standard(name, source_file, output_file):
 
         for row in reader:
             out_row = [
-                format_value(row.get(ags_col, "")) if ags_col else "",
+                fix_ags(format_value(row.get(ags_col, ""))) if ags_col else "",
                 format_value(row.get(year_col, "")) if year_col else "",
                 format_value(row.get(turnout_col, "")) if turnout_col else "",
             ]
@@ -288,6 +324,66 @@ def process_standard(name, source_file, output_file):
             count += 1
 
     print(f"  Wrote {count:,} rows")
+    return count
+
+
+def process_wkr(name, source_file, output_file):
+    """Process constituency (Wahlkreis) results into the standard party schema.
+
+    Two differences from process_standard():
+      * the unit key is `wkr_nr` (1-299), not an AGS, so it is written into the
+        `ags` column that the dashboard's data model keys on;
+      * the source has one row per (Wahlkreis, year, ballot). We keep only the
+        Zweitstimme (list vote), which is the ballot party vote shares are read
+        off; Erststimme rows would otherwise double every constituency.
+    """
+    print(f"\nProcessing {name}...")
+    headers = get_csv_headers(source_file)
+
+    party_map = build_party_mapping(headers)
+    wkr_col = find_column(headers, ["wkr_nr", "wkr", "wahlkreis_nr"])
+    year_col = find_column(headers, ["election_year", "year"])
+    turnout_col = find_column(headers, ["turnout"])
+    nv_col = find_column(headers, ["number_voters"])
+    ev_col = find_column(headers, ["eligible_voters"])
+    stimme_col = find_column(headers, ["stimme"])
+
+    if not wkr_col:
+        print("  ERROR: no wkr_nr column found — skipping")
+        return 0
+
+    print(f"  wkr={wkr_col}, year={year_col}, turnout={turnout_col}, ballot={stimme_col}")
+    print(f"  Party mapping: { {k: v for k, v in party_map.items() if v} }")
+
+    count = 0
+    skipped_ballot = 0
+    with open(source_file, "r", encoding="utf-8") as fin, \
+         open(output_file, "w", newline="", encoding="utf-8") as fout:
+        reader = csv.DictReader(fin)
+        writer = csv.writer(fout)
+        writer.writerow(STANDARD_OUTPUT_COLS)
+
+        for row in reader:
+            if stimme_col:
+                ballot = (row.get(stimme_col) or "").strip().lower()
+                if ballot and ballot != "zweitstimme":
+                    skipped_ballot += 1
+                    continue
+            out_row = [
+                format_value(row.get(wkr_col, "")),
+                format_value(row.get(year_col, "")) if year_col else "",
+                format_value(row.get(turnout_col, "")) if turnout_col else "",
+            ]
+            for party in PARTY_COLS:
+                out_row.append(sum_party_values(row, party_map.get(party, [])))
+            out_row.extend([
+                format_value(row.get(nv_col, "")) if nv_col else "",
+                format_value(row.get(ev_col, "")) if ev_col else "",
+            ])
+            writer.writerow(out_row)
+            count += 1
+
+    print(f"  Wrote {count:,} rows (skipped {skipped_ballot:,} Erststimme rows)")
     return count
 
 
@@ -342,7 +438,7 @@ def process_mayoral(source_file, output_file):
                 party_match_count += 1
 
             out_row = [
-                format_value(row.get(col_map["ags"], "")) if col_map["ags"] else "",
+                fix_ags(format_value(row.get(col_map["ags"], ""))) if col_map["ags"] else "",
                 format_value(row.get(col_map["election_year"], "")) if col_map["election_year"] else "",
                 format_value(row.get(col_map["turnout"], "")) if col_map["turnout"] else "",
             ]
@@ -422,6 +518,8 @@ def main():
 
             if defn["type"] == "mayoral":
                 process_mayoral(source, output)
+            elif defn["type"] == "wkr":
+                process_wkr(dataset, source, output)
             else:
                 process_standard(dataset, source, output)
     else:

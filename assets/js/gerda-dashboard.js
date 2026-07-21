@@ -9,7 +9,9 @@
     municipal: "Municipal elections",
     european: "European elections",
     mayoral: "Mayoral elections",
-    county: "County elections"
+    county: "County elections",
+    landrat: "Landrat elections",
+    constituency: "Constituency elections"
   };
 
   const stateByAgsPrefix = {
@@ -97,11 +99,19 @@
     municipal: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "winning_party", "number_voters"],
     european: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"],
     mayoral: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "winning_party", "winner_voteshare", "number_voters"],
-    county: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"]
+    county: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"],
+    landrat: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "winning_party", "winner_voteshare", "number_voters"],
+    constituency: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"]
   };
 
-  // Datasets that use county-level GeoJSON
-  const countyLevelDatasets = new Set(["county"]);
+  // Datasets that use county-level GeoJSON. Landrat elections pick the county
+  // executive, so their 8-digit AGS (ending "000") reduce to a Kreiskennziffer
+  // exactly like the Kreistag data.
+  const countyLevelDatasets = new Set(["county", "landrat"]);
+
+  // Datasets rendered on constituency (Wahlkreis) geometry, keyed on wkr_nr
+  // rather than on an AGS.
+  const constituencyDatasets = new Set(["constituency"]);
 
   const majorCities = [
     { name: "Berlin", lat: 52.52, lon: 13.405 },
@@ -120,7 +130,9 @@
     municipal: "triangle-up",
     european: "diamond",
     mayoral: "star",
-    county: "hexagon"
+    county: "hexagon",
+    landrat: "cross",
+    constituency: "pentagon"
   };
 
   // ---- Data sources ----
@@ -141,10 +153,21 @@
     ],
     countyGeo: [
       "https://raw.githubusercontent.com/awiedem/german_election_data/main/meinungsbild/web/public/data/kreise.geojson"
+    ],
+    // 299 Bundestag Wahlkreise on 2021 boundaries, shipped for Meinungsbild and
+    // reused here. Constituencies are redrawn between elections, so other years
+    // are drawn on these 2021 shapes — flagged in the Constituency tab.
+    wkrGeo: [
+      "/assets/data/meinungsbild/wahlkreise.geojson",
+      `${BASE_REPO}/meinungsbild/wahlkreise.geojson`,
+      `${CDN_BASE}/meinungsbild/wahlkreise.geojson`
     ]
   };
 
-  // Per-dataset CSV sources (try new split files first, fall back to combined)
+  // Per-dataset CSV sources. Every dataset has its own file and there is
+  // deliberately no combined fallback: the old gerda_elections.csv was a
+  // pre-split artifact that aged independently of the split files, so a failed
+  // fetch would quietly serve much older data instead of surfacing the failure.
   const csvSources = {
     federal: ["/assets/data/gerda_federal.csv", `${BASE_REPO}/gerda_federal.csv`],
     state: ["/assets/data/gerda_state.csv", `${BASE_REPO}/gerda_state.csv`],
@@ -152,11 +175,8 @@
     european: ["/assets/data/gerda_european.csv", `${BASE_REPO}/gerda_european.csv`],
     mayoral: ["/assets/data/gerda_mayoral.csv", `${BASE_REPO}/gerda_mayoral.csv`],
     county: ["/assets/data/gerda_county.csv", `${BASE_REPO}/gerda_county.csv`],
-    combined: [
-      "/assets/data/gerda_elections.csv",
-      `${BASE_REPO}/gerda_elections.csv`,
-      `${CDN_BASE}/gerda_elections.csv`
-    ]
+    landrat: ["/assets/data/gerda_landrat.csv", `${BASE_REPO}/gerda_landrat.csv`],
+    constituency: ["/assets/data/gerda_constituency.csv", `${BASE_REPO}/gerda_constituency.csv`]
   };
 
   // ---- GeoJSON winding fix (reused from Meinungsbild) ----
@@ -218,6 +238,7 @@
   let muniGeoData = null;
   let statesGeoData = null;
   let countyGeoData = null;
+  let wkrGeoData = null;
   let currentGeoData = null;
   let colorScale = null;
   let svg = null;
@@ -235,6 +256,7 @@
   // ---- Elements ----
 
   const elements = {
+    datasetNote: document.getElementById("dataset-note"),
     yearSelect: document.getElementById("year-select"),
     variableSelect: document.getElementById("variable-select"),
     legend: document.getElementById("legend"),
@@ -291,6 +313,10 @@
       // County CSV codes are 8-digit municipal-level codes; the first 5 digits are
       // the Kreiskennziffer (county code) that the GeoJSON stores as county_code.
       return s.length > 5 ? s.slice(0, 5) : s.padStart(5, "0");
+    }
+    if (dataset && constituencyDatasets.has(dataset)) {
+      // Wahlkreis numbers are plain integers 1-299 in both CSV and GeoJSON.
+      return String(parseInt(s, 10) || "");
     }
     return s.padStart(8, "0");
   };
@@ -386,30 +412,53 @@
       dataCache[dataset] = rows;
       return rows;
     } catch (e) {
-      console.warn(`Failed to load ${dataset} CSV, trying combined...`);
-      // Fall back to combined CSV
-      return loadFromCombined(dataset);
+      // No combined-CSV fallback on purpose: it aged independently of the split
+      // files, so falling back to it quietly served stale data. Failing loudly
+      // is better than showing figures from a different vintage.
+      console.error(`Failed to load ${dataset} CSV`, e);
+      return [];
     }
   }
 
-  async function loadFromCombined(dataset) {
-    if (!dataCache._combined) {
-      try {
-        const rows = await fetchWithFallback(csvSources.combined, (response) =>
-          response.text().then((text) => d3.csvParse(text, parseRow))
-        );
-        dataCache._combined = rows;
-        // Split into per-dataset caches
-        rows.forEach((row) => {
-          if (!dataCache[row.dataset]) dataCache[row.dataset] = [];
-          dataCache[row.dataset].push(row);
-        });
-      } catch (e) {
-        console.error("Failed to load combined CSV", e);
-        return [];
-      }
+  // Per-dataset caveats shown under the tab bar. Kept short; the full detail
+  // lives in the usage notes.
+  const datasetNotes = {
+    constituency:
+      "Zweitstimme (list vote) results for the 299 Bundestag constituencies. " +
+      "The map uses 2021 constituency boundaries; Wahlkreise are redrawn between " +
+      "elections, so other years are drawn on these shapes and are approximate.",
+    landrat:
+      "Direct elections for county executives (Landräte), shown on county " +
+      "boundaries. Baden-Württemberg and Schleswig-Holstein elect their Landräte " +
+      "through the Kreistag, so they do not appear.",
+    mayoral:
+      "Coverage varies sharply by state — Bayern reaches back to 1945, while " +
+      "several states cover only the most recent cycle for each municipality."
+  };
+
+  function updateDatasetNote(dataset) {
+    const el = elements.datasetNote;
+    if (!el) return;
+    const note = datasetNotes[dataset];
+    if (note) {
+      el.textContent = note;
+      el.hidden = false;
+    } else {
+      el.textContent = "";
+      el.hidden = true;
     }
-    return dataCache[dataset] || [];
+  }
+
+  async function loadWkrGeo() {
+    if (wkrGeoData) return wkrGeoData;
+    try {
+      const geo = await fetchWithFallback(dataSources.wkrGeo, (r) => r.json());
+      wkrGeoData = rewindGeoJSON(geo);
+      return wkrGeoData;
+    } catch (e) {
+      console.error("Failed to load Wahlkreis GeoJSON", e);
+      return null;
+    }
   }
 
   async function loadCountyGeo() {
@@ -456,6 +505,7 @@
     }
 
     state.dataset = dataset;
+    updateDatasetNote(dataset);
 
     // Ensure current dataset is in time series datasets
     if (!state.timeDatasets.includes(dataset)) {
@@ -470,6 +520,12 @@
         currentGeoData = geo;
         rebuildMap();
       }
+    } else if (constituencyDatasets.has(dataset)) {
+      const geo = await loadWkrGeo();
+      if (geo) {
+        currentGeoData = geo;
+        rebuildMap();
+      }
     } else if (currentGeoData !== muniGeoData) {
       currentGeoData = muniGeoData;
       rebuildMap();
@@ -480,8 +536,8 @@
     buildColorScale();
     updateSummaryStats();
 
-    // Reset selection when switching to county level
-    if (countyLevelDatasets.has(dataset)) {
+    // Reset selection when switching away from municipality geometry
+    if (countyLevelDatasets.has(dataset) || constituencyDatasets.has(dataset)) {
       state.selectedAgs = null;
       selectedLayer = null;
       elements.selectionInfo.innerHTML = "Click a region to see details.";
@@ -571,6 +627,10 @@
       const code = p.county_code || p.RS || p.AGS || p.KRS || "";
       return String(code).padStart(5, "0");
     }
+    if (constituencyDatasets.has(state.dataset)) {
+      // Wahlkreis features are keyed on wkr_nr (1-299), matching the CSV.
+      return String(p.wkr_nr ?? p.WKR_NR ?? "").trim();
+    }
     return p.AGS || "";
   };
 
@@ -578,6 +638,9 @@
     const p = feature.properties;
     if (countyLevelDatasets.has(state.dataset)) {
       return p.county_name || p.GEN || p.name || "";
+    }
+    if (constituencyDatasets.has(state.dataset)) {
+      return p.name || p.WKR_NAME || "";
     }
     return p.GEN || p.name || "";
   };
@@ -1482,7 +1545,7 @@
 
     // Load all datasets so we can show complete coverage
     // Order: federal at top (last in array since Plotly heatmap y-axis is bottom-up)
-    const datasets = ["european", "county", "mayoral", "municipal", "state", "federal"];
+    const datasets = ["constituency", "landrat", "european", "county", "mayoral", "municipal", "state", "federal"];
     const unloaded = datasets.filter((ds) => !dataCache[ds]);
     if (unloaded.length) {
       elements.coverageChart.innerHTML = '<div style="text-align:center;padding:40px;color:#6b7280;">Loading all election data for coverage view...</div>';
@@ -2126,7 +2189,7 @@
           <strong>Unable to load dashboard data</strong>
           <p>The election data files could not be loaded. Try refreshing the page.</p>
           <ul>
-            <li><a href="/assets/data/gerda_elections.csv" target="_blank" rel="noopener">Election data (CSV)</a></li>
+            <li><a href="/election-data/">Election data downloads</a></li>
             <li><a href="/assets/data/gerda_municipalities_2021.geojson" target="_blank" rel="noopener">Municipality boundaries (GeoJSON)</a></li>
           </ul>
         </div>

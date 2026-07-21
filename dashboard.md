@@ -15,9 +15,13 @@ permalink: /dashboard/
   <button class="tab-btn" data-dataset="state" role="tab" aria-selected="false">State</button>
   <button class="tab-btn" data-dataset="municipal" role="tab" aria-selected="false">Municipal</button>
   <button class="tab-btn" data-dataset="mayoral" role="tab" aria-selected="false">Mayoral</button>
+  <button class="tab-btn" data-dataset="landrat" role="tab" aria-selected="false">Landrat</button>
   <button class="tab-btn" data-dataset="county" role="tab" aria-selected="false">County</button>
+  <button class="tab-btn" data-dataset="constituency" role="tab" aria-selected="false">Constituency</button>
   <button class="tab-btn" data-dataset="european" role="tab" aria-selected="false">European</button>
 </nav>
+
+<p class="dashboard-note" id="dataset-note" hidden></p>
 
 <div class="gerda-dashboard" role="application" aria-label="German Election Data Explorer">
   <aside class="dashboard-sidebar" role="region" aria-label="Map controls">
@@ -168,6 +172,7 @@ permalink: /dashboard/
               <option value="municipal">Municipal</option>
               <option value="european">European</option>
               <option value="county">County</option>
+              <option value="landrat">Landrat</option>
             </select>
           </div>
           <div class="control-group">
