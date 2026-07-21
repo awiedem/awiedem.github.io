@@ -86,16 +86,11 @@ DATASET_DEFS = {
     },
 }
 
-# Known malformed AGS in the upstream data, corrected here so the unit still
-# lands on the map. These are WORKAROUNDS — the proper fix belongs in the GERDA
-# pipeline, and this table should shrink to nothing over time.
-#   10000041 -> 10041000  Regionalverband Saarbrücken (landrat_unharm). Its
-#     Kreisschlüssel is 10041; the sibling Saarland Landkreise are coded
-#     10042000, 10043000, ... and county_elec_unharm uses 10041100, so the
-#     digits are simply misplaced here.
-AGS_FIXES = {
-    "10000041": "10041000",
-}
+# Workarounds for malformed AGS in the upstream data, so the unit still lands on
+# the map. Prefer fixing the GERDA pipeline instead — this table should stay
+# empty. (It previously held 10000041 -> 10041000 for Regionalverband
+# Saarbrücken; that is now fixed at source in 01_mayoral_unharm.R.)
+AGS_FIXES = {}
 
 
 def fix_ags(value):
