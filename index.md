@@ -48,7 +48,7 @@ image: /assets/images/map_elec_fed_combined.png
     <div class="hero-actions">
       <a href="/dashboard/" class="btn btn-primary">Explore Dashboard</a>
       <a href="/election-data/" class="btn btn-secondary">Download Data</a>
-      <a href="/meinungsbild/" class="btn btn-secondary">Meinungsbild <span class="badge-new">New</span></a>
+      <a href="/meinungsbild/" class="btn btn-secondary">Meinungsbild</a>
     </div>
   </div>
   <div class="hero-image">
