@@ -78,7 +78,7 @@ image: /assets/images/map_elec_fed_combined.png
     <h3>Constituency Elections <span class="badge-new">New</span></h3>
     <div class="card-meta">Federal: 2002&ndash;2025 &middot; State: 1990&ndash;2026</div>
     <p>Results at the Wahlkreis level &mdash; all 299 Bundestag constituencies and Landtag constituencies across all 16 states, with first and second votes.</p>
-    <a href="/election-data/" class="card-link-subtle">Download data &rarr;</a>
+    <a href="/usage-notes/#constituency-elections" class="card-link-subtle">Usage notes &rarr;</a>
   </div>
   <div class="feature-card">
     <h3>Municipal Elections</h3>
