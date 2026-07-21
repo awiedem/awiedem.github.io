@@ -7,7 +7,7 @@ order: 3
 ---
 ## R Package
 
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current CRAN version: **0.6.0** ([CRAN](https://cran.r-project.org/package=gerda)); development version: **0.7.1** ([GitHub](https://github.com/hhilbig/gerda)). As of v0.7 the package exposes 46 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.7.1**, available on [CRAN](https://cran.r-project.org/package=gerda) since 15 July 2026 and matching the development version on [GitHub](https://github.com/hhilbig/gerda). As of v0.7 the package exposes 46 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
 
 ### Python users
 
