@@ -17,6 +17,8 @@ order: 2
 | Local Elections | Municipality | 1984–2026 | No | `municipal_unharm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.csv?download=) (12 MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.rds) |
 | Local Elections | Municipality | 1990–2026 | Yes (2021) | `municipal_harm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.csv?download=) (9 MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.rds) |
 
+The unharmonized file also carries council **seats** (`seats_*` columns) for the states and years where seat data is available; see the [usage notes](/usage-notes/#municipal-elections). Seats are on the unharmonized file only — a population-weighted sum of seats across merged municipalities is not a real council, so the harmonized files omit them.
+
 ## State Elections
 
 | **Data** | **Geographic Level** | **Time Period** | **Harmonization** | **File Name** | **Download Link** |
@@ -86,6 +88,9 @@ Coverage by state: Bayern (1945–2026, 71 Kreise), Mecklenburg-Vorpommern (2000
 | County Elections | Municipality & County | 1948–2026 | No | `county_elec_unharm` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_unharm.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_unharm.rds) |
 | County Elections | County | 1990–2026 | Yes (2021) | `county_elec_harm_21_cty` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_cty.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_cty.rds) |
 | County Elections | Municipality | 1991–2026 | Yes (2021) | `county_elec_harm_21_muni` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.csv?download=) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.rds) |
+| County Council Seats | County | 2008–2025 | Fixed 2021 boundaries | `county_council_seats` | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.csv?download=) (1.4 MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.rds) |
+
+`county_council_seats` is a yearly county-council **composition** panel (400 counties × 2008–2025), not an election table — each council's seat distribution is carried forward every year until the next election changes it. Party seat columns sum to `seats_total` (a residual `seats_other` absorbs the rest). Municipal council **seats** are carried inside `municipal_unharm` itself as `seats_*` columns (see the [Local Elections](#local-elections) note).
 
 ## Additional Files
 

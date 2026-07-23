@@ -11,6 +11,15 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry major" markdown="1">
+<span class="update-date">2026-07-23</span>
+
+**Council seats added — municipal and county.** GERDA now reports how many council mandates (Sitze) each party won, alongside the vote shares it already carried.
+- **Municipal seats** are exposed inside `municipal_unharm` as ten `seats_*` columns, wherever the source reports them (Baden-Württemberg, Hessen, Thüringen, NRW, Brandenburg, Rheinland-Pfalz, Sachsen-Anhalt, Mecklenburg-Vorpommern, Saarland, Niedersachsen, Schleswig-Holstein, and the Bremen/Hamburg Bürgerschaften; no seat data for Bayern, Berlin, Sachsen). `NA` means no seat source, not zero seats. Because only the ten major parties have columns, the seat sum is a lower bound on council size — local voter groups and independents are not yet included. Seats are on the unharmonized file only.
+- **County council seats** ship as a new dataset, `county_council_seats`: a yearly panel of Kreistag composition, 400 counties × 2008–2025, one row per county-year with each council carried forward until the next election. Its party columns sum to `seats_total`.
+- No existing dataset value changed; these are added columns and one new file. Also new this week: Bayern Kommunalwahl 2026 (Kreistage + Stadträte) in `county_elec_unharm`.
+</div>
+
+<div class="update-entry major" markdown="1">
 <span class="update-date">2026-07-21</span>
 
 **Mayoral elections expanded from 7 to 13 states.** Mecklenburg-Vorpommern, Thüringen, Baden-Württemberg, Brandenburg, Sachsen-Anhalt and Hessen were added over the past month.
