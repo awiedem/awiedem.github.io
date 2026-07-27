@@ -7,7 +7,7 @@ order: 3
 ---
 ## R Package
 
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.7.1**, available on [CRAN](https://cran.r-project.org/package=gerda) since 15 July 2026 and matching the development version on [GitHub](https://github.com/hhilbig/gerda). As of v0.7 the package exposes 46 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.8.1**, available on [CRAN](https://cran.r-project.org/package=gerda) since 27 July 2026 and matching the development version on [GitHub](https://github.com/hhilbig/gerda). As of v0.8 the package exposes 47 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
 
 ### Python users
 
@@ -54,7 +54,9 @@ devtools::install_github("hhilbig/gerda")
 
 ### Covariates (INKAR county-level, 1995–2022)
 
-- **`add_gerda_covariates(election_data)`**: Appends 30 INKAR county-level socioeconomic indicators (demographics, economy, labour market, education, income, healthcare, childcare, housing, transport, public finances) to county- or municipality-level election data. On municipality data, all municipalities in the same Kreis receive identical covariate values. Coverage is strongest for 1998–2021; several newer indicators are only available for more recent years. See `gerda_covariates_codebook()` for per-variable coverage.
+- **`add_gerda_covariates(election_data, unmatched = "warn")`**: Appends 30 INKAR county-level socioeconomic indicators (demographics, economy, labour market, education, income, healthcare, childcare, housing, transport, public finances) to county- or municipality-level election data. On municipality data, all municipalities in the same Kreis receive identical covariate values. Coverage is strongest for 1998–2021; several newer indicators are only available for more recent years. See `gerda_covariates_codebook()` for per-variable coverage.
+  - `unmatched`: What to do about election rows that find no covariate match. `"warn"` (default) reports the exact unmatched row and unit counts, `"error"` stops, and `"ignore"` stays silent. Use `"error"` in unattended pipelines. Election years outside the INKAR window (1995–2022) are reported separately and kept with missing covariate values.
+  - Since v0.8, county codes must be five-digit character strings and municipality AGS codes eight-digit character strings. Numeric identifiers are rejected rather than silently mismatched, which guards against lost leading zeros.
 
 - **`gerda_covariates()`**: Returns the raw covariate data as a standalone tibble for manual merging.
 
@@ -62,11 +64,22 @@ devtools::install_github("hhilbig/gerda")
 
 ### Census 2022 (Zensus, municipality-level)
 
-- **`add_gerda_census(election_data)`**: Appends 14 Zensus 2022 indicators (population and age structure, migration background, household size, housing) to county- or municipality-level election data. The census is a single 2022 snapshot, so values do not vary across election years; analyses relying on within-unit variation in these variables are not supported. For county-level data, municipality values are aggregated up using population-weighted means for shares and sums for counts. Most indicators have above 95% municipality coverage; `avg_household_size_census22` is missing for roughly 12.5% of municipalities because Destatis suppresses small-cell values.
+- **`add_gerda_census(election_data, unmatched = "warn")`**: Appends 14 Zensus 2022 indicators (population and age structure, migration background, household size, housing) to county- or municipality-level election data. The census is a single 2022 snapshot, so values do not vary across election years; analyses relying on within-unit variation in these variables are not supported. For county-level data, municipality values are aggregated up using population-weighted means for shares and sums for counts. Most indicators have above 95% municipality coverage; `avg_household_size_census22` is missing for roughly 12.5% of municipalities because Destatis suppresses small-cell values.
 
 - **`gerda_census()`**: Returns the raw census data as a standalone tibble.
 
 - **`gerda_census_codebook()`**: Returns the codebook with variable descriptions and coverage notes.
+
+### Join Diagnostics
+
+- **`gerda_join_diagnostics(x)`**: Takes a data frame returned by `add_gerda_covariates()` or `add_gerda_census()` and returns a machine-readable report on the joins that produced it, one row per join in execution order (so a pipe doing both gives two rows). Columns cover input and output row counts, matched and unmatched rows and units, unmatched rows split into out-of-coverage years versus unexpected non-matches versus missing keys, and the eligible match rate. Both helpers also verify that the bundled reference keys are complete and unique and that the join leaves the input row count unchanged, so a merge cannot silently duplicate or drop observations.
+
+```R
+merged <- load_gerda_web("federal_cty_harm") %>%
+  add_gerda_covariates(unmatched = "error")
+
+gerda_join_diagnostics(merged)
+```
 
 ### Party Mapping
 
@@ -96,9 +109,18 @@ gerda_covariates_codebook()
 party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
 ```
 
-## Deprecations
+## Breaking changes in v0.8
 
-As of v0.6, `federal_cty_unharm` exposes both the upstream columns (`ags`, `year`) and the canonical GERDA county-level names (`county_code`, `election_year`). The `ags` and `year` aliases will be removed in v0.8. New code should use `county_code` and `election_year`, which match the rest of the county-level datasets and work directly with `add_gerda_covariates()`.
+**`federal_cty_unharm` column names.** The `ags` and `year` aliases, deprecated since v0.6, were removed in v0.8.0 as announced. `load_gerda_web("federal_cty_unharm")` now renames the upstream columns to `county_code` and `election_year` on load and prints a one-time message pointing existing code at the new names. These match the rest of the county-level datasets and work directly with `add_gerda_covariates()`.
+
+**Two Census 2022 variables were renamed** to match the bins Destatis actually publishes:
+
+| Old name (v0.7 and earlier) | New name (v0.8.0 onward) | Covers |
+|---|---|---|
+| `share_50to64_census22` | `share_50to59_census22` | ages 50–59 |
+| `share_65plus_census22` | `share_60plus_census22` | ages 60 and older |
+
+The underlying values never changed; only the names were wrong. Destatis groups ages 60–74 into a single bin, so true 50–64 and 65+ shares cannot be constructed from these tables. Code written against the old names will error rather than silently return the wrong age group, but any published results that relied on them describe different age ranges than their labels implied.
 
 ## Documentation
 

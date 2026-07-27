@@ -11,6 +11,17 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry major" markdown="1">
+<span class="update-date">2026-07-27</span>
+
+**`gerda` R package 0.8.0 / 0.8.1 — two renamed Census variables and stricter joins.** No dataset values changed in this release; the breaking items below are package-side names and checks.
+- **Two Census 2022 variables were renamed** to match the bins Destatis publishes: `share_50to64_census22` became `share_50to59_census22` (ages 50–59), and `share_65plus_census22` became `share_60plus_census22` (ages 60 and older). The values were always these bins, only the names were wrong. Destatis groups ages 60–74 together, so true 50–64 and 65+ shares cannot be built from these tables. Code using the old names now errors rather than returning the wrong age group, but published results that relied on them describe different age ranges than their labels implied.
+- **Deprecated `federal_cty_unharm` columns removed** — the `ags` and `year` aliases, announced for removal in v0.6, are gone. The dataset now loads with `county_code` and `election_year` throughout, with a one-time message pointing to the new names.
+- **Stricter enrichment joins** — `add_gerda_covariates()` and `add_gerda_census()` gain `unmatched = "warn" / "error" / "ignore"` with exact unmatched row and unit counts, reject numeric or malformed geographic identifiers that would break on lost leading zeros, and verify that a join preserves the input row count. The new `gerda_join_diagnostics()` returns those reports as a tibble.
+- **Catalog now 47 datasets**, up from 46, with `county_council_seats` added (see 23 July above). Municipal year ranges were corrected: `municipal_unharm` covers 1984–2026, and `municipal_harm` / `municipal_harm_25` cover 1990–2026.
+- **0.8.1** is documentation-only: examples that download data no longer run during package checks. Upgrading from 0.8.0 is optional.
+</div>
+
+<div class="update-entry major" markdown="1">
 <span class="update-date">2026-07-23</span>
 
 **Council seats added — municipal and county.** GERDA now reports how many council mandates (Sitze) each party won, alongside the vote shares it already carried.
