@@ -10,74 +10,43 @@ order: 5
 
 This page tracks major updates to the German Election Database datasets.
 
-<div class="update-entry major" markdown="1">
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-07-27</span>
 
-**Bayern Gemeinderatswahlen 2026 added — municipal councils for all 2,056 Gemeinden.** The Bayerisches Landesamt für Statistik released the final municipality-level results of the 8 March 2026 Gemeinde- and Stadtratswahlen (GENESIS-Online Bayern, statistic 14431), and they are now in `municipal_unharm` / `municipal_harm` / `municipal_harm_25`, extending the Bayern series to 1990–2026.
-- **Coverage:** all 2,056 Gemeinden including the 25 kreisfreie Städte, with vote shares for the ten major-party columns, turnout, and — for the first time in Bayern — council **seats** (`seats_*` columns, 2026 only for now).
-- **Measure note:** the source publishes the 2026 wave as weighted votes (gewichtete Stimmen, ballot-equivalent), so Bayern's 2026 `valid_votes` counts valid ballots rather than the cumulative individual votes (Kumulieren/Panaschieren) of earlier waves. Vote shares are unaffected.
-- **Validation:** the 25 kreisfreie Stadtrat results match the independently sourced March portal XML (used for the county dataset) exactly, share for share.
+**Bayern Gemeinderatswahlen 2026 · full Hessen mayoral history · `gerda` 0.8.**
+- **Bayern municipal councils 2026**: final results of the 8 March Gemeinde- and Stadtratswahlen for all 2,056 Gemeinden (GENESIS Bayern), extending the Bayern municipal series to 1990–2026 — with council seats for the first time. The source publishes 2026 as weighted votes, so Bayern's 2026 `valid_votes` counts ballots rather than cumulative votes; vote shares are unaffected.
+- **Hessen mayoral and Landrat elections** are now a complete 1993–2026 series (supplied by the Hessisches Statistisches Landesamt on request): 2,908 mayoral round-results across 428 municipalities, plus all 21 Landkreise. Candidate names are redacted by the office; they are retained where our other sources supply them (2017–2026 winners, all 2026 candidates). Cross-checking the file also fixed three date/round errors in the published B VII m snapshot.
+- **`gerda` R package 0.8.0 / 0.8.1** (no dataset values changed): two Census 2022 age-share variables renamed to the bins they actually contain (`share_50to59_census22`, `share_60plus_census22`; code using the old names now errors), deprecated `federal_cty_unharm` aliases removed, stricter join checks plus `gerda_join_diagnostics()`. The catalog now lists 47 datasets.
 </div>
 
-<div class="update-entry major" markdown="1">
-<span class="update-date">2026-07-27</span>
-
-**Hessen mayoral and Landrat elections: full 1993–2026 historical series.** The Hessisches Statistisches Landesamt supplied, on request, its complete record of every Direktwahl since direct mayoral elections were introduced in 1993. Hessen jumps from a most-recent-election-per-municipality snapshot (~2017–2026) to a complete 33-year series.
-- **Coverage:** 2,908 Bürgermeister-/Oberbürgermeister round-results across 428 municipalities (including since-dissolved ones under their historical AGS), plus 146 Landrat round-results covering all 21 Landkreise from 1993 onward. Every Wahlvorschlag is included with votes, shares and full turnout counts; the elected candidate carries party and gender throughout. The mayor panel grows to 855 Hessen mayors, 432 of them with two or more terms.
-- **Candidate names** are redacted by the statistical office for data-protection reasons. Names are retained where our existing sources supply them: 441 winners (2017–2026) and all 2026 candidates.
-- **Corrections:** cross-checking the historical file against the published B VII m report exposed three date/round errors in the latter (Obertshausen's by-election is 18 Jan 2026, not 2025; Neustadt (Hessen) elected its mayor on 19 Jan 2025, not 2024; Herborn's decisive 2025 round was the Stichwahl, not the Hauptwahl) — the corrected values now stand in all files. Single-candidate elections are Ja/Nein votes, so the candidate's votes are below the valid total by design; the Ahnatal 2020 election, which ended in an exact 2,106:2,106 tie and was decided by lot, is recorded with its lot-drawn winner.
-</div>
-
-<div class="update-entry major" markdown="1">
-<span class="update-date">2026-07-27</span>
-
-**`gerda` R package 0.8.0 / 0.8.1 — two renamed Census variables and stricter joins.** No dataset values changed in this release; the breaking items below are package-side names and checks.
-- **Two Census 2022 variables were renamed** to match the bins Destatis publishes: `share_50to64_census22` became `share_50to59_census22` (ages 50–59), and `share_65plus_census22` became `share_60plus_census22` (ages 60 and older). The values were always these bins, only the names were wrong. Destatis groups ages 60–74 together, so true 50–64 and 65+ shares cannot be built from these tables. Code using the old names now errors rather than returning the wrong age group, but published results that relied on them describe different age ranges than their labels implied.
-- **Deprecated `federal_cty_unharm` columns removed** — the `ags` and `year` aliases, announced for removal in v0.6, are gone. The dataset now loads with `county_code` and `election_year` throughout, with a one-time message pointing to the new names.
-- **Stricter enrichment joins** — `add_gerda_covariates()` and `add_gerda_census()` gain `unmatched = "warn" / "error" / "ignore"` with exact unmatched row and unit counts, reject numeric or malformed geographic identifiers that would break on lost leading zeros, and verify that a join preserves the input row count. The new `gerda_join_diagnostics()` returns those reports as a tibble.
-- **Catalog now 47 datasets**, up from 46, with `county_council_seats` added (see 23 July above). Municipal year ranges were corrected: `municipal_unharm` covers 1984–2026, and `municipal_harm` / `municipal_harm_25` cover 1990–2026.
-- **0.8.1** is documentation-only: examples that download data no longer run during package checks. Upgrading from 0.8.0 is optional.
-</div>
-
-<div class="update-entry major" markdown="1">
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-07-23</span>
 
-**Council seats added — municipal and county.** GERDA now reports how many council mandates (Sitze) each party won, alongside the vote shares it already carried.
-- **Municipal seats** are exposed inside `municipal_unharm` as ten `seats_*` columns, wherever the source reports them (Baden-Württemberg, Hessen, Thüringen, NRW, Brandenburg, Rheinland-Pfalz, Sachsen-Anhalt, Mecklenburg-Vorpommern, Saarland, Niedersachsen, Schleswig-Holstein, and the Bremen/Hamburg Bürgerschaften; no seat data for Bayern, Berlin, Sachsen). `NA` means no seat source, not zero seats. Because only the ten major parties have columns, the seat sum is a lower bound on council size — local voter groups and independents are not yet included. Seats are on the unharmonized file only.
-- **County council seats** ship as a new dataset, `county_council_seats`: a yearly panel of Kreistag composition, 400 counties × 2008–2025, one row per county-year with each council carried forward until the next election. Its party columns sum to `seats_total`.
-- No existing dataset value changed; these are added columns and one new file. Also new this week: Bayern Kommunalwahl 2026 (Kreistage + Stadträte) in `county_elec_unharm`.
+**Council seats (Sitze) added.** Ten `seats_*` columns in `municipal_unharm` wherever states report them (`NA` means no seat source; only the major parties have columns, so seats do not sum to council size), and a new `county_council_seats` dataset: Kreistag composition for 400 counties × 2008–2025, carried forward between elections. Also new: Bayern Kommunalwahl 2026 (Kreistage + Stadträte) in `county_elec_unharm`.
 </div>
 
 <div class="update-entry major" markdown="1">
 <span class="update-date">2026-07-21</span>
 
 **Mayoral elections expanded from 7 to 13 states.** Mecklenburg-Vorpommern, Thüringen, Baden-Württemberg, Brandenburg, Sachsen-Anhalt and Hessen were added over the past month.
-
-- **Coverage:** 13 states · 52,842 round-results · 107,455 candidate rows · 20,739 mayors in the panel. Landrat elections: 11 states / 1,849 elections.
-- **Gemeinden per state:** BY 2,119 · ST 2,057 · BW 1,101 · SN 1,028 · TH 602 · NI 453 · HE 421 · NW 396 · RP 242 · BB 79 · SL 48 · SH 35 · MV 10.
-- **Span:** Bayern from 1945; Sachsen-Anhalt, Thüringen and Rheinland-Pfalz from 1994; the remaining states begin between 2001 and 2023. Sachsen-Anhalt is a complete 1994–2026 series, with 2,057 historical municipality codes mapping onto today's 218 Gemeinden.
-- **2026 Kommunalwahlen included** — Bayern (8 March) and Hessen (15 March).
-- **New `flag_superseded` column** marks Bayern rounds that were annulled, or failed to seat a mayor and were repeated. Rows are kept, not dropped — filter `flag_superseded == FALSE` for decisive rounds only.
-- **Limits:** Sachsen-Anhalt 1994 is largely winner-only and a few rows carry source anomalies (turnout > 1, candidate votes not summing to the valid-vote total); Baden-Württemberg records no party for mayoral candidates; Thüringen redacts candidate data per § 50 ThürKWO, so the candidate field holds the Wahlvorschlag. Sachsen-Anhalt names only the elected person — that source is licensed for scientific use only, so losing candidates carry votes, shares, ranks and Wahlvorschlagsträger but no personal details.
+- 13 states · ~53,000 round-results · ~107,000 candidate rows · ~21,000 mayors in the panel; Landrat elections now cover 11 states. Bayern reaches back to 1945, Sachsen-Anhalt/Thüringen/Rheinland-Pfalz to 1994, and the 2026 Kommunalwahlen (Bayern, Hessen) are included.
+- New `flag_superseded` column marks Bayern rounds that were annulled or failed to seat a mayor — filter `== FALSE` for decisive rounds only.
+- Known limits: Baden-Württemberg records no candidate party; Thüringen redacts candidate names (§ 50 ThürKWO); Sachsen-Anhalt names only elected mayors (source licence) and its 1994 wave is largely winner-only.
 </div>
 
-<div class="update-entry major" markdown="1">
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-07-15</span>
 
-**Wahlkreis-level election data, plus `gerda` R package 0.7.x.**
-- **Federal** — `federal_wkr_unharm` / `federal_wkr_unharm_long`: Bundestag results for all 299 Wahlkreise, 2002–2025, with first and second votes and the Direktmandat winner. `federal_wkr_2021_on_2025` adds the official recomputation of the 2021 result onto 2025 boundaries; `wkr_2021_to_2025_crosswalk` labels each district unchanged (283), redrawn (10) or new (6).
-- **State** — `ltw_wkr_unharm` / `ltw_wkr_unharm_long`: Landtag elections at Wahlkreis level, 1990–2026, all 16 states, with first and second votes.
-- **R package 0.7.0 / 0.7.1** — `load_gerda_web()` gains download timeouts, retries and optional on-disk caching (`cache = TRUE`, `clear_gerda_cache()`); `gerda_data_list(print_table = FALSE)` returns structured metadata. The `county_elec_harm_21` entry was removed (it pointed to a file that was never published) — use `county_elec_harm_21_cty` or `county_elec_harm_21_muni`.
+**Wahlkreis-level election data, plus `gerda` 0.7.x.** New datasets: Bundestag results for all 299 Wahlkreise (2002–2025, first and second votes, Direktmandat winners, incl. the official recomputation of 2021 onto 2025 boundaries with a district crosswalk) and Landtag elections at Wahlkreis level (1990–2026, all 16 states). The R package gains download retries and on-disk caching (`cache = TRUE`).
 </div>
 
 <div class="update-entry" markdown="1">
 <span class="update-date">2026-06-27</span>
 
 **Baden-Württemberg state & county elections, and Hessen 2026 council elections.**
-- **BW Landtagswahl, 8 March 2026:** +1,101 Gemeinden. The first BW state election under the **new two-vote system**; GERDA records the **Zweitstimme** (list vote), continuing the earlier single-vote series. Statewide shares reproduce the official final result exactly.
-- **BW Kreistagswahl, 9 June 2024:** +35 Landkreise (the 9 Stadtkreise hold no Kreistag election). The source has no turnout fields, so `eligible_voters` / `number_voters` / `invalid_votes` / `turnout` are NA.
-- **BW Kreistag local lists made consistent (2004–2019)** — the local **Wählervereinigungen** bloc was previously uncaptured, leaving party shares summing to only ~0.75. That residual is now assigned to `waehlervereinigungen`, so shares sum to ~1.0 and the series runs continuously through 2024. Named-party shares are unchanged.
-- **Hessen councils, 15 March 2026:** +419 Gemeinden (municipal) and +415 Gemeinden plus 21 Landkreis aggregates (county). **BSW** is broken out as its own column. Hessen council votes are **cumulative** (Kumulieren/Panaschieren), so `valid_votes` counts cast votes rather than ballots; the extraction reproduces the portal's per-party totals exactly.
+- **BW Landtagswahl, 8 March 2026** (+1,101 Gemeinden; the first BW election under the new two-vote system — GERDA records the Zweitstimme) and **BW Kreistagswahl, 9 June 2024** (+35 Landkreise; the source reports no turnout fields).
+- **BW Kreistag 2004–2019 made consistent**: the previously uncaptured local Wählervereinigungen bloc now fills `waehlervereinigungen`, so party shares sum to ~1.0. Named-party shares are unchanged.
+- **Hessen councils, 15 March 2026**: +419 Gemeinden (municipal) and +415 (county), with BSW as its own column. Hessen council votes are cumulative (Kumulieren/Panaschieren), so `valid_votes` counts cast votes rather than ballots.
 </div>
 
 <div class="update-entry" markdown="1">
