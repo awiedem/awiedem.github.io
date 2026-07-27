@@ -13,6 +13,15 @@ This page tracks major updates to the German Election Database datasets.
 <div class="update-entry major" markdown="1">
 <span class="update-date">2026-07-27</span>
 
+**Hessen mayoral and Landrat elections: full 1993–2026 historical series.** The Hessisches Statistisches Landesamt supplied, on request, its complete record of every Direktwahl since direct mayoral elections were introduced in 1993. Hessen jumps from a most-recent-election-per-municipality snapshot (~2017–2026) to a complete 33-year series.
+- **Coverage:** 2,908 Bürgermeister-/Oberbürgermeister round-results across 428 municipalities (including since-dissolved ones under their historical AGS), plus 146 Landrat round-results covering all 21 Landkreise from 1993 onward. Every Wahlvorschlag is included with votes, shares and full turnout counts; the elected candidate carries party and gender throughout. The mayor panel grows to 855 Hessen mayors, 432 of them with two or more terms.
+- **Candidate names** are redacted by the statistical office for data-protection reasons. Names are retained where our existing sources supply them: 441 winners (2017–2026) and all 2026 candidates.
+- **Corrections:** cross-checking the historical file against the published B VII m report exposed three date/round errors in the latter (Obertshausen's by-election is 18 Jan 2026, not 2025; Neustadt (Hessen) elected its mayor on 19 Jan 2025, not 2024; Herborn's decisive 2025 round was the Stichwahl, not the Hauptwahl) — the corrected values now stand in all files. Single-candidate elections are Ja/Nein votes, so the candidate's votes are below the valid total by design; the Ahnatal 2020 election, which ended in an exact 2,106:2,106 tie and was decided by lot, is recorded with its lot-drawn winner.
+</div>
+
+<div class="update-entry major" markdown="1">
+<span class="update-date">2026-07-27</span>
+
 **`gerda` R package 0.8.0 / 0.8.1 — two renamed Census variables and stricter joins.** No dataset values changed in this release; the breaking items below are package-side names and checks.
 - **Two Census 2022 variables were renamed** to match the bins Destatis publishes: `share_50to64_census22` became `share_50to59_census22` (ages 50–59), and `share_65plus_census22` became `share_60plus_census22` (ages 60 and older). The values were always these bins, only the names were wrong. Destatis groups ages 60–74 together, so true 50–64 and 65+ shares cannot be built from these tables. Code using the old names now errors rather than returning the wrong age group, but published results that relied on them describe different age ranges than their labels implied.
 - **Deprecated `federal_cty_unharm` columns removed** — the `ags` and `year` aliases, announced for removal in v0.6, are gone. The dataset now loads with `county_code` and `election_year` throughout, with a one-time message pointing to the new names.
