@@ -13,6 +13,15 @@ This page tracks major updates to the German Election Database datasets.
 <div class="update-entry major" markdown="1">
 <span class="update-date">2026-07-27</span>
 
+**Bayern Gemeinderatswahlen 2026 added — municipal councils for all 2,056 Gemeinden.** The Bayerisches Landesamt für Statistik released the final municipality-level results of the 8 March 2026 Gemeinde- and Stadtratswahlen (GENESIS-Online Bayern, statistic 14431), and they are now in `municipal_unharm` / `municipal_harm` / `municipal_harm_25`, extending the Bayern series to 1990–2026.
+- **Coverage:** all 2,056 Gemeinden including the 25 kreisfreie Städte, with vote shares for the ten major-party columns, turnout, and — for the first time in Bayern — council **seats** (`seats_*` columns, 2026 only for now).
+- **Measure note:** the source publishes the 2026 wave as weighted votes (gewichtete Stimmen, ballot-equivalent), so Bayern's 2026 `valid_votes` counts valid ballots rather than the cumulative individual votes (Kumulieren/Panaschieren) of earlier waves. Vote shares are unaffected.
+- **Validation:** the 25 kreisfreie Stadtrat results match the independently sourced March portal XML (used for the county dataset) exactly, share for share.
+</div>
+
+<div class="update-entry major" markdown="1">
+<span class="update-date">2026-07-27</span>
+
 **Hessen mayoral and Landrat elections: full 1993–2026 historical series.** The Hessisches Statistisches Landesamt supplied, on request, its complete record of every Direktwahl since direct mayoral elections were introduced in 1993. Hessen jumps from a most-recent-election-per-municipality snapshot (~2017–2026) to a complete 33-year series.
 - **Coverage:** 2,908 Bürgermeister-/Oberbürgermeister round-results across 428 municipalities (including since-dissolved ones under their historical AGS), plus 146 Landrat round-results covering all 21 Landkreise from 1993 onward. Every Wahlvorschlag is included with votes, shares and full turnout counts; the elected candidate carries party and gender throughout. The mayor panel grows to 855 Hessen mayors, 432 of them with two or more terms.
 - **Candidate names** are redacted by the statistical office for data-protection reasons. Names are retained where our existing sources supply them: 441 winners (2017–2026) and all 2026 candidates.
