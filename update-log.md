@@ -10,6 +10,26 @@ order: 5
 
 This page tracks major updates to the German Election Database datasets.
 
+<div class="update-entry major" markdown="1">
+<span class="update-date">2026-07-28</span>
+
+**Rheinland-Pfalz council elections back to the 1960s.** The Statistisches Landesamt Rheinland-Pfalz supplied its full historical series on request, closing the last Flächenland gap in the county pipeline.
+- **Kreistagswahlen 1964–2019** (12 elections, ~2,300 municipalities each) are new to `county_elec_unharm` — Rheinland-Pfalz was previously absent from that dataset entirely. The series covers all 24 Landkreise plus the Stadtratswahlen of the 12 kreisfreie Städte, and is the second-longest county series we carry after Hessen.
+- **Gemeinderatswahlen 1969–2019** replace the previous 1994–2019 municipal data: five additional elections, party votes for 1994 (which were missing from every municipality before), council seats back to 1984, and a much wider party list. Where old and new overlap they agree — 13,765 of 13,774 municipality-years match the previous turnout figures exactly, and no municipality lost a party share it already had.
+- Two things to know when using the Rheinland-Pfalz rows. `valid_votes` counts valid **ballots**, not cumulated individual votes, because the source reports gewichtete Stimmen — unlike most other states in these two datasets. And roughly 1,200–1,470 municipalities per election elect their council by Mehrheitswahl, with no party lists at all, so they carry `other = 1` rather than party shares.
+- The Landesamt reports the whole series on 2025 municipal boundaries, so the Rheinland-Pfalz rows in the `*_unharm` files are already boundary-harmonised, unlike every other state. In practice the 2025 basis and our 2021 target barely differ: a single municipality code has to be split back for the 2021 files.
+- Still missing for Rheinland-Pfalz: the 9 June 2024 Kommunalwahl, which this delivery predates.
+</div>
+
+<div class="update-entry major" markdown="1">
+<span class="update-date">2026-07-28</span>
+
+**Brandenburg county elections were missing entirely — now fixed.** `county_elec_unharm` contained no Brandenburg rows at all, even though the pipeline had a full parser for the state: it failed on the first file and the error was being caught and ignored. Brandenburg now contributes 2,104 municipality-level rows across the five Kreistagswahlen of 2003, 2008, 2014, 2019 and 2024.
+- Postal ballots that the source reports pooled across several municipalities are now distributed back to those municipalities instead of being dropped. They account for 2.3–9.6% of all valid votes depending on the year. Statewide turnout now reconciles with the official figures (45.8 / 49.4 / 46.2 / 58.4 / 66.0%), which was not reproducible while those votes were missing.
+- Two further corrections: the 2024 municipality codes were built from the wrong segment of the regional key, which collapsed distinct municipalities onto shared codes; and in 2008 the votes for individual candidates were skipped entirely, losing up to a quarter of a municipality's votes in some places.
+- Every municipality was verified against the raw files on eligible voters, valid votes and CDU share in all five years. No pre-existing row in any dataset changed — the fix is purely additive.
+</div>
+
 <div class="update-entry" markdown="1">
 <span class="update-date">2026-07-27</span>
 
