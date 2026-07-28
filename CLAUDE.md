@@ -37,6 +37,34 @@ Note: Changes to `_config.yml` require restarting the server.
 - `_config.yml` - Jekyll settings, site metadata, navigation order (`header_pages`)
 - `Gemfile` - Ruby dependencies
 
+## Writing update-log entries
+
+`update-log.md` is the changelog users read. When a data change lands in the
+processing repo, add an entry — but write it the way the existing entries are
+written, not as a summary of the work you just did.
+
+- **Be brief.** One bold headline sentence, then at most 2–4 bullets. A bullet is
+  one or two sentences. Long entries are the most common failure; if the detail
+  belongs anywhere, it belongs in the processing repo's `CLAUDE.md` or the commit
+  message, not here.
+- **Coalesce.** One entry per date, covering everything that shipped that day.
+  Two entries with the same date is a mistake — merge them. Related changes
+  across datasets belong in one entry with a bullet each (see 2026-06-27,
+  2026-07-27).
+- **Reserve `class="update-entry major"`.** Major means a new dataset, a new
+  election type, or a change that breaks existing code. A new state-year, a
+  parser fix, or even a new state in an existing dataset is a normal entry.
+  Most entries are not major.
+- **Verify every number and superlative before publishing.** Query the actual
+  `.rds` outputs — do not carry figures over from your own working notes or a
+  commit message. Claims like "the longest series we carry", counts of elections,
+  municipalities or states, and coverage ranges are exactly the ones that turn
+  out to be wrong.
+- Say what changed for a *user* of the data: which dataset, which years, what
+  they now have to know when using it (unusual `valid_votes` semantics, missing
+  fields, values that stayed the same). Skip the internal cause of a bug unless
+  it explains why the data looked wrong before.
+
 **Related Repositories**:
 - Data processing: https://github.com/awiedem/german_election_data
 - R package: https://github.com/hhilbig/gerda
