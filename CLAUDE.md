@@ -68,10 +68,6 @@ written, not as a summary of the work you just did.
   commit message. Claims like "the longest series we carry", counts of elections,
   municipalities or states, and coverage ranges are exactly the ones that turn
   out to be wrong.
-- Say what changed for a *user* of the data: which dataset, which years, what
-  they now have to know when using it (unusual `valid_votes` semantics, missing
-  fields, values that stayed the same). Skip the internal cause of a bug unless
-  it explains why the data looked wrong before.
 
 **Related Repositories**:
 - Data processing: https://github.com/awiedem/german_election_data
