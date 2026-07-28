@@ -43,10 +43,18 @@ Note: Changes to `_config.yml` require restarting the server.
 processing repo, add an entry — but write it the way the existing entries are
 written, not as a summary of the work you just did.
 
-- **Be brief.** One bold headline sentence, then at most 2–4 bullets. A bullet is
-  one or two sentences. Long entries are the most common failure; if the detail
-  belongs anywhere, it belongs in the processing repo's `CLAUDE.md` or the commit
-  message, not here.
+- **Bare minimum.** One bold headline sentence, then at most 2–4 bullets of one
+  or two sentences each. Writing too much is the most common failure by far —
+  assume your first draft is twice as long as it should be, and cut.
+- **Include only what a user of the data needs.** For each fact ask: does this
+  change how someone loads, filters or interprets the data? If not, drop it.
+  Drop in particular: why a bug happened, how the data was parsed or obtained,
+  which office supplied it, row counts, verification you performed, and any
+  claim that nothing else changed. That detail belongs in the processing repo's
+  `CLAUDE.md` or the commit message, not here.
+- **Do keep** the things that change how the data behaves: unusual `valid_votes`
+  semantics, what `NA` means in a new column, renamed or removed variables,
+  fields the source does not provide, and coverage that is still missing.
 - **Coalesce.** One entry per date, covering everything that shipped that day.
   Two entries with the same date is a mistake — merge them. Related changes
   across datasets belong in one entry with a bullet each (see 2026-06-27,
