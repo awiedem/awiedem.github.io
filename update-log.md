@@ -11,6 +11,16 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry" markdown="1">
+<span class="update-date">2026-08-03</span>
+
+**Corrected winners and turnout across the mayoral, Landrat and county datasets, plus new coverage.**
+- Winners changed: 104 Hessen runoff cycles and 8 Niedersachsen mayoral elections had reported the first-round leader instead of the runoff winner. Sachsen county `valid_votes` had held the invalid-ballot count. Niedersachsen county turnout rises where Samtgemeinde postal votes were missing (2016: 54.9 % → 55.6 %).
+- New county elections: Sachsen 1994 and 1995, Thüringen 1994 and 1999, Mecklenburg-Vorpommern 1994–2011, Nordrhein-Westfalen 2025. Sachsen 1994/1995 and NRW 2025 are Kreis-level only. Niedersachsen Gemeinderatswahlen now start in 1981.
+- New mayoral and Landrat data: Niedersachsen runoffs for 2014, 2016 and 2019 and the 2017 elections, Schleswig-Holstein 2026, Sachsen-Anhalt Landrat through 2026. The 2019 Niedersachsen runoffs carry winner and party but no vote counts, which the source does not publish.
+- New `flag_partial_coverage` in the harmonised county files marks rows covering only part of the 2021 unit: counts describe that part alone, while turnout and vote shares stay valid.
+</div>
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-07-28</span>
 
 **County elections: Rheinland-Pfalz added, Brandenburg restored.**
