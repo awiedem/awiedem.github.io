@@ -11,6 +11,15 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry" markdown="1">
+<span class="update-date">2026-08-10</span>
+
+**Hessen mayors are now traceable across terms, and Mecklenburg-Vorpommern reaches beyond the big cities.**
+- `mayor_panel` now follows Hessen mayors from term to term across the whole 1993–2026 series, rather than only the recent elections. The source redacts candidate names, so most of these mayors carry a `person_id` but no name.
+- Mecklenburg-Vorpommern mayoral elections now include the amtsfreien Gemeinden of Landkreis Ludwigslust-Parchim, 2014–2023. The rest of the state still covers only the kreisfreien und großen Städte and the Landräte; five Landkreise are outstanding. Parchim 2022 carries no party for its candidates, because the source names no Wahlvorschlagsträger.
+- New `flag_decisive_round_missing` in `mayoral_candidates` marks an election whose deciding round is missing from the source: `is_winner` is then `NA` for every candidate and the election contributes no mayor to `mayor_panel`. No rows currently carry it.
+</div>
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-08-04</span>
 
 **Corrected winners and turnout across the mayoral, Landrat and county datasets, plus new coverage.**
