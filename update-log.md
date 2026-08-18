@@ -11,6 +11,15 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry" markdown="1">
+<span class="update-date">2026-08-18</span>
+
+**Hessen 2013 and 2018 added at constituency level, and Brandenburg and Mecklenburg-Vorpommern constituencies now have names.**
+- `ltw_wkr_unharm` now covers the Hessen Landtagswahlen of 2013 and 2018 as well as 2023, with Wahlkreis- and Landesstimmen for all 55 Wahlkreise.
+- The 2013 figures are the statistical office's back-cast onto the 2018 Wahlkreiseinteilung, not the boundaries in force in 2013. A new `flag_wkr_boundaries_recomputed` column marks them; it is 0 for every other state-year, and 0 for Frankfurt am Main I and IV, which the source left on their own 2013 boundaries.
+- Brandenburg constituencies had carried the placeholder `Landtagswahlkreis NN` and Mecklenburg-Vorpommern 1994–2011 no name at all; both now carry the official names. `wkr_name` belongs to the election year, not the number — Brandenburg's Wahlkreis 11 is Oranienburg I in 1990, Havelland I in 1994 and 1999, and Uckermark I from 2004.
+</div>
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-08-10</span>
 
 **Hessen mayors are now traceable across terms, and Mecklenburg-Vorpommern reaches beyond the big cities.**
