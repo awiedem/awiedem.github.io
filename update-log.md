@@ -13,31 +13,30 @@ This page tracks major updates to the German Election Database datasets.
 <div class="update-entry" markdown="1">
 <span class="update-date">2026-08-18</span>
 
-**Turnout corrected in five states, Hessen 2013 and 2018 added at constituency level, and Brandenburg and Mecklenburg-Vorpommern constituencies now have names.**
-- State elections at municipality level (`state_unharm` and the harmonised files) had understated turnout wherever postal votes are counted above municipality level — on the Kreis, the Amt, the Samtgemeinde or the Wahlkreis. Those rows were filtered out instead of distributed, which lost 1.25 million voters across Sachsen-Anhalt 1990–2016, Sachsen 1990/1994/1999, Niedersachsen 2008–2022 and Brandenburg 2009 and 2019. The largest single case was Brandenburg 2009, where turnout rises from 58.6 % to 67.0 %. Party shares shift slightly too, because postal voters lean differently. Brandenburg 1990, 1994 and 1999 remain affected: they come from scanned sources that cannot be repaired.
-- `ltw_wkr_unharm` now covers the Hessen Landtagswahlen of 2013 and 2018 as well as 2023, with Wahlkreis- and Landesstimmen for all 55 Wahlkreise.
-- The 2013 figures are the statistical office's back-cast onto the 2018 Wahlkreiseinteilung, not the boundaries in force in 2013. A new `flag_wkr_boundaries_recomputed` column marks them; it is 0 for every other state-year, and 0 for Frankfurt am Main I and IV, which the source left on their own 2013 boundaries.
-- Brandenburg constituencies had carried the placeholder `Landtagswahlkreis NN` and Mecklenburg-Vorpommern 1994–2011 no name at all; both now carry the official names. `wkr_name` belongs to the election year, not the number — Brandenburg's Wahlkreis 11 is Oranienburg I in 1990, Havelland I in 1994 and 1999, and Uckermark I from 2004.
+**Turnout corrected in four states, and Hessen 2013 and 2018 added at constituency level.**
+- State elections at municipality level: turnout was understated in Sachsen-Anhalt 1990–2016, Sachsen 1990/1994/1999, Niedersachsen 2008–2022 and Brandenburg 2009 and 2019; party shares shift slightly too. Brandenburg 1990, 1994 and 1999 remain affected.
+- `ltw_wkr_unharm` now covers the Hessen Landtagswahlen of 2013 and 2018, both ballots, all 55 Wahlkreise.
+- New `flag_wkr_boundaries_recomputed`: 1 where the figures sit on a later election's Wahlkreiseinteilung. Hessen 2013 only, except Frankfurt am Main I and IV.
+- Brandenburg and Mecklenburg-Vorpommern constituencies now carry names. `wkr_name` belongs to the election year, not the number, so join on `(state, election_year, wkr_nr)`.
 </div>
 
 <div class="update-entry" markdown="1">
 <span class="update-date">2026-08-10</span>
 
 **Hessen mayors are now traceable across terms, and Mecklenburg-Vorpommern reaches beyond the big cities.**
-- `mayor_panel` now follows Hessen mayors from term to term across the whole 1993–2026 series, rather than only the recent elections. The source redacts candidate names, so most of these mayors carry a `person_id` but no name.
-- Mecklenburg-Vorpommern mayoral elections now include the amtsfreien Gemeinden of Landkreis Ludwigslust-Parchim, 2014–2023. The rest of the state still covers only the kreisfreien und großen Städte and the Landräte; five Landkreise are outstanding. Parchim 2022 carries no party for its candidates, because the source names no Wahlvorschlagsträger.
-- New `flag_decisive_round_missing` in `mayoral_candidates` marks an election whose deciding round is missing from the source: `is_winner` is then `NA` for every candidate and the election contributes no mayor to `mayor_panel`. No rows currently carry it.
+- `mayor_panel` follows Hessen mayors from term to term across the whole 1993–2026 series. Most carry a `person_id` but no name, because the source redacts them.
+- Mecklenburg-Vorpommern mayoral elections now include the amtsfreien Gemeinden of Landkreis Ludwigslust-Parchim, 2014–2023; five Landkreise are still outstanding. Parchim 2022 has no party for its candidates.
+- New `flag_decisive_round_missing` in `mayoral_candidates`: `is_winner` is `NA` for every candidate and the election contributes no mayor to `mayor_panel`. No rows currently carry it.
 </div>
 
 <div class="update-entry" markdown="1">
 <span class="update-date">2026-08-04</span>
 
 **Corrected winners and turnout across the mayoral, Landrat and county datasets, plus new coverage.**
-- Winners changed: 104 Hessen runoff cycles and 8 Niedersachsen mayoral elections had reported the first-round leader instead of the runoff winner. Sachsen county `valid_votes` had held the invalid-ballot count. Niedersachsen county turnout rises where Samtgemeinde postal votes were missing (2016: 54.9 % → 55.6 %).
-- New county elections: Sachsen 1994 and 1995, Thüringen 1994 and 1999, Mecklenburg-Vorpommern 1994–2011, Nordrhein-Westfalen 2025. Sachsen 1994/1995 and NRW 2025 are Kreis-level only. Niedersachsen Gemeinderatswahlen now start in 1981.
-- Brandenburg mayoral elections now start in 2010 instead of covering only the current cycle: 429 rounds in 142 Gemeinden, up from 116 in 79. Coverage is the hauptamtliche Bürgermeister and Oberbürgermeister only, 2010–2013 is incomplete because reporting to the state became compulsory in 2014, and results are supplied on today's municipal boundaries — so Brandenburg is the one state whose `mayoral_unharm` rows do not sit on election-year boundaries.
-- Other new mayoral and Landrat data: Niedersachsen runoffs for 2014, 2016 and 2019 and the 2017 elections, Schleswig-Holstein 2026, Sachsen-Anhalt Landrat through 2026. The 2019 Niedersachsen runoffs carry winner and party but no vote counts, which the source does not publish.
-- New `flag_partial_coverage` in the harmonised county files marks rows covering only part of the 2021 unit: counts describe that part alone, while turnout and vote shares stay valid.
+- Winners changed in 104 Hessen runoff cycles and 8 Niedersachsen mayoral elections. Sachsen county `valid_votes` had held the invalid-ballot count, and Niedersachsen county turnout rises (2016: 54.9 % → 55.6 %).
+- New county elections: Sachsen 1994 and 1995, Thüringen 1994 and 1999, Mecklenburg-Vorpommern 1994–2011, Nordrhein-Westfalen 2025 — the first and last Kreis-level only. Niedersachsen Gemeinderatswahlen now start in 1981.
+- Brandenburg mayoral elections now start in 2010, hauptamtliche Bürgermeister and Oberbürgermeister only; 2010–2013 is incomplete and rows sit on today's municipal boundaries. Also new: Niedersachsen runoffs 2014/2016/2019 (no vote counts for 2019) and the 2017 elections, Schleswig-Holstein 2026, Sachsen-Anhalt Landrat through 2026.
+- New `flag_partial_coverage` in the harmonised county files: counts describe only part of the 2021 unit, while turnout and vote shares stay valid.
 </div>
 
 <div class="update-entry" markdown="1">
@@ -116,6 +115,8 @@ This page tracks major updates to the German Election Database datasets.
 </div>
 
 <div class="update-entry major" markdown="1">
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-04-02</span>
 
 **Four new datasets, and a state-election rewrite.**
