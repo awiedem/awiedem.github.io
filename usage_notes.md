@@ -25,6 +25,7 @@ order: 4
 
 **Also on this page**
 - [How to use the data](#how-to-use-the-data)
+- [Opening in Excel / In Excel öffnen](#opening-in-excel)
 - [Harmonization](#harmonization)
 - [Meinungsbild (MRP)](#meinungsbild)
 - [Code availability](#code-availability)
@@ -53,6 +54,33 @@ order: 4
 More details can be found in the accompanying [paper](https://www.nature.com/articles/s41597-025-04811-5), including information on data sources and processing steps.
 
 ---
+
+
+<h2 id="opening-in-excel">Opening in Excel / In Excel öffnen</h2>
+
+The **Excel (.xlsx)** files on the [download page](/election-data/) open directly in Excel, including Excel 2019. They retain the source rows, column names and values. Geographic identifiers are text, vote shares are numeric proportions displayed as percentages, and missing values are empty cells. Percentage formatting does not round the stored value. Excel stores numbers with approximately 15 significant digits, so use CSV or RDS when you need the original numerical precision. Large tables may take a while to open; exports exceeding Excel's row limit continue on additional sheets with the same headers.
+
+To import a **CSV** in Excel 2019:
+
+1. Select **Data → From Text/CSV** and choose the file. Select **UTF-8 (65001)** and **Comma** as the delimiter.
+2. Choose **Transform Data**. In Power Query, remove the automatically added **Changed Type** step, if present, before assigning column types. This prevents Excel from removing decimal points or leading zeros before you can choose the correct settings.
+3. Set identifiers such as `ags`, `ags_21`, `county`, `county_code`, `state` and `wkr_nr` to **Text**. For numeric columns, choose **Change Type → Using Locale… → Decimal Number → English (United States)**. Set date columns to **Date** where appropriate.
+4. Select **Close & Load**. Format vote-share columns as **Percentage** if desired. A value of `0.283533` means `28.3533%`; `federal_muni_raw` instead carries party vote counts.
+
+<details markdown="1">
+<summary>Deutsche Anleitung für Excel 2019</summary>
+
+Am einfachsten ist der Download **Excel (.xlsx)**. Diese Datei können Sie direkt öffnen; Zahlen und Gemeindeschlüssel sind bereits richtig formatiert.
+
+Für CSV-Dateien wählen Sie **Daten → Aus Text/CSV**, als Dateiursprung **UTF-8 (65001)** und als Trennzeichen **Komma**. Klicken Sie auf **Daten transformieren** und entfernen Sie rechts unter „Angewendete Schritte“ gegebenenfalls den automatisch erzeugten Schritt **Geänderter Typ**. Stellen Sie Gemeindeschlüssel und andere Kennziffern auf **Text**. Wählen Sie für Zahlenspalten per Rechtsklick **Typ ändern → Mit Gebietsschema…**, dann **Dezimalzahl** und **Englisch (USA)**. Datumsspalten können Sie als **Datum** einlesen. Anschließend wählen Sie **Schließen & laden**.
+
+Die Parteispalten enthalten in den aufbereiteten Wahldaten Stimmenanteile zwischen 0 und 1: `0.283533` entspricht rund **28,35 %**. Im Datensatz `federal_muni_raw` sind dagegen absolute Parteistimmzahlen enthalten. Eine Darstellung wie `2,83533E+14` kann entstehen, wenn Excel den Dezimalpunkt als Tausendertrennzeichen interpretiert. Importieren Sie in diesem Fall die ursprüngliche Datei erneut mit den obigen Einstellungen.
+
+</details>
+
+For further details, see [Microsoft’s guide to data types and locale settings](https://support.microsoft.com/en-US/Excel/add-or-change-data-types-power-query).
+
+If a CSV is saved with a `.txt` extension, rename it to `.csv` or select it through **From Text/CSV**. Renaming alone does not correct values that Excel has already misinterpreted; re-import the original download.
 
 <h2 id="federal-elections" class="election-section">Federal Elections</h2>
 

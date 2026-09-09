@@ -11,6 +11,14 @@ order: 5
 This page tracks major updates to the German Election Database datasets.
 
 <div class="update-entry" markdown="1">
+<span class="update-date">2026-09-09</span>
+
+**Excel downloads added for all tabular datasets on the download page.**
+- Excel files preserve geographic codes as text and display vote shares as percentages. CSV and RDS remain available.
+- Downloads now specify the filename and extension. New English and German instructions explain how to import CSV files in Excel 2019.
+</div>
+
+<div class="update-entry" markdown="1">
 <span class="update-date">2026-08-18</span>
 
 **Turnout corrected in four states, and Hessen 2013 and 2018 added at constituency level.**

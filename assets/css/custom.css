@@ -795,3 +795,38 @@ table a[href*=".rds"]:hover {
   color: #666;
   font-size: 0.85em;
 }
+
+/* Dataset downloads */
+.download-help {
+  padding: 16px 20px;
+  margin: 20px 0 28px;
+  background: var(--color-surface-alt);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+}
+.download-help p:last-child { margin-bottom: 0; }
+.download-status {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85em;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+a[aria-busy="true"] { cursor: progress; }
+
+table a[href*=".xlsx"] {
+  display: inline-block;
+  background: #e4f3e9;
+  color: #21613b;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-right: 4px;
+}
+table a[href*=".xlsx"]:hover,
+table a[href*=".xlsx"]:focus-visible {
+  background: #21613b;
+  color: white;
+}
