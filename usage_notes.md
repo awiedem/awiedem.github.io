@@ -328,8 +328,8 @@ Harmonized files map every election onto fixed municipal and county boundaries, 
   <summary>Crosswalks and shapefiles</summary>
   <div>
     <ul>
-      <li>Bundesinstitut f&uuml;r Bau-, Stadt- und Raumforschung. <a href="https://www.bbsr.bund.de/BBSR/DE/forschung/raumbeobachtung/umstiegsschluessel/umsteigeschluessel.html">Umsteigeschl&uuml;ssel f&uuml;r konsistente Zeitreihen</a> (2024).</li>
-      <li>Federal Agency for Cartography and Geodesy (BKG). <a href="http://www.bkg.bund.de">VG250: Administrative boundaries of Germany</a> (2021). Open Data Lizenz Deutschland &ndash; Namensnennung &ndash; Version 2.0.</li>
+      <li>Bundesinstitut f&uuml;r Bau-, Stadt- und Raumforschung. <a href="https://www.bbsr.bund.de/BBSR/DE/forschung/raumbeobachtung/Raumabgrenzungen/umstiegsschluessel/umsteigeschluessel.html">Umsteigeschl&uuml;ssel f&uuml;r konsistente Zeitreihen</a> (2024).</li>
+      <li>Federal Agency for Cartography and Geodesy (BKG). <a href="https://gdz.bkg.bund.de/index.php/default/verwaltungsgebiete-1-250-000-stand-01-01-vg250-01-01.html">VG250: Administrative boundaries of Germany</a> (2021). Open Data Lizenz Deutschland &ndash; Namensnennung &ndash; Version 2.0.</li>
     </ul>
   </div>
 </details>
