@@ -39,9 +39,15 @@ Note: Changes to `_config.yml` require restarting the server.
 
 ## Writing update-log entries
 
-`update-log.md` is the changelog users read. When a data change lands in the
-processing repo, add an entry — but write it the way the existing entries are
-written, not as a summary of the work you just did.
+`update-log.md` is the changelog users read. Each entry is one file in
+`_updates/`, named `YYYY-MM-DD-slug.md`, with front matter `date` (with a
+time; entries sharing a day sort by it, newest first), `title` (the headline
+in plain text, used only by the Atom feed at `/updates.xml`), and `major: true`
+where it applies. The body is the entry as before: bold headline sentence,
+then bullets. `update-log.md` loops over the collection; do not add entries
+to it directly. When a data change lands in the processing repo, add an entry,
+but write it the way the existing entries are written, not as a summary of
+the work you just did.
 
 - **Bare minimum.** One bold headline sentence, then at most 2–4 bullets of one
   or two sentences each. Writing too much is the most common failure by far —
@@ -59,7 +65,7 @@ written, not as a summary of the work you just did.
   Two entries with the same date is a mistake — merge them. Related changes
   across datasets belong in one entry with a bullet each (see 2026-06-27,
   2026-07-27).
-- **Reserve `class="update-entry major"`.** Major means a new dataset, a new
+- **Reserve `major: true`.** Major means a new dataset, a new
   election type, or a change that breaks existing code. A new state-year, a
   parser fix, or even a new state in an existing dataset is a normal entry.
   Most entries are not major.
@@ -75,7 +81,8 @@ The site is static and served by GitHub Pages with gzip, so download size is the
 
 - **Boundary files** (`assets/data/gerda_municipalities_2021.geojson`, `assets/data/meinungsbild/kreise.geojson`) are simplified with mapshaper before committing; the raw exports are 38 MB and 21 MB, the committed versions about 7 MB and 2 MB. Regenerate with `python3 scripts/simplify_boundaries.py <raw> <out>`, which runs mapshaper and then rewinds rings to the clockwise-exterior convention d3 needs (mapshaper alone writes the opposite winding, and the map renders as one solid block). Topology is preserved, and every feature keeps its properties.
 - **Dashboard CSVs** carry turnout and vote shares rounded to 4 decimals (`format_share()` in `scripts/generate_dashboard_data.py`). Full-precision floats doubled the download.
-- **Hero image** is 1600×800: `map_elec_fed_combined.webp` (about 115 KB) with `map_elec_fed_combined.jpg` as fallback and social preview. Do not commit the 5400-pixel source.
+- **Hero image** is 1600×800: `map_elec_fed_combined.webp` (about 160 KB) with `map_elec_fed_combined.jpg` as fallback and social preview. It shows the 2025 federal election (turnout, CDU/CSU, SPD by municipality on 2021 boundaries) and is drawn by `scripts/hero_map.R`, which downloads `federal_muni_harm_21` through the gerda package and reads the 2021 VG250 shapes from the sibling data repo; convert its PNG with `cwebp -q 82` and `sips` as the script header says. Do not commit the PNG.
+- **Download table sizes and dates** come from `_data/downloads.yml`, written by `python3 scripts/update_download_data.py` (Content-Length from the media mirror, last CSV commit date from the GitHub API). Rerun it after the data repo publishes; the table rows in `election-data.md` look the values up by file stem, so a new dataset needs a row with the usual links and nothing else.
 - **Scripts** for the dashboard and Meinungsbild pages load with `defer`; the preconnect hints for d3 and Plotly are emitted only on those two pages (`_includes/head.html`).
 
 **Related Repositories**:

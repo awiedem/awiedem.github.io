@@ -41,6 +41,18 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
+# Update-log entries live in _updates/ (one file per entry); update-log.md
+# loops over them and jekyll-feed publishes them as /updates.xml.
+collections:
+  updates:
+    output: false
+feed:
+  posts_limit: 100
+  collections:
+    updates:
+      path: "updates.xml"
+      title: "GERDA update log"
+
 header_pages:
   - dashboard.md
   - meinungsbild.md
