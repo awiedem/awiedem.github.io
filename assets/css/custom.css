@@ -749,3 +749,36 @@ table a[href*=".xlsx"]:focus-visible {
   overflow-wrap: anywhere;
 }
 a[aria-busy="true"] { cursor: progress; }
+
+/* ============================================
+   Narrow screens
+   ============================================ */
+
+/* Between the hamburger breakpoint (600px) and 900px the inline nav no
+   longer fits on one line; let it wrap instead of overflowing the header. */
+@media (max-width: 900px) {
+  .site-nav .trigger {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0;
+  }
+  .page-link {
+    font-size: 0.95rem;
+    padding: 6px 9px !important;
+  }
+}
+
+/* Wide tables scroll inside their container (see .table-responsive above); say so on small screens. */
+/* The Updated column on the download page holds ISO dates; keep them on one line. */
+.table-responsive td:nth-child(4) {
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .table-responsive::before {
+    content: "Swipe sideways to see all columns.";
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+  }
+}

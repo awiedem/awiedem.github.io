@@ -92,11 +92,15 @@ Bundestag election results at the municipality and county level. Municipality-le
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **Mail-in vote allocation** | Shared Briefwahl districts require proportional allocation based on polling-card voters. This is an approximation. |
 | **Pre-1990 not harmonized** | Municipality-level data exists from 1980, but harmonization only starts at 1990 due to crosswalk limitations. |
 | **Rounding from harmonization** | Minor vote total discrepancies when aggregating merged municipalities; typically a handful of votes. |
+
+</div>
 
 <details>
   <summary>Data sources</summary>
@@ -117,11 +121,15 @@ Landtag election results at the municipality level for all 16 states, **1946&nda
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **Bayern Gesamtstimmen** | Bavaria reports combined first + second votes (Gesamtstimmen). This means `valid_votes + invalid_votes = number_voters × 2`. Account for this when comparing across states. |
 | **Missing turnout in some state-years** | Rheinland-Pfalz 1979&ndash;2016, Hessen 1958/1962, Schleswig-Holstein 1983 (partial), and Bayern 1994&ndash;2013 (`eligible_voters`) lack full turnout metadata. Affected rows have NA values. |
 | **Percentage-only data** | Bremen 1946&ndash;1995 provides vote share percentages only (no absolute counts). Rheinland-Pfalz 1979&ndash;2016 has absolute vote counts but lacks turnout denominator data (`eligible_voters`, `number_voters`, `invalid_votes` are NA). |
+
+</div>
 
 <details>
   <summary>Data sources</summary>
@@ -142,12 +150,16 @@ Election results at the constituency (Wahlkreis) level, for both federal and sta
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **Not comparable across time** | Wahlkreise are redrawn between elections, so constituency results are not directly comparable over time without a crosswalk. |
 | **Federal 2021 &rarr; 2025** | We provide the official recomputation of the 2021 federal result onto the 2025 boundaries (`federal_wkr_2021_on_2025`) plus a crosswalk labelling each 2025 district unchanged (283), redrawn (10), or new (6) (`wkr_2021_to_2025_crosswalk`). |
 | **No state-level crosswalk** | There is no equivalent recomputation for Landtag Wahlkreise, so state constituency results should be treated as cross-sectional. |
 | **Independent candidates** | Einzelbewerber sit in the `other` column of the wide files; individual counts are recoverable only from the long files. |
+
+</div>
 
 <details>
   <summary>Data sources</summary>
@@ -168,6 +180,8 @@ Kommunalwahl results at the municipality level, **1984&ndash;2026** (unharmonize
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **Varying reporting standards** | States sometimes lump small local parties or independents into "Other." Disaggregated where possible; flagged otherwise. |
@@ -175,6 +189,8 @@ Kommunalwahl results at the municipality level, **1984&ndash;2026** (unharmonize
 | **Council seats (`seats_*`)** | `municipal_unharm` carries the number of council mandates each party won, in ten `seats_*` columns, wherever the source reports them (see coverage below). `NA` means no seat source for that state-year, not zero seats. The `seats_*` columns cover only the ten major parties, so they **do not sum to council size**: local voter groups (Wählergruppen), joint nominations and independents hold many German local seats and are not yet included, making the row sum a lower bound. Seats are on the **unharmonized file only**: a population-weighted sum of seats across merged municipalities is not a real council. Coverage: Baden-Württemberg 1989&ndash;2024, Hessen 1993&ndash;2021, Thüringen 1994&ndash;2024, NRW 1994&ndash;2025 (kreisfreie Städte only from 2025), Brandenburg 2003&ndash;2024, Rheinland-Pfalz 2004&ndash;2019, Sachsen-Anhalt 1994&ndash;2019, Mecklenburg-Vorpommern 2019/2024, Saarland 2019, Niedersachsen 2011/2016/2021, Schleswig-Holstein 2018, and Bremen/Hamburg (Bürgerschaft). No seat data for Bayern, Berlin, Sachsen. |
 | **Mail-in vote allocation** | Shared Briefwahl districts require proportional allocation; same approximation method as federal elections. |
 | **Rounding from harmonization** | Minor vote total discrepancies from boundary harmonization. |
+
+</div>
 
 <details>
   <summary>Data sources</summary>
@@ -214,10 +230,14 @@ European Parliament election results at the municipality level for **4 elections
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **Limited time coverage** | Only 4 elections available; earlier European Parliament elections are not included. |
 | **Mail-in vote allocation** | Votes from shared Briefwahl districts distributed proportionally to municipalities. |
+
+</div>
 
 <details>
   <summary>Data sources</summary>
@@ -244,6 +264,8 @@ B&uuml;rgermeisterwahl results for **13 states**, **1945&ndash;2026**: Baden-W&u
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **Coverage depth varies sharply** | Not every state publishes a historical series. Bayern (1945&ndash;), Sachsen-Anhalt and Th&uuml;ringen (1994&ndash;) and Rheinland-Pfalz (1994&ndash;) are long series; Brandenburg, Saarland, Schleswig-Holstein and Baden-W&uuml;rttemberg essentially cover only the most recent cycle for each municipality. Check the year range per state before building a panel. |
@@ -255,6 +277,8 @@ B&uuml;rgermeisterwahl results for **13 states**, **1945&ndash;2026**: Baden-W&u
 | **Bayern: `flag_superseded`** | `mayoral_unharm` and `mayoral_candidates` carry a logical `flag_superseded` marking Bayern rounds that were annulled, or failed to seat a mayor and were repeated. Rows are kept, not dropped; filter `flag_superseded == FALSE` for decisive rounds only. `FALSE` for all other states. |
 | **Sachsen runoff structure** | Sachsen holds a full re-election with all candidates (not a 2-person runoff) when no one wins &gt;50% in the first round. |
 | **VG/SG elections excluded from harmonization** | Verbandsgemeinde and Samtgemeinde mayoral elections (~1,100 rows) use pseudo-AGS codes not in the municipality crosswalk. |
+
+</div>
 
 <details>
   <summary>Data sources</summary>
@@ -275,6 +299,8 @@ Direct elections of the heads of Landkreise and equivalent regions (St&auml;dter
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **11 states** | Baden-W&uuml;rttemberg and Schleswig-Holstein are not included because their Landr&auml;te are elected by the Kreistag rather than by popular vote. The remaining states are covered. |
@@ -282,6 +308,8 @@ Direct elections of the heads of Landkreise and equivalent regions (St&auml;dter
 | **Saarland: 5 Kreise with vote shares only** | Five Saarland Landratswahlen (Merzig-Wadern, Saarlouis, Saarpfalz, St. Wendel) have only `candidate_voteshare` populated; absolute vote counts and aggregate stats are NA. Identifiable via `is.na(eligible_voters)`. |
 | **Th&uuml;ringen: party may be NA** | Some Th&uuml;ringen source files (especially 2018 Stichwahl) list candidate names without party affiliation. `candidate_party` is NA for those rows. |
 | **Not harmonized** | County boundaries since 1975 are largely stable, so Landrat data is published only in unharmonized form (original boundaries at the time of each election). |
+
+</div>
 
 <details>
   <summary>Data sources</summary>
@@ -302,11 +330,15 @@ Kreistag (county council) election results, **1948&ndash;2026**, at both municip
 
 </div>
 
+<div class="table-responsive" markdown="1">
+
 | Issue | Description |
 |-------|-------------|
 | **Partial state coverage** | Not all 16 states have county election data; coverage varies by state and time period. |
 | **Varying reporting standards** | States use different party categorization and reporting granularity for county council elections. |
 | **County council seats (`county_council_seats`)** | A separate yearly panel of Kreistag **composition**: 400 counties &times; **2008&ndash;2025**, one row per county-year, with each council's seat distribution carried forward until the next election changes it. Distinct from the election tables above (standing composition vs. election events). Party seat columns sum to `seats_total` via a residual `seats_other`. Uses a fixed set of ~400 current (2021) county codes: reform-created counties are `NA` before they existed (e.g. Mecklenburg-Vorpommern 2008&ndash;2010), and pre-reform predecessor councils are not included. For non-major-party time series use the derived `seats_local_other` column, which is comparable across all years; the `seats_freie_wahler` / `seats_regional` / `seats_other` split uses different conventions between the hand-compiled 2008&ndash;2022 rows and the parsed 2023&ndash;2025 rows. `government_party` is `NA` from 2023 on (the newer seat sources do not identify the governing party). |
+
+</div>
 
 ---
 

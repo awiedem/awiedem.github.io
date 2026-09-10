@@ -17,14 +17,20 @@ order: 2
 
 ## Local Elections
 
+<div class="table-responsive" markdown="1">
+
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
 | Local Elections | Municipality | 1984–2026 | {{ site.data.downloads.municipal_unharm.updated }} | No | `municipal_unharm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.csv?download=) ({{ site.data.downloads.municipal_unharm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.rds) ({{ site.data.downloads.municipal_unharm.rds_mb }} MB) |
 | Local Elections | Municipality | 1990–2026 | {{ site.data.downloads.municipal_harm.updated }} | Yes (2021) | `municipal_harm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.csv?download=) ({{ site.data.downloads.municipal_harm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.rds) ({{ site.data.downloads.municipal_harm.rds_mb }} MB) |
 
+</div>
+
 The unharmonized file also carries council **seats** (`seats_*` columns) for the states and years where the source reports them; see the [usage notes](/usage-notes/#municipal-elections). The harmonized files omit seats, because a population-weighted sum of seats across merged municipalities is not a real council.
 
 ## State Elections
+
+<div class="table-responsive" markdown="1">
 
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
@@ -35,7 +41,11 @@ The unharmonized file also carries council **seats** (`seats_*` columns) for the
 | State Elections | Constituency (Wahlkreis) | 1980–2026 | {{ site.data.downloads.ltw_wkr_unharm.updated }} | No | `ltw_wkr_unharm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/ltw_wkr_unharm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/ltw_wkr_unharm.csv?download=) ({{ site.data.downloads.ltw_wkr_unharm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/ltw_wkr_unharm.rds) ({{ site.data.downloads.ltw_wkr_unharm.rds_mb }} MB) |
 | State Elections | Constituency (Wahlkreis) | 1980–2026 | {{ site.data.downloads.ltw_wkr_unharm_long.updated }} | No | `ltw_wkr_unharm_long` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/ltw_wkr_unharm_long.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/ltw_wkr_unharm_long.csv?download=) ({{ site.data.downloads.ltw_wkr_unharm_long.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/state_elections/final/ltw_wkr_unharm_long.rds) ({{ site.data.downloads.ltw_wkr_unharm_long.rds_mb }} MB) |
 
+</div>
+
 ## Federal Elections
+
+<div class="table-responsive" markdown="1">
 
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
@@ -50,18 +60,26 @@ The unharmonized file also carries council **seats** (`seats_*` columns) for the
 | Federal Elections | Constituency (Wahlkreis) | 2021 on 2025 boundaries | {{ site.data.downloads.federal_wkr_2021_on_2025.updated }} | Yes (2025) | `federal_wkr_2021_on_2025` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/wahlkreis_level/final/federal_wkr_2021_on_2025.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/wahlkreis_level/final/federal_wkr_2021_on_2025.csv?download=) ({{ site.data.downloads.federal_wkr_2021_on_2025.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/wahlkreis_level/final/federal_wkr_2021_on_2025.rds) ({{ site.data.downloads.federal_wkr_2021_on_2025.rds_mb }} MB) |
 | Federal Elections | Constituency (Wahlkreis) | 2021 → 2025 | {{ site.data.downloads.wkr_2021_to_2025_crosswalk.updated }} | Crosswalk | `wkr_2021_to_2025_crosswalk` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/wahlkreis_level/final/wkr_2021_to_2025_crosswalk.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/wahlkreis_level/final/wkr_2021_to_2025_crosswalk.csv?download=) ({{ site.data.downloads.wkr_2021_to_2025_crosswalk.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/federal_elections/wahlkreis_level/final/wkr_2021_to_2025_crosswalk.rds) ({{ site.data.downloads.wkr_2021_to_2025_crosswalk.rds_mb }} MB) |
 
+</div>
+
 Related external datasets extending federal coverage beyond GERDA:
 - [German Post-War Election Database (GPWED)](https://github.com/julian-voss/gpwed): municipality-level results, 1949–1969 ([paper](https://www.nature.com/articles/s41597-025-06091-5))
 - [ZEIT Online Wahlkreis data](https://github.com/ZeitOnline/bundestagswahl-historische-wahlkreis-daten): electoral-district (Wahlkreis) results recalculated to 2025 boundaries, 1949–2021
 
 ## European Elections
 
+<div class="table-responsive" markdown="1">
+
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
 | European Elections | Municipality | 2009–2024 | {{ site.data.downloads.european_muni_unharm.updated }} | No | `european_muni_unharm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_unharm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_unharm.csv?download=) ({{ site.data.downloads.european_muni_unharm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_unharm.rds) ({{ site.data.downloads.european_muni_unharm.rds_mb }} MB) |
 | European Elections | Municipality | 2009–2024 | {{ site.data.downloads.european_muni_harm.updated }} | Yes (2021) | `european_muni_harm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_harm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_harm.csv?download=) ({{ site.data.downloads.european_muni_harm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/european_elections/final/european_muni_harm.rds) ({{ site.data.downloads.european_muni_harm.rds_mb }} MB) |
 
+</div>
+
 ## Mayoral Elections
+
+<div class="table-responsive" markdown="1">
 
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
@@ -73,20 +91,28 @@ Related external datasets extending federal coverage beyond GERDA:
 | Mayor Panel | Municipality | 1945–2026 | {{ site.data.downloads.mayor_panel_harm.updated }} | Yes (2021) | `mayor_panel_harm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_harm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_harm.csv?download=) ({{ site.data.downloads.mayor_panel_harm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_harm.rds) ({{ site.data.downloads.mayor_panel_harm.rds_mb }} MB) |
 | Mayor Panel (annual) | Municipality | 1945–2026 | {{ site.data.downloads.mayor_panel_annual_harm.updated }} | Yes (2021) | `mayor_panel_annual_harm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_annual_harm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_annual_harm.csv?download=) ({{ site.data.downloads.mayor_panel_annual_harm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/mayoral_elections/final/mayor_panel_annual_harm.rds) ({{ site.data.downloads.mayor_panel_annual_harm.rds_mb }} MB) |
 
+</div>
+
 Coverage: 13 states (Baden-Württemberg, Bayern, Brandenburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, Sachsen-Anhalt, Schleswig-Holstein, Thüringen). Municipal mayors only; Landrat elections are the separate dataset below. Candidate data include predicted gender and name-based migration background.
 
 ## Landrat Elections
 
 Direct elections of the heads of Landkreise (rural counties) and equivalent regions (Städteregion Aachen, Regionalverband Saarbrücken). Same schema as the mayoral dataset, on county-level units (8-digit AGS ending in `000`).
 
+<div class="table-responsive" markdown="1">
+
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
 | Landrat Elections | County | 1945–2026 | {{ site.data.downloads.landrat_unharm.updated }} | No | `landrat_unharm` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.csv?download=) ({{ site.data.downloads.landrat_unharm.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.rds) ({{ site.data.downloads.landrat_unharm.rds_mb }} MB) |
 | Landrat Candidates | County | 1945–2026 | {{ site.data.downloads.landrat_candidates.updated }} | — | `landrat_candidates` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.csv?download=) ({{ site.data.downloads.landrat_candidates.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.rds) ({{ site.data.downloads.landrat_candidates.rds_mb }} MB) |
 
+</div>
+
 Coverage by state: Bayern (1945–2026, 71 Kreise), Hessen (1993–2024, 21 Kreise), Rheinland-Pfalz (1995–2025), Mecklenburg-Vorpommern (2000–2025), Sachsen (2002–2025), Niedersachsen (2006–2021), Thüringen (2006–2024), Sachsen-Anhalt (2007–2026), NRW (2009–2025, 31 Kreise + Städteregion Aachen), Saarland (2011–2024, Regionalverband Saarbrücken + 5 Landkreise), Brandenburg (2018–2026). **2,127 election rounds / 5,273 candidate rows** across 11 states. Baden-Württemberg and Schleswig-Holstein are not included because their Landräte are elected by the Kreistag rather than by popular vote.
 
 ## County Elections (Kreistagswahlen)
+
+<div class="table-responsive" markdown="1">
 
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
@@ -95,9 +121,13 @@ Coverage by state: Bayern (1945–2026, 71 Kreise), Hessen (1993–2024, 21 Krei
 | County Elections | Municipality | 1991–2026 | {{ site.data.downloads.county_elec_harm_21_muni.updated }} | Yes (2021) | `county_elec_harm_21_muni` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.csv?download=) ({{ site.data.downloads.county_elec_harm_21_muni.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.rds) ({{ site.data.downloads.county_elec_harm_21_muni.rds_mb }} MB) |
 | County Council Seats | County | 2008–2025 | {{ site.data.downloads.county_council_seats.updated }} | Fixed 2021 boundaries | `county_council_seats` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.csv?download=) ({{ site.data.downloads.county_council_seats.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.rds) ({{ site.data.downloads.county_council_seats.rds_mb }} MB) |
 
+</div>
+
 `county_council_seats` is a yearly panel of county-council **composition** (400 counties × 2008–2025), not an election table: each council's seat distribution is carried forward until the next election changes it. Party seat columns sum to `seats_total`, with `seats_other` as the residual. Municipal council **seats** are inside `municipal_unharm` as `seats_*` columns (see [Local Elections](#local-elections)).
 
 ## Additional Files
+
+<div class="table-responsive" markdown="1">
 
 | **Data** | **Geographic Level** | **Time Period** | **Updated** | **Harmonization** | **File Name** | **Download Link** |
 |----------|---------------------|-----------------|------------|-------------------|---------------|------------------|
@@ -107,5 +137,7 @@ Coverage by state: Bayern (1945–2026, 71 Kreise), Hessen (1993–2024, 21 Krei
 | Shapefiles | Municipality/County | 2000, 2021 | — | — | `VG250_GEM` / `VG250_KRS` | [2000](https://github.com/awiedem/german_election_data/tree/main/data/shapefiles/2000) [2021](https://github.com/awiedem/german_election_data/tree/main/data/shapefiles/2021) |
 | Covariates | Municipality | 1990–2023 | {{ site.data.downloads.ags_area_pop_emp.updated }} | Yes | `ags_area_pop_emp` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/covars_municipality/final/ags_area_pop_emp.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/covars_municipality/final/ags_area_pop_emp.csv?download=) ({{ site.data.downloads.ags_area_pop_emp.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/covars_municipality/final/ags_area_pop_emp.rds) ({{ site.data.downloads.ags_area_pop_emp.rds_mb }} MB) |
 | Covariates | County | 1990–2023 | {{ site.data.downloads.cty_area_pop_emp.updated }} | Yes | `cty_area_pop_emp` | [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/covars_county/final/cty_area_pop_emp.xlsx?download=) [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/covars_county/final/cty_area_pop_emp.csv?download=) ({{ site.data.downloads.cty_area_pop_emp.csv_mb }} MB) [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/covars_county/final/cty_area_pop_emp.rds) ({{ site.data.downloads.cty_area_pop_emp.rds_mb }} MB) |
+
+</div>
 
 <script src="{{ "/assets/js/gerda-downloads.js" | relative_url }}" defer></script>
