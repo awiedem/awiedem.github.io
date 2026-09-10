@@ -223,7 +223,9 @@
     showBorders: true,
     showStates: false,
     showCities: false,
-    analysisTab: "national"
+    analysisTab: "national",
+    analysisSeen: false,
+    analysisDirty: false
   };
 
   // Data cache
@@ -993,9 +995,10 @@
 
   function updateTimeSeries() {
     if (!state.selectedAgs) {
-      if (elements.chart) Plotly.purge(elements.chart);
+      if (window.Plotly && elements.chart) Plotly.purge(elements.chart);
       return;
     }
+    if (!needPlotly(updateTimeSeries)) return;
 
     const datasets = state.timeDatasets.length ? state.timeDatasets : [state.dataset];
     const metrics = state.timeMetrics.length ? state.timeMetrics : ["turnout"];
@@ -1075,6 +1078,62 @@
     if (elements.chart) Plotly.newPlot(elements.chart, traces, layout, { responsive: true, displayModeBar: false });
   }
 
+  // ---- Plotly on demand ----
+  // Plotly (about 3.5 MB) is only needed for the analysis panels below the
+  // map, so it is fetched the first time a chart is drawn rather than on
+  // page load. Chart functions call needPlotly() first; if the library is not
+  // there yet they load it and re-run themselves.
+
+  const PLOTLY_SRC = "https://cdn.plot.ly/plotly-2.32.0.min.js";
+  let plotlyPromise = null;
+
+  function ensurePlotly() {
+    if (window.Plotly) return Promise.resolve();
+    if (!plotlyPromise) {
+      plotlyPromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = PLOTLY_SRC;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => {
+          plotlyPromise = null;
+          reject(new Error("Could not load the charting library from cdn.plot.ly"));
+        };
+        document.head.appendChild(script);
+      });
+    }
+    return plotlyPromise;
+  }
+
+  // Returns true when Plotly is ready. Otherwise starts loading it, schedules
+  // `retry` for when it arrives, and returns false so the caller can bail out.
+  function needPlotly(retry) {
+    if (window.Plotly) return true;
+    ensurePlotly().then(retry).catch((err) => {
+      const panel = document.querySelector(".analysis-panel.active");
+      if (panel) panel.insertAdjacentHTML("afterbegin", `<p class="error-message">${err.message}. Reload the page to try again.</p>`);
+    });
+    return false;
+  }
+
+  // Charts are drawn only once the analysis section has scrolled into view;
+  // until then refreshAnalysis() just remembers that a redraw is pending.
+  function watchAnalysisSection() {
+    const target = document.querySelector(".analysis-tabs");
+    if (!target || !("IntersectionObserver" in window)) {
+      state.analysisSeen = true;
+      if (state.analysisDirty) refreshAnalysis();
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      observer.disconnect();
+      state.analysisSeen = true;
+      if (state.analysisDirty) refreshAnalysis();
+    }, { rootMargin: "200px 0px" });
+    observer.observe(target);
+  }
+
   // ---- Analysis tab switching ----
 
   function switchAnalysisTab(tab) {
@@ -1091,6 +1150,11 @@
   }
 
   function refreshAnalysis() {
+    if (!state.analysisSeen) {
+      state.analysisDirty = true;
+      return;
+    }
+    state.analysisDirty = false;
     switch (state.analysisTab) {
       case "national": updateNationalTrends(); break;
       case "profile": updateProfile(); break;
@@ -1104,6 +1168,7 @@
 
   function updateNationalTrends() {
     if (!elements.nationalChart) return;
+    if (!needPlotly(updateNationalTrends)) return;
     const dataset = state.dataset;
     const years = yearsByDataset.get(dataset);
     if (!years || years.size === 0) {
@@ -1292,6 +1357,7 @@
   }
 
   function updateDistribution(ags) {
+    if (!needPlotly(() => updateDistribution(ags))) return;
     if (!elements.distributionChart) return;
 
     const metric = state.variable;
@@ -1379,6 +1445,7 @@
   }
 
   function updateChangeAnalysis() {
+    if (!needPlotly(updateChangeAnalysis)) return;
     if (!elements.changeGainers || !elements.changeLosers) return;
 
     const metric = elements.changeMetric ? elements.changeMetric.value : "afd";
@@ -1469,6 +1536,7 @@
   // ---- Scatter plot ----
 
   function updateScatterPlot() {
+    if (!needPlotly(updateScatterPlot)) return;
     if (!elements.scatterChart) return;
 
     const xMetric = elements.scatterX ? elements.scatterX.value : "turnout";
@@ -1543,6 +1611,7 @@
 
   async function updateCoverage() {
     if (!elements.coverageChart) return;
+    await ensurePlotly();
 
     // Load all datasets so we can show complete coverage
     // Order: federal at top (last in array since Plotly heatmap y-axis is bottom-up)
@@ -2179,9 +2248,10 @@
 
       hideLoading();
 
-      // Initialize analysis section
+      // Initialize analysis section; charts draw once it scrolls into view
       populateChangeYears();
       refreshAnalysis();
+      watchAnalysisSection();
     } catch (error) {
       hideLoading();
       console.error("Failed to load GERDA dashboard data.", error);

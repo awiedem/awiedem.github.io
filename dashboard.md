@@ -291,5 +291,4 @@ permalink: /dashboard/
 </section>
 
 <script src="https://d3js.org/d3.v7.min.js" defer></script>
-<script src="https://cdn.plot.ly/plotly-2.32.0.min.js" defer></script>
 <script src="/assets/js/gerda-dashboard.js" defer></script>
