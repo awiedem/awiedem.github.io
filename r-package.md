@@ -11,7 +11,7 @@ The `gerda` R package provides tools to download and work with GERDA datasets di
 
 ### Python users
 
-A lightweight Python loader is also available: [`gerda` on PyPI](https://pypi.org/project/gerda/) (source: [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py)). It exposes three functions — `gerda.load(name)`, `gerda.datasets()`, and `gerda.party_crosswalk(...)` — and returns pandas DataFrames (or polars, optionally). Bundled covariate / Census merge helpers are not yet ported; use the R package for those.
+A lightweight Python loader is also available: [`gerda` on PyPI](https://pypi.org/project/gerda/) (source: [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py)). It exposes three functions, `gerda.load(name)`, `gerda.datasets()`, and `gerda.party_crosswalk(...)`, and returns pandas DataFrames (or polars, optionally). Bundled covariate / Census merge helpers are not yet ported; use the R package for those.
 
 ```bash
 pip install gerda

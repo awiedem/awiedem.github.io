@@ -1,9 +1,9 @@
 ---
 layout: default
 title: "GERDA: German Election Database"
-description: "Comprehensive dataset of local, state, federal, European, mayoral, Landrat, and county election results in Germany at the municipality and constituency (Wahlkreis) level, plus subnational public opinion estimates."
+description: "Local, state, federal, European, mayoral, Landrat, and county election results in Germany at the municipality and constituency (Wahlkreis) level, plus subnational public opinion estimates."
 keywords: "German elections, election results, municipal elections, state elections, federal elections, European elections, mayoral elections, Landrat elections, county elections, Wahlkreis, constituency results, public opinion, MRP, political science data, GERDA"
-image: /assets/images/map_elec_fed_combined.png
+image: /assets/images/map_elec_fed_combined.jpg
 ---
 
 <script type="application/ld+json">
@@ -11,7 +11,7 @@ image: /assets/images/map_elec_fed_combined.png
   "@context": "https://schema.org",
   "@type": "Dataset",
   "name": "GERDA: German Election Database",
-  "description": "Comprehensive dataset of local, state, federal, European, mayoral, Landrat, and county election results in Germany at the municipality and constituency (Wahlkreis) level, plus subnational public opinion estimates using MRP.",
+  "description": "Local, state, federal, European, mayoral, Landrat, and county election results in Germany at the municipality and constituency (Wahlkreis) level, plus subnational public opinion estimates using MRP.",
   "url": "https://german-elections.com",
   "creator": [
     {"@type": "Person", "name": "Vincent Heddesheimer", "affiliation": {"@type": "Organization", "name": "Princeton University"}},
@@ -43,8 +43,8 @@ image: /assets/images/map_elec_fed_combined.png
 <div class="hero">
   <div class="hero-content">
     <div class="hero-badge"><a href="https://www.nature.com/articles/s41597-025-04811-5" style="text-decoration:none;color:inherit;">Published in <strong>Nature: Scientific Data</strong> (2025)</a></div>
-    <h1>GERDA &mdash; German Election Database</h1>
-    <p>Comprehensive election results for Germany at the municipality and constituency level &mdash; spanning federal, state, local, European, mayoral, Landrat, and county elections. Plus subnational public opinion estimates for 43 policy issues.</p>
+    <h1>GERDA: German Election Database</h1>
+    <p>Election results for Germany at the municipality and constituency level: federal, state, local, European, mayoral, Landrat, and county elections since 1945, plus subnational public opinion estimates for 43 policy issues.</p>
     <div class="hero-actions">
       <a href="/dashboard/" class="btn btn-primary">Explore Dashboard</a>
       <a href="/election-data/" class="btn btn-secondary">Download Data</a>
@@ -54,73 +54,73 @@ image: /assets/images/map_elec_fed_combined.png
   <div class="hero-image">
     <picture>
       <source srcset="/assets/images/map_elec_fed_combined.webp" type="image/webp">
-      <img src="/assets/images/map_elec_fed_combined.png" alt="Map showing federal election results across German municipalities" width="1200" height="900" loading="eager">
+      <img src="/assets/images/map_elec_fed_combined.jpg" alt="Map showing federal election results across German municipalities" width="1600" height="800" loading="eager" fetchpriority="high">
     </picture>
   </div>
 </div>
 
-## Dataset Features
+## Datasets
 
 <div class="feature-grid">
   <div class="feature-card">
     <h3>Federal Elections</h3>
     <div class="card-meta">Municipality level: 1980&ndash;2025 &middot; County level: 1953&ndash;2025</div>
     <p>Turnout and vote shares for all parties, with harmonized datasets mapped to 2021 and 2025 boundaries.</p>
-    <a href="/usage-notes/#federal-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <a href="/usage-notes/#federal-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
     <h3>State Elections</h3>
     <div class="card-meta">Municipality level: 1946&ndash;2026 &middot; 16 states</div>
     <p>State election results with three harmonization versions (2021, 2023, 2025 boundaries).</p>
-    <a href="/usage-notes/#state-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <a href="/usage-notes/#state-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
-    <h3>Constituency Elections <span class="badge-new">New</span></h3>
-    <div class="card-meta">Federal: 2002&ndash;2025 &middot; State: 1990&ndash;2026</div>
-    <p>Results at the Wahlkreis level &mdash; all 299 Bundestag constituencies and Landtag constituencies across all 16 states, with first and second votes.</p>
-    <a href="/usage-notes/#constituency-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <h3>Constituency Elections</h3>
+    <div class="card-meta">Federal: 2002&ndash;2025 &middot; State: 1980&ndash;2026</div>
+    <p>Results by Wahlkreis: all 299 Bundestag constituencies and the Landtag constituencies of all 16 states, with first and second votes.</p>
+    <a href="/usage-notes/#constituency-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
     <h3>Municipal Elections</h3>
     <div class="card-meta">1984&ndash;2026 &middot; All municipalities</div>
     <p>Local election results across all German municipalities with turnout and party vote shares.</p>
-    <a href="/usage-notes/#municipal-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <a href="/usage-notes/#municipal-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
     <h3>European Elections</h3>
     <div class="card-meta">2009&ndash;2024 &middot; Municipality level</div>
     <p>European Parliament election results at the municipality level across four elections, harmonized to 2021 boundaries.</p>
-    <a href="/usage-notes/#european-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <a href="/usage-notes/#european-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
     <h3>Mayoral Elections</h3>
     <div class="card-meta">1945&ndash;2026 &middot; 13 states</div>
-    <p>Election-level, candidate-level, and mayor panel data with individual tracking across terms.</p>
-    <a href="/usage-notes/#mayoral-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <p>Election results, candidates, and a mayor panel that follows individuals across terms.</p>
+    <a href="/usage-notes/#mayoral-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
     <h3>Landrat Elections</h3>
     <div class="card-meta">1945&ndash;2026 &middot; 11 states</div>
-    <p>Direct elections for heads of German Landkreise and equivalent administrative regions, with election- and candidate-level data.</p>
-    <a href="/usage-notes/#landrat-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <p>Direct elections of the heads of Landkreise and equivalent regions, with election and candidate data.</p>
+    <a href="/usage-notes/#landrat-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
     <h3>County Elections</h3>
     <div class="card-meta">1948&ndash;2026 &middot; Municipality &amp; county level</div>
     <p>County council election results, harmonized to 2021 boundaries.</p>
-    <a href="/usage-notes/#county-elections" class="card-link-subtle">Usage notes &rarr;</a>
+    <a href="/usage-notes/#county-elections" class="card-link-subtle">Usage notes</a>
   </div>
   <div class="feature-card">
     <h3>Meinungsbild</h3>
     <div class="card-meta">43 policy issues &middot; MRP estimates</div>
     <p>Subnational public opinion estimates across states, electoral districts, and counties based on ~118,000 survey responses.</p>
-    <a href="/meinungsbild/" class="card-link-subtle">Learn more &rarr;</a>
+    <a href="/meinungsbild/" class="card-link-subtle">Details</a>
   </div>
   <div class="feature-card">
     <h3>Harmonization</h3>
     <div class="card-meta">Consistent boundaries across time</div>
-    <p>All datasets available in harmonized formats accounting for municipal boundary changes, using population-weighted crosswalks.</p>
-    <a href="/usage-notes/#harmonization" class="card-link-subtle">Usage notes &rarr;</a>
+    <p>Harmonized versions map results onto fixed municipal boundaries with population-weighted crosswalks.</p>
+    <a href="/usage-notes/#harmonization" class="card-link-subtle">Usage notes</a>
   </div>
 </div>
 
@@ -165,6 +165,6 @@ Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2025.
 
 ## Contributing
 
-The database is actively maintained and expanding. If you have suggestions, find data issues, or want to contribute, please [open an issue](https://github.com/awiedem/german_election_data/issues) on GitHub or email us directly.
+The database is maintained and extended regularly. For suggestions, data issues, or contributions, [open an issue](https://github.com/awiedem/german_election_data/issues) on GitHub or email us.
 
 </div>

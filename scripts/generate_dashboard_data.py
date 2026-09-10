@@ -272,13 +272,26 @@ def sum_party_values(row_dict, source_cols):
     non_none = [v for v in values if v is not None]
     if not non_none:
         return ""
-    return str(sum(non_none))
+    return format_share(sum(non_none))
 
 
 def format_value(val):
     if val is None or val == "":
         return ""
     return str(val).strip()
+
+
+def format_share(val):
+    """Turnout and vote shares to 4 decimals (0.01 percentage points).
+
+    The upstream files carry 15-digit floats; the dashboard never shows more
+    than one decimal of a percentage, and full precision doubled the CSV sizes
+    the browser has to download.
+    """
+    f = val if isinstance(val, float) else safe_float(str(val))
+    if f is None:
+        return ""
+    return f"{round(f, 4):g}"
 
 
 def process_standard(name, source_file, output_file):
@@ -307,7 +320,7 @@ def process_standard(name, source_file, output_file):
             out_row = [
                 fix_ags(format_value(row.get(ags_col, ""))) if ags_col else "",
                 format_value(row.get(year_col, "")) if year_col else "",
-                format_value(row.get(turnout_col, "")) if turnout_col else "",
+                format_share(row.get(turnout_col, "")) if turnout_col else "",
             ]
             for party in PARTY_COLS:
                 out_row.append(sum_party_values(row, party_map.get(party, [])))
@@ -367,7 +380,7 @@ def process_wkr(name, source_file, output_file):
             out_row = [
                 format_value(row.get(wkr_col, "")),
                 format_value(row.get(year_col, "")) if year_col else "",
-                format_value(row.get(turnout_col, "")) if turnout_col else "",
+                format_share(row.get(turnout_col, "")) if turnout_col else "",
             ]
             for party in PARTY_COLS:
                 out_row.append(sum_party_values(row, party_map.get(party, [])))
@@ -426,7 +439,7 @@ def process_mayoral(source_file, output_file):
 
         for row in reader:
             winner_raw = format_value(row.get(col_map["winner_party"], "")) if col_map["winner_party"] else ""
-            winner_vs = format_value(row.get(col_map["winner_voteshare"], "")) if col_map["winner_voteshare"] else ""
+            winner_vs = format_share(row.get(col_map["winner_voteshare"], "")) if col_map["winner_voteshare"] else ""
             matched_party = map_winner_to_party(winner_raw)
 
             if matched_party:

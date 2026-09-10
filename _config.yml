@@ -58,7 +58,7 @@ defaults:
   - scope:
       path: ""
     values:
-      image: /assets/images/map_elec_fed_combined.png
+      image: /assets/images/map_elec_fed_combined.jpg
 
 # Exclude from processing.
 # The following items will not be processed, by default.

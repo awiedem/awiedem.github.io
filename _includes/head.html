@@ -4,9 +4,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- seo -%}
   <link rel="icon" type="image/svg+xml" href="{{ '/assets/images/favicon.svg' | relative_url }}">
+{%- if page.url == '/dashboard/' or page.url == '/meinungsbild/' %}
   <link rel="preconnect" href="https://d3js.org" crossorigin>
   <link rel="preconnect" href="https://cdn.plot.ly" crossorigin>
-  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+{%- endif %}
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/css/custom.css" | relative_url }}">
   {%- feed_meta -%}

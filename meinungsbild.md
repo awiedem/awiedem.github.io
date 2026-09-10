@@ -7,11 +7,11 @@ permalink: /meinungsbild/
 
 <link rel="stylesheet" href="/assets/css/gerda-meinungsbild.css">
 
-<h1>Meinungsbild <span class="badge-new">New</span></h1>
+<h1>Meinungsbild</h1>
 
 <p class="page-intro">Subnational public opinion estimates for 43 policy issues in Germany, estimated from GESIS data using Multilevel Regression and Poststratification (MRP). Explore how opinions vary across states, electoral districts, and counties.</p>
 
-<p class="page-note" style="font-size: 0.9rem; color: var(--color-text-secondary, #555); background: var(--color-surface, #f8f9fa); border-left: 3px solid var(--color-accent, #2563eb); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+<p class="page-note download-help">
 <strong>Note:</strong> These estimates are intended for exploration and descriptive purposes. MRP estimates can suffer from validity concerns, particularly for small geographic units or issues with limited survey data. They should not be interpreted as ground truth. The underlying data is not available for download.
 </p>
 
@@ -68,7 +68,7 @@ permalink: /meinungsbild/
 <section class="mb-methodology">
   <h2>Methodology</h2>
 
-  <p>Estimates are produced using <strong>Multilevel Regression and Poststratification (MRP)</strong>, a statistical technique that combines survey data with census demographics to produce reliable subnational opinion estimates even for small geographic areas.</p>
+  <p>Estimates come from <strong>Multilevel Regression and Poststratification (MRP)</strong>, which models survey responses on respondent and area characteristics and reweights the predictions to each area's census composition, so that small areas get estimates too.</p>
 
   <div class="feature-grid" style="margin-top: 24px;">
     <div class="feature-card">
@@ -111,7 +111,7 @@ permalink: /meinungsbild/
       <p>Each of the 43 policy issues is harmonized across survey programs. Variable-specific concordance tables map different question wordings and response scales onto a common binary scale. The <code>issue_concordance.csv</code> file documents the exact mapping for each issue across all five surveys.</p>
 
       <h3>Validation</h3>
-      <p>MRP estimates are validated by comparing state-level MRP predictions against direct survey estimates (disaggregated means from surveys with sufficient state-level sample sizes). Validation shows a median correlation of r&nbsp;=&nbsp;0.899 and median RMSE of 5.5 percentage points across all 43 issues. Top-performing issues reach correlations above 0.98 (e.g., ukraine_arms: r&nbsp;=&nbsp;0.993, rent_control: r&nbsp;=&nbsp;0.992).</p>
+      <p>We validate the estimates by comparing state-level MRP predictions with direct survey estimates (disaggregated means from surveys with enough state-level respondents). Across the 43 issues the median correlation is r&nbsp;=&nbsp;0.899 and the median RMSE 5.5 percentage points; the best issues exceed r&nbsp;=&nbsp;0.98 (ukraine_arms 0.993, rent_control 0.992).</p>
 
       <h3>References</h3>
       <ul>
@@ -128,5 +128,5 @@ permalink: /meinungsbild/
   <p>Raw survey data must be obtained separately from <a href="https://www.gesis.org/">GESIS</a> due to licensing restrictions. The MRP code and issue definitions are available in the <a href="https://github.com/awiedem/german_election_data/tree/main/meinungsbild">Meinungsbild folder</a> of the GitHub repository.</p>
 </section>
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="/assets/js/gerda-meinungsbild.js"></script>
+<script src="https://d3js.org/d3.v7.min.js" defer></script>
+<script src="/assets/js/gerda-meinungsbild.js" defer></script>

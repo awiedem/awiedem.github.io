@@ -69,6 +69,15 @@ written, not as a summary of the work you just did.
   municipalities or states, and coverage ranges are exactly the ones that turn
   out to be wrong.
 
+## Page weight rules
+
+The site is static and served by GitHub Pages with gzip, so download size is the main speed lever. Keep these in place when regenerating assets:
+
+- **Boundary files** (`assets/data/gerda_municipalities_2021.geojson`, `assets/data/meinungsbild/kreise.geojson`) are simplified with mapshaper before committing; the raw exports are 38 MB and 21 MB, the committed versions about 7 MB and 2 MB. Regenerate with `python3 scripts/simplify_boundaries.py <raw> <out>`, which runs mapshaper and then rewinds rings to the clockwise-exterior convention d3 needs (mapshaper alone writes the opposite winding, and the map renders as one solid block). Topology is preserved, and every feature keeps its properties.
+- **Dashboard CSVs** carry turnout and vote shares rounded to 4 decimals (`format_share()` in `scripts/generate_dashboard_data.py`). Full-precision floats doubled the download.
+- **Hero image** is 1600×800: `map_elec_fed_combined.webp` (about 115 KB) with `map_elec_fed_combined.jpg` as fallback and social preview. Do not commit the 5400-pixel source.
+- **Scripts** for the dashboard and Meinungsbild pages load with `defer`; the preconnect hints for d3 and Plotly are emitted only on those two pages (`_includes/head.html`).
+
 **Related Repositories**:
 - Data processing: https://github.com/awiedem/german_election_data
 - R package: https://github.com/hhilbig/gerda

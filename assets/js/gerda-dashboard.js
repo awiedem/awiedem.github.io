@@ -152,6 +152,7 @@
       `${CDN_BASE}/germany_states.geojson`
     ],
     countyGeo: [
+      "/assets/data/meinungsbild/kreise.geojson",
       "https://raw.githubusercontent.com/awiedem/german_election_data/main/meinungsbild/web/public/data/kreise.geojson"
     ],
     // 299 Bundestag Wahlkreise on 2021 boundaries, shipped for Meinungsbild and
@@ -2084,7 +2085,7 @@
         loadDatasetCSV("federal")
       ]);
 
-      muniGeoData = muniGeo;
+      muniGeoData = rewindGeoJSON(muniGeo);
       statesGeoData = statesGeo;
       currentGeoData = muniGeoData;
 

@@ -8,7 +8,7 @@ permalink: /dashboard/
 <link rel="stylesheet" href="/assets/css/gerda-dashboard.css">
 
 <h1>Election Explorer</h1>
-<p class="dashboard-intro">Explore German election results across all levels of government. Select an election type, year, and metric to visualize on the map.</p>
+<p class="dashboard-intro">German election results at every level of government. Select an election type, year, and measure to show on the map.</p>
 
 <nav class="election-tabs" role="tablist" aria-label="Election type">
   <button class="tab-btn active" data-dataset="federal" role="tab" aria-selected="true">Federal</button>
@@ -290,6 +290,6 @@ permalink: /dashboard/
   </div>
 </section>
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
-<script src="/assets/js/gerda-dashboard.js"></script>
+<script src="https://d3js.org/d3.v7.min.js" defer></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js" defer></script>
+<script src="/assets/js/gerda-dashboard.js" defer></script>
