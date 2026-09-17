@@ -448,7 +448,7 @@ def process_mayoral(source_file, output_file):
             out_row = [
                 fix_ags(format_value(row.get(col_map["ags"], ""))) if col_map["ags"] else "",
                 format_value(row.get(col_map["election_year"], "")) if col_map["election_year"] else "",
-                format_value(row.get(col_map["turnout"], "")) if col_map["turnout"] else "",
+                format_share(row.get(col_map["turnout"], "")) if col_map["turnout"] else "",
             ]
             # Party columns: assign winner_voteshare to the matching party column
             for party in PARTY_COLS:

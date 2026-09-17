@@ -43671,6 +43671,15 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 13075039,2015,0.3508,,,,,,,,"GRÜNE, DIE LINKE, PIRATEN, SPD",0.5005,Oberbürgermeisterwahl,stichwahl,16342,46590
 13075039,2022,0.4087,,,,,,,,"GRÜNE, DIE LINKE, SPD",0.4854,Oberbürgermeisterwahl,hauptwahl,19378,47409
 13075039,2022,0.3544,,,,,,,,"GRÜNE, DIE LINKE, SPD",0.5607,Oberbürgermeisterwahl,stichwahl,16758,47290
+13076014,2014,0.3335,,,,,,,,Einzelbewerber Jäschke,0.7968,Bürgermeisterwahl,hauptwahl,3082,9240
+13076014,2021,0.6256,,,,,,,,"SPD, DIE LINKE",0.468,Bürgermeisterwahl,hauptwahl,5933,9483
+13076014,2021,0.4581,,,,,,,,"SPD, DIE LINKE",0.5787,Bürgermeisterwahl,stichwahl,4331,9454
+13076060,2015,0.4485,0.4146,,,,,,,CDU,0.4146,Bürgermeisterwahl,hauptwahl,4416,9847
+13076060,2015,0.4251,,,,,0.5783,,,Die Linke,0.5783,Bürgermeisterwahl,stichwahl,4176,9824
+13076060,2022,0.3607,,,,,0.5456,,,DIE LINKE,0.5456,Bürgermeisterwahl,hauptwahl,3613,10018
+13076088,2022,0.3185,,0.9037,,,,,,SPD,0.9037,Bürgermeisterwahl,hauptwahl,1297,4072
+13076090,2023,0.4156,,0.5223,,,,,,SPD,0.5223,Bürgermeisterwahl,hauptwahl,4134,9947
+13076108,2022,0.4018,,,,,,,,,0.6013,Bürgermeisterwahl,hauptwahl,5780,14384
 14511000,2001,0.4063,,0.6981,,,,,,SPD,0.6981,Oberbürgermeisterwahl,hauptwahl,86700,213413
 14511000,2006,0.3853,,,,,,,,,0.383,Oberbürgermeisterwahl,hauptwahl,80001,207622
 14511000,2006,0.3078,,0.4968,,,,,,SPD,0.4968,Oberbürgermeisterwahl,stichwahl,63890,207567
@@ -45830,7 +45839,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15081135,2005,0.4945,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,135,273
 15081135,2007,,,,,,,,,,,Bürgermeisterwahl,hauptwahl,,
 15081135,2007,0.7424,,,,,,,,,0.7347,Bürgermeisterwahl,hauptwahl,98,132
-15081135,2008,0.4865,,,,,,,,,0.8233,Bürgermeisterwahl,hauptwahl,8104,16658
+15081135,2008,0.4893,,,,,,,,,0.8233,Bürgermeisterwahl,hauptwahl,8244,16850
 15081135,2008,0.5739,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,202,352
 15081135,2008,0.8257,,,,,,,,,0.737,Bürgermeisterwahl,hauptwahl,289,350
 15081135,2008,0.484,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,91,188
@@ -45889,7 +45898,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15081290,2001,0.6494,,,,,,,,,0.4876,Bürgermeisterwahl,hauptwahl,613,944
 15081290,2001,0.5725,,,,,,,,,0.5895,Bürgermeisterwahl,stichwahl,229,400
 15081290,2002,0.7663,,,,,,,,,0.5032,Bürgermeisterwahl,hauptwahl,318,415
-15081290,2008,0.9524,,,,,,,,,0.525,Bürgermeisterwahl,hauptwahl,40,42
+15081290,2008,0.7544,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,129,171
 15081290,2008,0.5788,,,,,,,,,0.9234,Bürgermeisterwahl,hauptwahl,257,444
 15081290,2009,0.708,,,,,,,,,0.523,Bürgermeisterwahl,hauptwahl,720,1017
 15081290,2016,0.7153,,,,,,,,,0.5103,Bürgermeisterwahl,hauptwahl,686,959
@@ -45930,10 +45939,12 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15081545,2001,0.5058,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,260,514
 15081545,2004,,,,,,,,,,,Bürgermeisterwahl,hauptwahl,,
 15081545,2008,0.6189,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,294,475
+15081545,2009,0.5753,,,,,,,,,0.5146,Bürgermeisterwahl,hauptwahl,485,843
 15081545,2016,0.6229,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,484,777
 15081545,2020,0.5241,,,,,,,,,0.856,Bürgermeisterwahl,hauptwahl,391,746
 15082005,1994,,,0.6019,,,,,,SPD,0.6019,Bürgermeisterwahl,hauptwahl,,
 15082005,2001,0.4537,,0.7113,,,,,,SPD,0.7113,Bürgermeisterwahl,hauptwahl,3745,8254
+15082005,2008,0.4149,,0.6771,,,,,,SPD,0.6771,Bürgermeisterwahl,hauptwahl,3236,7799
 15082005,2015,0.668,,,,,,,,,0.4933,Bürgermeisterwahl,hauptwahl,4593,6876
 15082005,2015,0.6465,,,,,,,,,0.538,Bürgermeisterwahl,stichwahl,4441,6869
 15082005,2022,0.5266,,,,,,,,,0.8272,Bürgermeisterwahl,hauptwahl,3371,6402
@@ -45942,13 +45953,14 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15082015,2001,0.4132,,0.4651,,,,,,SPD,0.4651,Oberbürgermeisterwahl,hauptwahl,19612,47460
 15082015,2001,0.2646,,0.6847,,,,,,SPD,0.6847,Oberbürgermeisterwahl,stichwahl,6659,25170
 15082015,2003,0.4102,,,,,,,,,0.5233,Oberbürgermeisterwahl,hauptwahl,9528,23228
+15082015,2008,0.3818,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,567,1485
 15082015,2009,0.3096,,,,,,,,,0.3807,Oberbürgermeisterwahl,hauptwahl,12450,40214
 15082015,2009,0.2553,,,,,,,,,0.5687,Oberbürgermeisterwahl,stichwahl,10267,40216
 15082015,2016,0.3961,0.3957,,,,,,,CDU,0.3957,Oberbürgermeisterwahl,hauptwahl,13996,35332
 15082015,2016,0.2845,0.5791,,,,,,,CDU,0.5791,Oberbürgermeisterwahl,stichwahl,10051,35333
 15082015,2023,0.4974,,,,,,0.3376,,AfD,0.3376,Oberbürgermeisterwahl,hauptwahl,15799,31761
 15082015,2023,0.4875,0.5382,,,,,,,CDU,0.5382,Oberbürgermeisterwahl,stichwahl,15479,31750
-15082180,1994,,,,,,,,,,0.4554,Oberbürgermeisterwahl,hauptwahl,,
+15082180,1994,0.8121,,,,,,,,,0.4554,Oberbürgermeisterwahl,hauptwahl,458,564
 15082180,1994,0.5058,,,,,,,,,0.605,Oberbürgermeisterwahl,stichwahl,12301,24318
 15082180,1995,0.7095,,,,,,,,,0.9175,Bürgermeisterwahl,hauptwahl,210,296
 15082180,1999,0.6491,,,,,,,,,0.4628,Bürgermeisterwahl,hauptwahl,296,456
@@ -45976,6 +45988,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15082241,2008,0.5393,,,,,,,,,0.4472,Bürgermeisterwahl,hauptwahl,4011,7438
 15082241,2008,0.6085,,,,,,,,,0.574,Bürgermeisterwahl,stichwahl,502,825
 15082241,2008,0.5242,,,,,,,,,0.5141,Bürgermeisterwahl,stichwahl,1009,1925
+15082241,2008,0.5189,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,808,1557
 15082241,2009,0.5188,,,,,,,,,0.3742,Bürgermeisterwahl,hauptwahl,5628,10848
 15082241,2009,0.3096,,,,,,,,,0.7525,Bürgermeisterwahl,stichwahl,3358,10846
 15082241,2016,0.4931,,,,,,,,,0.4648,Bürgermeisterwahl,hauptwahl,5044,10229
@@ -45989,7 +46002,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15082256,2005,0.5979,,,,,,,,,0.4685,Bürgermeisterwahl,hauptwahl,223,373
 15082256,2005,0.5523,,,,,,,,,0.5024,Bürgermeisterwahl,stichwahl,206,373
 15082256,2007,0.5488,,,,,,,,,0.5664,Bürgermeisterwahl,hauptwahl,118,215
-15082256,2008,0.4899,,,,,,,,,0.7875,Bürgermeisterwahl,hauptwahl,3311,6759
+15082256,2008,0.4648,,,,,,,,,0.7875,Bürgermeisterwahl,hauptwahl,3690,7939
 15082256,2008,0.4324,,,,,,,,,0.625,Bürgermeisterwahl,hauptwahl,272,629
 15082256,2009,0.6336,0.2259,,,,,,,CDU,0.2259,Bürgermeisterwahl,hauptwahl,5231,8256
 15082256,2009,0.3084,0.5289,,,,,,,CDU,0.5289,Bürgermeisterwahl,stichwahl,2542,8243
@@ -46012,7 +46025,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15082301,2023,0.6152,,,,,,0.5115,,AfD,0.5115,Bürgermeisterwahl,stichwahl,4777,7765
 15082340,1994,,,,,,,,,,,Bürgermeisterwahl,hauptwahl,,
 15082340,1998,0.7402,,,,,,,,,0.7409,Bürgermeisterwahl,hauptwahl,416,562
-15082340,2001,0.5187,0.729,,,,,,,CDU,0.729,Bürgermeisterwahl,hauptwahl,7392,14251
+15082340,2001,0.5205,0.729,,,,,,,CDU,0.729,Bürgermeisterwahl,hauptwahl,7515,14437
 15082340,2001,0.4463,,0.617,,,,,,SPD,0.617,Bürgermeisterwahl,stichwahl,727,1629
 15082340,2004,0.5569,,,,,,,,,0.6309,Bürgermeisterwahl,hauptwahl,328,589
 15082340,2008,0.5044,0.5242,,,,,,,CDU,0.5242,Bürgermeisterwahl,hauptwahl,2745,5442
@@ -46032,7 +46045,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15082377,1998,0.8471,,,,,,,,,0.5745,Bürgermeisterwahl,hauptwahl,144,170
 15082377,1999,0.7656,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,98,128
 15082377,2001,0.6454,,,,,,,,,0.5678,Bürgermeisterwahl,hauptwahl,202,313
-15082377,2001,0.566,,,,,,,,,0.5388,Bürgermeisterwahl,hauptwahl,4505,7959
+15082377,2001,0.5697,,,,,,,,,0.5388,Bürgermeisterwahl,hauptwahl,4664,8187
 15082377,2001,0.5791,,,,,,,,,0.6877,Bürgermeisterwahl,stichwahl,333,575
 15082377,2001,0.5191,,,,,,,,,0.5818,Bürgermeisterwahl,hauptwahl,599,1154
 15082377,2001,0.8372,,,,,,,,,0.6481,Bürgermeisterwahl,hauptwahl,108,129
@@ -46069,7 +46082,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15082430,2006,0.3836,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,229,597
 15082430,2007,0.6051,,,,,,,,,0.5053,Bürgermeisterwahl,hauptwahl,383,633
 15082430,2008,0.3692,,,,0.6714,,,,FDP,0.6714,Bürgermeisterwahl,hauptwahl,5012,13576
-15082430,2008,0.5364,,,,,,,,,0.5087,Bürgermeisterwahl,hauptwahl,2424,4519
+15082430,2008,0.5288,,,,,,,,,0.5087,Bürgermeisterwahl,hauptwahl,2534,4792
 15082430,2008,0.722,,,,,,,,,0.5405,Bürgermeisterwahl,stichwahl,148,205
 15082430,2008,0.489,,,,,,,,,1,Bürgermeisterwahl,hauptwahl,244,499
 15082430,2009,0.6998,,,,,,,,,0.8753,Bürgermeisterwahl,hauptwahl,436,623
@@ -46103,6 +46116,7 @@ ags,election_year,turnout,cdu_csu,spd,gruene,fdp,linke_pds,afd,bsw,winner_party,
 15083025,1994,,,,,,,,,,,Bürgermeisterwahl,hauptwahl,,
 15083025,2001,0.6347,,,,,,,,,0.8725,Bürgermeisterwahl,hauptwahl,1430,2253
 15083025,2003,1,,,,,,,,,0.6678,Bürgermeisterwahl,hauptwahl,399,399
+15083025,2004,,,,,,,,,,,Bürgermeisterwahl,hauptwahl,,
 15083025,2005,0.688,,,,,,,,,0.6232,Bürgermeisterwahl,hauptwahl,505,734
 15083025,2009,0.6266,,,,,,,,,0.5113,Bürgermeisterwahl,hauptwahl,1297,2070
 15083025,2011,0.5767,,,,,,,,,0.5723,Bürgermeisterwahl,hauptwahl,1165,2020
