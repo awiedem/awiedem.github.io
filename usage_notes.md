@@ -56,6 +56,24 @@ Data sources and processing steps are described in the accompanying [paper](http
 ---
 
 
+<h2 id="denominators-and-missingness">Denominators, missingness and result versions</h2>
+
+| Share files | Denominator | Recover party counts |
+|---|---|---|
+| Federal county and municipality | `number_voters` | `share * number_voters` |
+| Federal constituency | `valid_votes` for the selected ballot | `share * valid_votes` |
+| State municipality and constituency | `valid_votes` for the reported vote unit | `share * valid_votes` |
+
+Bayern municipality data uses **Gesamtstimmen** (first plus second votes from 1950); Hamburg and Bremen use multi-vote totals under their five-vote systems. These counts measure votes. Turnout measures people: `number_voters / eligible_voters`. Do not divide stored vote totals by two or five, or impose a universal `valid_votes + invalid_votes == number_voters` rule.
+
+**Result versions also differ.** For federal 2021, `federal_cty_unharm` reconstructs 11,955,434 SPD votes using `number_voters`, matching the [original certified result](https://www.bundeswahlleiterin.de/en/dam/jcr/5d304be8-7412-4442-972a-e4dfd9e55ce9/20211020_niederschrift_3bwa.pdf). `federal_wkr_unharm`, selecting `zweitstimme`, reconstructs 11,901,558 using `valid_votes`, matching the [result including the February 2024 Berlin repeat election](https://www.bundeswahlleiterin.de/bundestagswahlen/2021/ergebnisse/bund-99.html). Changing a denominator does not align these versions.
+
+**Missing is not zero.** `NA` in RDS and empty cells in CSV/Excel mark unavailable values. `sum(x, na.rm = TRUE)` gives zero when every value is missing. Preserve an all-missing sum as `NA`, and report how many observations are known. A partial voter sum divided by a complete electorate is not statewide turnout.
+
+**Select party columns explicitly.** Participation, turnout, identifiers, covariates and `flag_*` diagnostics are not parties. `cdu_csu`, `far_right`, `far_left` and `far_left_w_linke` overlap individual parties and must be excluded from individual-party sums. Use the [state column schema and example](https://github.com/awiedem/german_election_data/tree/main/data/state_elections/metadata) for the selected file. Party aliases can differ across files; similar names do not justify merging distinct regional lists.
+
+---
+
 <h2 id="opening-in-excel">Opening in Excel / In Excel öffnen</h2>
 
 The **Excel (.xlsx)** files on the [download page](/election-data/) open directly, including in Excel 2019, with the source rows, column names, and values unchanged. Geographic identifiers are text, vote shares are proportions displayed as percentages (the display does not round the stored value), and missing values are empty cells. Excel keeps about 15 significant digits, so use CSV or RDS when you need the original precision. Large tables take a while to open; tables longer than Excel's row limit continue on further sheets with the same headers.
@@ -117,7 +135,7 @@ Bundestag election results at the municipality and county level. Municipality-le
 
 Landtag election results at the municipality level for all 16 states, **1946&ndash;2026**. Harmonized versions cover **1990&ndash;2026** with three boundary targets (2021, 2023, 2025). The unharmonized file preserves all individual party columns. Results at the constituency (Wahlkreis) level are documented under [Constituency Elections](#constituency-elections).
 
-**Files:** `state_unharm`, `state_harm`, `state_harm_21`, `state_harm_23`, `state_harm_25`
+**Files:** `state_unharm`, `state_harm_21`, `state_harm_23`, `state_harm_25`
 
 </div>
 
@@ -125,8 +143,13 @@ Landtag election results at the municipality level for all 16 states, **1946&nda
 
 | Issue | Description |
 |-------|-------------|
-| **Bayern Gesamtstimmen** | Bavaria reports combined first + second votes (Gesamtstimmen). This means `valid_votes + invalid_votes = number_voters × 2`. Account for this when comparing across states. |
-| **Missing turnout in some state-years** | Rheinland-Pfalz 1979&ndash;2016, Hessen 1958/1962, Schleswig-Holstein 1983 (partial), and Bayern 1994&ndash;2013 (`eligible_voters`) lack full turnout metadata. Affected rows have NA values. |
+| **Bayern Gesamtstimmen** | Bavaria reports combined first + second votes (Gesamtstimmen). From 1950, where all components are known, `valid_votes + invalid_votes = number_voters × 2`. Account for this when comparing across states. |
+| **Missing participation** | RP 1979&ndash;2016 lacks electorate, voters and invalid votes. HE 1958/1962 lacks voters and invalid counts outside the recorded cities. BY 1994&ndash;2013 has missing eligible counts but complete voter counts (2,056 municipalities per election). Unknown counts remain `NA`. |
+| **NRW 1966/1970** | Unresolved extraction corruption affects participation and vote counts. These are county/county-free-city units with synthetic AGS, not municipalities. Avoid turnout and statewide count reconstruction pending source reconciliation. |
+| **SH 1983** | 135 of 1,079 rows lack participation fields; 253 rows have valid votes above voters. On the 944 paired rows, valid votes total 1,329,758 versus 1,286,010 voters. Party shares are not independently validated. |
+| **Legacy postal flag** | `flag_briefwahl_only` tests zero electorate with positive votes before cleanup; it also catches missing/corrupt fields. It does not establish postal-district status. The [source limitation table](https://github.com/awiedem/german_election_data/blob/main/data/state_elections/metadata/source_limitations.csv) supplies a separate warning for NRW 1966/1970 and SH 1983. |
+| **MV 1990 parties and coverage** | The official municipality source covers in-person voting and lists CSU and DSU separately, as does the [complete state result](https://www.laiv-mv.de/static/LAIV/Wahlen/Dateien/Dokumente/Landtagswahlen/Ergebnisseite/LW%201990%20Erst-Zweitstimmen.pdf). Preserve both entries; `cdu_csu` excludes DSU. |
+| **Coverage varies** | Municipality BW begins in 1956, TH in 1994 and NI in 1974. TH 1990 is available at constituency level. Ranges do not imply every election is present; consult [actual coverage and completeness](https://github.com/awiedem/german_election_data/blob/main/data/state_elections/metadata/election_completeness.csv). |
 | **Percentage-only data** | Bremen 1946&ndash;1995 provides vote share percentages only (no absolute counts). Rheinland-Pfalz 1979&ndash;2016 has absolute vote counts but lacks turnout denominator data (`eligible_voters`, `number_voters`, `invalid_votes` are NA). |
 
 </div>
@@ -157,6 +180,8 @@ Election results at the constituency (Wahlkreis) level, for both federal and sta
 | **Not comparable across time** | Wahlkreise are redrawn between elections, so constituency results are not directly comparable over time without a crosswalk. |
 | **Federal 2021 &rarr; 2025** | We provide the official recomputation of the 2021 federal result onto the 2025 boundaries (`federal_wkr_2021_on_2025`) plus a crosswalk labelling each 2025 district unchanged (283), redrawn (10), or new (6) (`wkr_2021_to_2025_crosswalk`). |
 | **No state-level crosswalk** | There is no equivalent recomputation for Landtag Wahlkreise, so state constituency results should be treated as cross-sectional. |
+| **Ballot selection** | For party/list results, select `stimme %in% c("zweitstimme", "einzelstimme")`. A second-vote-only filter drops single-vote BW years through 2021, Saarland and earlier NRW years. Bremen currently uses `zweitstimme`. Check one selected wide row per state, election/date and constituency before summing participation; first and second ballots repeat the same voters. Long files repeat participation across parties too. |
+| **Identifiers** | Keep constituency IDs as strings, including Berlin `01-01`, and include state, election/date and ballot in keys. Municipality `state_unharm` has no `stimme` column. |
 | **Independent candidates** | Einzelbewerber sit in the `other` column of the wide files; individual counts are recoverable only from the long files. |
 
 </div>
