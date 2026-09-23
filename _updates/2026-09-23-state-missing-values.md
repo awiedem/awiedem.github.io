@@ -9,3 +9,4 @@ published: false
 - State-election CSV, RDS and Excel files preserve unknown invalid counts, including Rheinland-Pfalz 1979–2016 and Hessen 1958/1962. Observed zeros remain zero.
 - Coverage and field-completeness tables identify unavailable participation data. NRW 1966/1970 and Schleswig-Holstein 1983 remain subject to unresolved extraction limitations.
 - The codebook and usage notes clarify share denominators, multi-vote totals, ballot selection and overlapping party aggregates, and distinguish the original federal 2021 result from the version incorporating Berlin's 2024 repeat election.
+- The column schema correctly identifies municipality names as metadata. Usage guidance explains that imputed `valid_votes` weights, including Bremen 1991/1995, yield proxy counts and can introduce rounding differences in party shares.
