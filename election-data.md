@@ -32,7 +32,7 @@ The unharmonized file also carries council **seats** (`seats_*` columns) for the
 
 ## State Elections
 
-Historical coverage varies: Baden-Württemberg includes the 1952 constituent-assembly election on 1979 municipal boundaries, with electorate and turnout unavailable. Municipality data for Thüringen start in 1994 and Niedersachsen in 1974; NRW before 1975 is county-level. SH 1983 retains unresolved source limitations; consult the [state usage notes](/usage-notes/#state-elections) and [coverage, completeness and column schema](https://github.com/awiedem/german_election_data/tree/main/data/state_elections/metadata) before aggregating.
+Historical coverage varies: Baden-Württemberg includes the 1952 constituent-assembly election on 1979 municipal boundaries, with electorate and turnout unavailable. Municipality data for Thüringen start in 1994 and Niedersachsen in 1974; NRW before 1975 is county-level. SH 1983 covers in-person votes only, with overall turnout unavailable; consult the [state usage notes](/usage-notes/#state-elections) and [coverage, completeness and column schema](https://github.com/awiedem/german_election_data/tree/main/data/state_elections/metadata) before aggregating.
 
 <div class="table-responsive" markdown="1">
 

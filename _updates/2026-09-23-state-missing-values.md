@@ -7,5 +7,6 @@ published: false
 **Historical state-election results updated.**
 
 - Corrected NRW 1966/1970 vote counts and turnout.
+- Corrected SH 1983 in-person results; overall municipal turnout remains unavailable.
 - Added BW 1952 on 1979 municipal boundaries; electorate and turnout remain unavailable.
-- Unknown invalid-vote counts remain missing. [Usage notes](/usage-notes/) clarify vote denominators and remaining SH 1983 limitations.
+- Unknown invalid-vote counts remain missing. [Usage notes](/usage-notes/) clarify vote denominators and postal-vote coverage.
