@@ -15,7 +15,7 @@ order: 2
 **Using Excel?** The .xlsx files open directly with correctly typed numbers and geographic codes, and vote shares displayed as percentages. CSV files use commas between columns, decimal points, and UTF-8; the [Excel import instructions (English / Deutsch)](/usage-notes/#opening-in-excel) give the settings.
 </div>
 
-**Before comparing files:** federal county/municipality shares use `number_voters`; constituency and state shares use `valid_votes`. Multi-vote units, missing fields and the two federal 2021 result versions are explained in the [usage notes](/usage-notes/#denominators-and-missingness). Empty CSV/Excel cells represent missing values, not zeros.
+**Before comparing files:** federal county/municipality shares use `number_voters`; constituency and state shares use `valid_votes`. Imputed denominator weights, multi-vote units, missing fields and the two federal 2021 result versions are explained in the [usage notes](/usage-notes/#denominators-and-missingness). Empty CSV/Excel cells represent missing values, not zeros.
 
 ## Local Elections
 

@@ -58,13 +58,15 @@ Data sources and processing steps are described in the accompanying [paper](http
 
 <h2 id="denominators-and-missingness">Denominators, missingness and result versions</h2>
 
-| Share files | Denominator | Recover party counts |
+| Share files | Denominator | Share-to-count calculation |
 |---|---|---|
 | Federal county and municipality | `number_voters` | `share * number_voters` |
 | Federal constituency | `valid_votes` for the selected ballot | `share * valid_votes` |
 | State municipality and constituency | `valid_votes` for the reported vote unit | `share * valid_votes` |
 
 Bayern municipality data uses **Gesamtstimmen** (first plus second votes from 1950); Hamburg and Bremen use multi-vote totals under their five-vote systems. These counts measure votes. Turnout measures people: `number_voters / eligible_voters`. Do not divide stored vote totals by two or five, or impose a universal `valid_votes + invalid_votes == number_voters` rule.
+
+**Imputed weights:** state harmonization fills missing `valid_votes` with positive voters, then positive electorate, then a unit weight. For Bremen 1991/1995, `share * valid_votes` therefore gives proxy counts, not observed party votes. Harmonized counts are rounded to integers, which can slightly change source percentages. Completeness tables count nonmissing stored values, including these proxies.
 
 **Result versions also differ.** For federal 2021, `federal_cty_unharm` reconstructs 11,955,434 SPD votes using `number_voters`, matching the [original certified result](https://www.bundeswahlleiterin.de/en/dam/jcr/5d304be8-7412-4442-972a-e4dfd9e55ce9/20211020_niederschrift_3bwa.pdf). `federal_wkr_unharm`, selecting `zweitstimme`, reconstructs 11,901,558 using `valid_votes`, matching the [result including the February 2024 Berlin repeat election](https://www.bundeswahlleiterin.de/bundestagswahlen/2021/ergebnisse/bund-99.html). Changing a denominator does not align these versions.
 
@@ -150,7 +152,7 @@ Landtag election results at the municipality level for all 16 states, **1946&nda
 | **Legacy postal flag** | `flag_briefwahl_only` tests zero electorate with positive votes before cleanup; it also catches missing/corrupt fields. It does not establish postal-district status. The [source limitation table](https://github.com/awiedem/german_election_data/blob/main/data/state_elections/metadata/source_limitations.csv) supplies a separate warning for NRW 1966/1970 and SH 1983. |
 | **MV 1990 parties and coverage** | The official municipality source covers in-person voting and lists CSU and DSU separately, as does the [complete state result](https://www.laiv-mv.de/static/LAIV/Wahlen/Dateien/Dokumente/Landtagswahlen/Ergebnisseite/LW%201990%20Erst-Zweitstimmen.pdf). Preserve both entries; `cdu_csu` excludes DSU. |
 | **Coverage varies** | Municipality BW begins in 1956, TH in 1994 and NI in 1974. TH 1990 is available at constituency level. Ranges do not imply every election is present; consult [actual coverage and completeness](https://github.com/awiedem/german_election_data/blob/main/data/state_elections/metadata/election_completeness.csv). |
-| **Percentage-only data** | Bremen 1946&ndash;1995 provides vote share percentages only (no absolute counts). Rheinland-Pfalz 1979&ndash;2016 has absolute vote counts but lacks turnout denominator data (`eligible_voters`, `number_voters`, `invalid_votes` are NA). |
+| **Percentage-only data** | Bremen 1946&ndash;1995 provides party percentages without valid-vote totals; voter counts are available. Harmonized 1991/1995 files use voter counts as denominator proxies. Rheinland-Pfalz 1979&ndash;2016 has absolute vote counts but lacks turnout denominator data (`eligible_voters`, `number_voters`, `invalid_votes` are NA). |
 
 </div>
 
