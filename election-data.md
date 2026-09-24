@@ -15,6 +15,8 @@ order: 2
 **Using Excel?** The .xlsx files open directly with correctly typed numbers and geographic codes, and vote shares displayed as percentages. CSV files use commas between columns, decimal points, and UTF-8; the [Excel import instructions (English / Deutsch)](/usage-notes/#opening-in-excel) give the settings.
 </div>
 
+**Before comparing files:** federal county/municipality party shares use `number_voters`; federal constituency and state party shares use `valid_votes`. Imputed denominator weights, multi-vote units, missing fields and the two federal 2021 result versions are explained in the [usage notes](/usage-notes/#denominators-and-missingness). Empty CSV/Excel cells represent missing values, not zeros.
+
 ## Local Elections
 
 <div class="table-responsive" markdown="1">
@@ -29,6 +31,8 @@ order: 2
 The unharmonized file also carries council **seats** (`seats_*` columns) for the states and years where the source reports them; see the [usage notes](/usage-notes/#municipal-elections). The harmonized files omit seats, because a population-weighted sum of seats across merged municipalities is not a real council.
 
 ## State Elections
+
+Historical coverage varies: Baden-Württemberg includes the 1952 constituent-assembly election on 1979 municipal boundaries, with electorate and turnout unavailable. Municipality data for Thüringen start in 1994 and Niedersachsen in 1974; NRW before 1975 is county-level. SH 1983 covers in-person votes only, with overall turnout unavailable; consult the [state usage notes](/usage-notes/#state-elections) and [coverage, completeness and column schema](https://github.com/awiedem/german_election_data/tree/main/data/state_elections/metadata) before aggregating.
 
 <div class="table-responsive" markdown="1">
 
