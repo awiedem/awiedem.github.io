@@ -46,15 +46,15 @@ cty_crosswalks:
   updated: 2024-10-01
   xlsx_mb: 0.7
 european_muni_harm:
-  csv_mb: 27.3
-  rds_mb: 7.0
-  updated: 2026-09-17
-  xlsx_mb: 20.3
+  csv_mb: 31.1
+  rds_mb: 9.6
+  updated: 2026-09-27
+  xlsx_mb: 23.5
 european_muni_unharm:
-  csv_mb: 28.0
-  rds_mb: 7.2
-  updated: 2026-04-02
-  xlsx_mb: 20.6
+  csv_mb: 31.9
+  rds_mb: 9.9
+  updated: 2026-09-27
+  xlsx_mb: 23.9
 federal_cty_harm:
   csv_mb: 2.5
   rds_mb: 0.7
@@ -101,24 +101,24 @@ federal_wkr_unharm_long:
   updated: 2026-07-14
   xlsx_mb: 7.5
 landrat_candidates:
-  csv_mb: 1.0
+  csv_mb: 1.1
   rds_mb: 0.2
-  updated: 2026-08-10
-  xlsx_mb: 0.6
+  updated: 2026-09-27
+  xlsx_mb: 0.7
 landrat_unharm:
   csv_mb: 0.3
   rds_mb: 0.1
-  updated: 2026-08-02
+  updated: 2026-09-27
   xlsx_mb: 0.2
 ltw_wkr_unharm:
-  csv_mb: 7.6
+  csv_mb: 7.7
   rds_mb: 1.2
-  updated: 2026-08-19
+  updated: 2026-09-27
   xlsx_mb: 2.5
 ltw_wkr_unharm_long:
-  csv_mb: 20.0
+  csv_mb: 20.3
   rds_mb: 1.6
-  updated: 2026-08-19
+  updated: 2026-09-27
   xlsx_mb: 12.0
 mayor_panel:
   csv_mb: 8.1
@@ -166,25 +166,25 @@ municipal_unharm:
   updated: 2026-08-03
   xlsx_mb: 13.8
 state_harm_21:
-  csv_mb: 60.1
-  rds_mb: 10.7
-  updated: 2026-09-23
-  xlsx_mb: 22.4
+  csv_mb: 62.2
+  rds_mb: 11.0
+  updated: 2026-09-27
+  xlsx_mb: 23.9
 state_harm_23:
-  csv_mb: 60.2
-  rds_mb: 10.7
-  updated: 2026-09-23
-  xlsx_mb: 22.6
+  csv_mb: 62.1
+  rds_mb: 11.0
+  updated: 2026-09-27
+  xlsx_mb: 24.0
 state_harm_25:
-  csv_mb: 60.2
-  rds_mb: 10.7
-  updated: 2026-09-23
-  xlsx_mb: 22.6
+  csv_mb: 62.0
+  rds_mb: 11.0
+  updated: 2026-09-27
+  xlsx_mb: 24.0
 state_unharm:
-  csv_mb: 89.8
-  rds_mb: 13.1
-  updated: 2026-09-24
-  xlsx_mb: 28.8
+  csv_mb: 91.7
+  rds_mb: 13.3
+  updated: 2026-09-27
+  xlsx_mb: 29.8
 wkr_2021_to_2025_crosswalk:
   csv_mb: 0.0
   rds_mb: 0.0

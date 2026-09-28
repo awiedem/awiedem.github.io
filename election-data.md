@@ -15,7 +15,7 @@ order: 2
 **Using Excel?** The .xlsx files open directly with correctly typed numbers and geographic codes, and vote shares displayed as percentages. CSV files use commas between columns, decimal points, and UTF-8; the [Excel import instructions (English / Deutsch)](/usage-notes/#opening-in-excel) give the settings.
 </div>
 
-**Before comparing files:** federal county/municipality party shares use `number_voters`; federal constituency and state party shares use `valid_votes`. Imputed denominator weights, multi-vote units, missing fields and the two federal 2021 result versions are explained in the [usage notes](/usage-notes/#denominators-and-missingness). Empty CSV/Excel cells represent missing values, not zeros.
+**Before comparing files:** federal county/municipality party shares use `number_voters`; federal constituency, state and European party shares use `valid_votes`. Imputed denominator weights, multi-vote units, missing fields and the two federal 2021 result versions are explained in the [usage notes](/usage-notes/#denominators-and-missingness). Empty CSV/Excel cells represent missing values, not zeros.
 
 ## Local Elections
 
@@ -112,7 +112,7 @@ Direct elections of the heads of Landkreise (rural counties) and equivalent regi
 
 </div>
 
-Coverage by state: Bayern (1945–2026, 71 Kreise), Hessen (1993–2024, 21 Kreise), Rheinland-Pfalz (1995–2025), Mecklenburg-Vorpommern (2000–2025), Sachsen (2002–2025), Niedersachsen (2006–2021), Thüringen (2006–2024), Sachsen-Anhalt (2007–2026), NRW (2009–2025, 31 Kreise + Städteregion Aachen), Saarland (2011–2024, Regionalverband Saarbrücken + 5 Landkreise), Brandenburg (2018–2026). **2,127 election rounds / 5,273 candidate rows** across 11 states. Baden-Württemberg and Schleswig-Holstein are not included because their Landräte are elected by the Kreistag rather than by popular vote.
+Coverage by state: Bayern (1945–2026, 71 Kreise), Hessen (1993–2024, 21 Kreise), Rheinland-Pfalz (1995–2025), Mecklenburg-Vorpommern (2000–2025), Sachsen (2002–2025), Niedersachsen (2006–2021), Thüringen (2006–2026), Sachsen-Anhalt (2007–2026), NRW (2009–2025, 31 Kreise + Städteregion Aachen), Saarland (2011–2024, Regionalverband Saarbrücken + 5 Landkreise), Brandenburg (2010–2026). **2,166 election rounds / 5,348 candidate rows** across 11 states. Baden-Württemberg and Schleswig-Holstein are not included because their Landräte are elected by the Kreistag rather than by popular vote.
 
 ## County Elections (Kreistagswahlen)
 

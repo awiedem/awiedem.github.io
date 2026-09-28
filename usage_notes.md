@@ -64,6 +64,7 @@ Data sources and processing steps are described in the accompanying [paper](http
 | Federal county and municipality | `number_voters` | `share * number_voters` |
 | Federal constituency | `valid_votes` for the selected ballot | `share * valid_votes` |
 | State municipality and constituency | `valid_votes` for the reported vote unit | `share * valid_votes` |
+| European municipality | `valid_votes` | `share * valid_votes` |
 
 Bayern municipality data uses **Gesamtstimmen** (first plus second votes from 1950); Hamburg and Bremen use multi-vote totals under their five-vote systems. These counts measure votes. Turnout measures people: `number_voters / eligible_voters`. Do not divide stored vote totals by two or five, or impose a universal `valid_votes + invalid_votes == number_voters` rule.
 
@@ -264,7 +265,8 @@ European Parliament election results at the municipality level for **4 elections
 | Issue | Description |
 |-------|-------------|
 | **Limited time coverage** | Only 4 elections available; earlier European Parliament elections are not included. |
-| **Mail-in vote allocation** | Votes from shared Briefwahl districts distributed proportionally to municipalities. |
+| **Vote shares use valid votes** | Party shares are shares of `valid_votes`. Releases before 25 September 2026 used `number_voters`; multiply such an older share by `number_voters / valid_votes` to convert it. |
+| **Mail-in vote allocation** | Votes from shared Briefwahl districts distributed proportionally to municipalities. Each party's allocated votes are rounded separately, so shares in those municipalities can sum to slightly more or less than 1. |
 
 </div>
 
@@ -333,7 +335,7 @@ Direct elections of the heads of Landkreise and equivalent regions (St&auml;dter
 | Issue | Description |
 |-------|-------------|
 | **11 states** | Baden-W&uuml;rttemberg and Schleswig-Holstein are not included because their Landr&auml;te are elected by the Kreistag rather than by popular vote. The remaining states are covered. |
-| **Coverage varies by state** | Coverage depends on when each state introduced direct Landrat elections, and on how far back its source reaches: BY 1945&ndash;2026, MV 2000&ndash;2025, RLP 1995&ndash;2025, SN 2002&ndash;2025, TH 2006&ndash;2024, NI 2006&ndash;2021, NRW 2009&ndash;2025, ST 2007&ndash;2015, SL 2011&ndash;2024, BB 2018&ndash;2026, HE 2021&ndash;2024. Mid-cycle elections are included where available. |
+| **Coverage varies by state** | Coverage depends on when each state introduced direct Landrat elections, and on how far back its source reaches: BY 1945&ndash;2026, MV 2000&ndash;2025, RLP 1995&ndash;2025, SN 2002&ndash;2025, TH 2006&ndash;2026, NI 2006&ndash;2021, NRW 2009&ndash;2025, ST 2007&ndash;2026, SL 2011&ndash;2024, BB 2010&ndash;2026, HE 1993&ndash;2024. Mid-cycle elections are included where available. |
 | **Saarland: 5 Kreise with vote shares only** | Five Saarland Landratswahlen (Merzig-Wadern, Saarlouis, Saarpfalz, St. Wendel) have only `candidate_voteshare` populated; absolute vote counts and aggregate stats are NA. Identifiable via `is.na(eligible_voters)`. |
 | **Th&uuml;ringen: party may be NA** | Some Th&uuml;ringen source files (especially 2018 Stichwahl) list candidate names without party affiliation. `candidate_party` is NA for those rows. |
 | **Not harmonized** | County boundaries since 1975 are largely stable, so Landrat data is published only in unharmonized form (original boundaries at the time of each election). |
