@@ -99,6 +99,8 @@ Related external datasets extending federal coverage beyond GERDA:
 
 Coverage: 13 states (Baden-Württemberg, Bayern, Brandenburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, Sachsen-Anhalt, Schleswig-Holstein, Thüringen). Municipal mayors only; Landrat elections are the separate dataset below. Candidate data include predicted gender and name-based migration background.
 
+Hessen candidate names for 1993–2012 come from Hessami, Zohal (2018), "Accountability and Incentives of Appointed and Elected Public Officials", *Review of Economics and Statistics* 100(1): 51–64, replication data [doi:10.7910/DVN/FZWOMK](https://doi.org/10.7910/DVN/FZWOMK). Please cite it alongside GERDA when you use them. Only the elected person is named for those years; losing candidates are not.
+
 ## Landrat Elections
 
 Direct elections of the heads of Landkreise (rural counties) and equivalent regions (Städteregion Aachen, Regionalverband Saarbrücken). Same schema as the mayoral dataset, on county-level units (8-digit AGS ending in `000`).
