@@ -68,8 +68,6 @@ permalink: /meinungsbild/
 <section class="mb-methodology">
   <h2>Methodology</h2>
 
-  <p>Estimates come from <strong>Multilevel Regression and Poststratification (MRP)</strong>, which models survey responses on respondent and area characteristics and reweights the predictions to each area's census composition, so that small areas get estimates too.</p>
-
   <div class="feature-grid">
     <div class="feature-card">
       <h3>Survey Data</h3>
@@ -109,9 +107,6 @@ permalink: /meinungsbild/
 
       <h3>Variable Harmonization</h3>
       <p>Each of the 43 policy issues is harmonized across survey programs. Variable-specific concordance tables map different question wordings and response scales onto a common binary scale. The <code>issue_concordance.csv</code> file documents the exact mapping for each issue across all five surveys.</p>
-
-      <h3>Validation</h3>
-      <p>We validate the estimates by comparing state-level MRP predictions with direct survey estimates (disaggregated means from surveys with enough state-level respondents). Across the 43 issues the median correlation is r&nbsp;=&nbsp;0.899 and the median RMSE 5.5 percentage points; the best issues exceed r&nbsp;=&nbsp;0.98 (ukraine_arms 0.993, rent_control 0.992).</p>
 
       <h3>References</h3>
       <ul>

@@ -8,7 +8,7 @@ order: 2
 
 # Data {#data-files}
 
-<p class="page-intro">Election results, geographic crosswalks and covariates. Every table is available as CSV, Excel (.xlsx) and RDS. Harmonized files map results onto consistent boundaries so that elections can be compared over time.</p>
+<p class="page-intro">Election results, geographic crosswalks and covariates.</p>
 
 <nav class="jump-links" aria-label="Election groups">
   <a href="#federal-elections">Federal</a>
@@ -23,9 +23,7 @@ order: 2
 
 <div class="download-help" markdown="1">
 
-**Before comparing files:** federal county/municipality party shares use `number_voters`; federal constituency, state and European party shares use `valid_votes`. Imputed denominator weights, multi-vote units, missing fields and the two federal 2021 result versions are explained in the [documentation](/usage-notes/#denominators-and-missingness). Empty CSV/Excel cells represent missing values, not zeros.
-
-**Using Excel?** The .xlsx files open directly with correctly typed numbers and geographic codes, and vote shares displayed as percentages. CSV files use commas between columns, decimal points, and UTF-8; the [Excel import instructions (English / Deutsch)](/usage-notes/#opening-in-excel) give the settings.
+Vote-share denominators differ across files, and empty cells mean missing values, not zeros. See [denominators](/usage-notes/#denominators-and-missingness) and [opening in Excel](/usage-notes/#opening-in-excel).
 
 </div>
 
@@ -76,12 +74,6 @@ Related external datasets extending federal coverage beyond GERDA:
   <a href="/usage-notes/#state-elections">Documentation</a>
 </div>
 
-<div class="section-notes" markdown="1">
-
-Historical coverage varies: Baden-Württemberg includes the 1952 constituent-assembly election on 1979 municipal boundaries, with electorate and turnout unavailable. Municipality data for Thüringen start in 1994 and Niedersachsen in 1974; NRW before 1975 is county-level. SH 1983 covers in-person votes only, with overall turnout unavailable; consult the [state documentation](/usage-notes/#state-elections) and [coverage, completeness and column schema](https://github.com/awiedem/german_election_data/tree/main/data/state_elections/metadata) before aggregating.
-
-</div>
-
 <div class="table-responsive" markdown="1">
 
 | Dataset | Geography | Years | Boundaries | Updated | Download |
@@ -110,12 +102,6 @@ Historical coverage varies: Baden-Württemberg includes the 1952 constituent-ass
 |---|---|---|---|---|---|
 | `municipal_unharm` | Municipality | 1969–2026 | Original | {{ site.data.downloads.municipal_unharm.updated }} | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.csv?download=) <span class="file-size">{{ site.data.downloads.municipal_unharm.csv_mb }} MB</span> [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.xlsx?download=) <span class="file-size">{{ site.data.downloads.municipal_unharm.xlsx_mb }} MB</span> [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_unharm.rds) <span class="file-size">{{ site.data.downloads.municipal_unharm.rds_mb }} MB</span> |
 | `municipal_harm` | Municipality | 1990–2026 | 2021 boundaries | {{ site.data.downloads.municipal_harm.updated }} | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.csv?download=) <span class="file-size">{{ site.data.downloads.municipal_harm.csv_mb }} MB</span> [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.xlsx?download=) <span class="file-size">{{ site.data.downloads.municipal_harm.xlsx_mb }} MB</span> [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/municipal_elections/final/municipal_harm.rds) <span class="file-size">{{ site.data.downloads.municipal_harm.rds_mb }} MB</span> |
-
-</div>
-
-<div class="section-notes" markdown="1">
-
-The unharmonized file also carries council **seats** (`seats_*` columns) for the states and years where the source reports them; see the [documentation](/usage-notes/#municipal-elections). The harmonized files omit seats, because a population-weighted sum of seats across merged municipalities is not a real council.
 
 </div>
 
@@ -162,8 +148,6 @@ The unharmonized file also carries council **seats** (`seats_*` columns) for the
 
 <div class="section-notes" markdown="1">
 
-Coverage: 13 states (Baden-Württemberg, Bayern, Brandenburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, Sachsen-Anhalt, Schleswig-Holstein, Thüringen). Municipal mayors only; Landrat elections are the separate dataset below. Candidate data include predicted gender and name-based migration background.
-
 Hessen candidate names for 1993–2012 come from Hessami, Zohal (2018), "Accountability and Incentives of Appointed and Elected Public Officials", *Review of Economics and Statistics* 100(1): 51–64, replication data [doi:10.7910/DVN/FZWOMK](https://doi.org/10.7910/DVN/FZWOMK). Please cite it alongside GERDA when you use them. Only the elected person is named for those years; losing candidates are not.
 
 </div>
@@ -177,24 +161,12 @@ Hessen candidate names for 1993–2012 come from Hessami, Zohal (2018), "Account
   <a href="/usage-notes/#landrat-elections">Documentation</a>
 </div>
 
-<div class="section-notes" markdown="1">
-
-Direct elections of the heads of Landkreise (rural counties) and equivalent regions (Städteregion Aachen, Regionalverband Saarbrücken). Same schema as the mayoral dataset, on county-level units (8-digit AGS ending in `000`).
-
-</div>
-
 <div class="table-responsive" markdown="1">
 
 | Dataset | Geography | Years | Boundaries | Updated | Download |
 |---|---|---|---|---|---|
 | `landrat_unharm` | County | 1945–2026 | Original | {{ site.data.downloads.landrat_unharm.updated }} | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.csv?download=) <span class="file-size">{{ site.data.downloads.landrat_unharm.csv_mb }} MB</span> [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.xlsx?download=) <span class="file-size">{{ site.data.downloads.landrat_unharm.xlsx_mb }} MB</span> [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_unharm.rds) <span class="file-size">{{ site.data.downloads.landrat_unharm.rds_mb }} MB</span> |
 | `landrat_candidates` <small>Landrat Candidates</small> | County | 1945–2026 | — | {{ site.data.downloads.landrat_candidates.updated }} | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.csv?download=) <span class="file-size">{{ site.data.downloads.landrat_candidates.csv_mb }} MB</span> [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.xlsx?download=) <span class="file-size">{{ site.data.downloads.landrat_candidates.xlsx_mb }} MB</span> [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/landrat_elections/final/landrat_candidates.rds) <span class="file-size">{{ site.data.downloads.landrat_candidates.rds_mb }} MB</span> |
-
-</div>
-
-<div class="section-notes" markdown="1">
-
-Coverage by state: Bayern (1945–2026, 71 Kreise), Hessen (1993–2024, 21 Kreise), Rheinland-Pfalz (1995–2025), Mecklenburg-Vorpommern (2000–2025), Sachsen (2002–2025), Niedersachsen (2006–2021), Thüringen (2006–2026), Sachsen-Anhalt (2007–2026), NRW (2009–2025, 31 Kreise + Städteregion Aachen), Saarland (2011–2024, Regionalverband Saarbrücken + 5 Landkreise), Brandenburg (2010–2026). **2,166 election rounds / 5,348 candidate rows** across 11 states. Baden-Württemberg and Schleswig-Holstein are not included because their Landräte are elected by the Kreistag rather than by popular vote.
 
 </div>
 
@@ -215,12 +187,6 @@ Coverage by state: Bayern (1945–2026, 71 Kreise), Hessen (1993–2024, 21 Krei
 | `county_elec_harm_21_cty` | County | 1990–2026 | 2021 boundaries | {{ site.data.downloads.county_elec_harm_21_cty.updated }} | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_cty.csv?download=) <span class="file-size">{{ site.data.downloads.county_elec_harm_21_cty.csv_mb }} MB</span> [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_cty.xlsx?download=) <span class="file-size">{{ site.data.downloads.county_elec_harm_21_cty.xlsx_mb }} MB</span> [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_cty.rds) <span class="file-size">{{ site.data.downloads.county_elec_harm_21_cty.rds_mb }} MB</span> |
 | `county_elec_harm_21_muni` | Municipality | 1991–2026 | 2021 boundaries | {{ site.data.downloads.county_elec_harm_21_muni.updated }} | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.csv?download=) <span class="file-size">{{ site.data.downloads.county_elec_harm_21_muni.csv_mb }} MB</span> [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.xlsx?download=) <span class="file-size">{{ site.data.downloads.county_elec_harm_21_muni.xlsx_mb }} MB</span> [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_elec_harm_21_muni.rds) <span class="file-size">{{ site.data.downloads.county_elec_harm_21_muni.rds_mb }} MB</span> |
 | `county_council_seats` <small>County Council Seats</small> | County | 2008–2025 | 2021 boundaries | {{ site.data.downloads.county_council_seats.updated }} | [CSV](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.csv?download=) <span class="file-size">{{ site.data.downloads.county_council_seats.csv_mb }} MB</span> [Excel](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.xlsx?download=) <span class="file-size">{{ site.data.downloads.county_council_seats.xlsx_mb }} MB</span> [RDS](https://github.com/awiedem/german_election_data/raw/refs/heads/main/data/county_elections/final/county_council_seats.rds) <span class="file-size">{{ site.data.downloads.county_council_seats.rds_mb }} MB</span> |
-
-</div>
-
-<div class="section-notes" markdown="1">
-
-`county_council_seats` is a yearly panel of county-council **composition** (400 counties × 2008–2025), not an election table: each council's seat distribution is carried forward until the next election changes it. Party seat columns sum to `seats_total`, with `seats_other` as the residual. Municipal council **seats** are inside `municipal_unharm` as `seats_*` columns (see [Municipal elections](#local-elections)).
 
 </div>
 

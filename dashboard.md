@@ -8,7 +8,7 @@ permalink: /dashboard/
 <link rel="stylesheet" href="/assets/css/gerda-dashboard.css">
 
 <h1>Election explorer</h1>
-<p class="page-intro">German election results at every level of government. Choose an election, year and measure. Search for a place or select it on the map.</p>
+<p class="page-intro">Choose an election, year and measure. Search for a place or select it on the map.</p>
 
 <nav class="election-tabs" role="tablist" aria-label="Election type">
   <button class="tab-btn active" data-dataset="federal" role="tab" aria-selected="true">Federal</button>
@@ -132,8 +132,7 @@ permalink: /dashboard/
         <button id="zoom-reset" type="button" aria-label="Reset map zoom">Reset view</button>
       </div>
     </div>
-    <div id="hover-info" class="hover-info" aria-live="polite">Hover a region to see details.</div>
-    <p class="map-hint">Scroll to zoom · Drag to pan</p>
+    <div id="hover-info" class="hover-info" aria-live="polite">Hover a region for details, click to select. Scroll to zoom, drag to pan.</div>
 
     <div id="selection-info" class="selection-info" aria-live="polite" role="status"></div>
 
@@ -220,7 +219,6 @@ permalink: /dashboard/
 
   <!-- Change analysis -->
   <div class="analysis-panel" id="panel-change" role="tabpanel">
-    <p class="panel-description">See which regions changed the most between two elections.</p>
     <div class="change-controls">
       <div class="control-group">
         <label for="change-metric">Metric</label>
@@ -300,7 +298,6 @@ permalink: /dashboard/
 
   <!-- Data coverage -->
   <div class="analysis-panel" id="panel-coverage" role="tabpanel">
-    <p class="panel-description">Overview of data availability across election types and years.</p>
     <div id="coverage-chart" class="analysis-chart"></div>
   </div>
 </section>

@@ -41,8 +41,8 @@ image: /assets/images/map_elec_fed_combined.jpg
 </script>
 
 <div class="home-lede">
-  <h1>German Election Database</h1>
-  <p class="page-intro">GERDA provides German election results at the municipality, county and constituency level. Original and harmonized files support analyses of individual elections and comparisons over time.</p>
+  <h1>German election results at the municipality, county and constituency level</h1>
+  <p class="page-intro">Original and harmonized files support analyses of individual elections and comparisons over time.</p>
 </div>
 
 <figure class="map-strip">
@@ -127,13 +127,12 @@ image: /assets/images/map_elec_fed_combined.jpg
 <div class="home-notes">
   <div class="home-links">
     <a href="/election-data/#additional-files">Crosswalks, boundaries and covariates</a>
-    <a href="/usage-notes/#harmonization">Harmonization</a>
     <a href="/meinungsbild/">Meinungsbild: opinion estimates for 43 policy issues</a>
   </div>
   <p class="small">Years refer to each series as a whole. Coverage varies by state, geography and file.</p>
 </div>
 
-<div class="credit-grid">
+<div class="credit-grid" id="contributing">
   <div id="authors">
     <h2>Authors</h2>
     <ul class="author-list">
@@ -142,7 +141,6 @@ image: /assets/images/map_elec_fed_combined.jpg
       <li><a href="https://www.floriansichart.com/">Florian Sichart</a></li>
       <li><a href="https://www.abwiedemann.com/">Andreas Wiedemann</a></li>
     </ul>
-    <p class="small" id="contributing">GERDA is maintained and extended regularly. For suggestions, data issues or contributions, <a href="https://github.com/awiedem/german_election_data/issues">open an issue</a> on GitHub or <a href="mailto:vincent.heddesheimer@princeton.edu">email us</a>.</p>
   </div>
   <div id="citation">
     <h2>Citation</h2>

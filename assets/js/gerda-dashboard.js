@@ -563,7 +563,7 @@
     if (countyLevelDatasets.has(dataset) || constituencyDatasets.has(dataset)) {
       state.selectedAgs = null;
       selectedLayer = null;
-      elements.selectionInfo.innerHTML = "Click a region to see details.";
+      elements.selectionInfo.innerHTML = "";
     }
 
     hideLoading();
@@ -893,7 +893,7 @@
       })
       .on("mouseout", function (event, feature) {
         resetHighlight(d3.select(this), feature);
-        elements.hoverInfo.textContent = "Hover a region to see details.";
+        elements.hoverInfo.textContent = "Hover a region for details, click to select. Scroll to zoom, drag to pan.";
       })
       .on("click", function (event, feature) {
         if (selectedLayer) resetHighlight(selectedLayer, selectedLayer.datum());
@@ -982,7 +982,7 @@
 
   function updateSelectionInfo() {
     if (!state.selectedAgs) {
-      elements.selectionInfo.innerHTML = "Click a region to see detailed results.";
+      elements.selectionInfo.innerHTML = "";
       return;
     }
 
@@ -2014,8 +2014,8 @@
       state.compareAgs = null;
       elements.searchInput.value = "";
       if (elements.compareInput) elements.compareInput.value = "";
-      elements.selectionInfo.innerHTML = "Click a region to see detailed results.";
-      elements.hoverInfo.textContent = "Hover a region to see details.";
+      elements.selectionInfo.innerHTML = "";
+      elements.hoverInfo.textContent = "Hover a region for details, click to select. Scroll to zoom, drag to pan.";
       elements.searchDropdown.classList.remove("open");
       if (selectedLayer) { resetHighlight(selectedLayer, selectedLayer.datum()); selectedLayer = null; }
       zoomReset();
@@ -2268,7 +2268,7 @@
         })
         .on("mouseout", function (event, feature) {
           resetHighlight(d3.select(this), feature);
-          elements.hoverInfo.textContent = "Hover a region to see details.";
+          elements.hoverInfo.textContent = "Hover a region for details, click to select. Scroll to zoom, drag to pan.";
         })
         .on("click", function (event, feature) {
           if (selectedLayer) resetHighlight(selectedLayer, selectedLayer.datum());

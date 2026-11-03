@@ -410,6 +410,8 @@ tbody tr:hover {
 
 .home-lede h1 {
   margin-top: 0;
+  font-size: 35px;
+  text-wrap: balance;
 }
 
 .home-lede .page-intro {
@@ -898,6 +900,7 @@ a[aria-busy="true"] { cursor: progress; }
   h1 { font-size: 32px; margin-top: 27px; }
   h2 { font-size: 24px; }
   .page-intro { font-size: 18px; }
+  .home-lede h1 { font-size: 28px; }
   .credit-grid, .packages-grid { grid-template-columns: 1fr; gap: 20px; }
   .map-strip-maps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .home-table th:nth-child(2), .home-table td:nth-child(2) { display: none; }

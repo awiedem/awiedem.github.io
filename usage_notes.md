@@ -93,9 +93,7 @@ Bundestag election results at the municipality and county level. Municipality-le
 
 | Issue | Description |
 |-------|-------------|
-| **Mail-in vote allocation** | Shared Briefwahl districts require proportional allocation based on polling-card voters. This is an approximation. |
 | **Pre-1990 not harmonized** | Municipality-level data exists from 1980, but harmonization only starts at 1990 due to crosswalk limitations. |
-| **Rounding from harmonization** | Minor vote total discrepancies when aggregating merged municipalities; typically a handful of votes. |
 
 </div>
 
@@ -129,7 +127,7 @@ Landtag election results for all 16 states, primarily at municipality level, **1
 | **Legacy postal flag** | `flag_briefwahl_only` tests zero electorate with positive votes before cleanup; it also catches missing/corrupt fields. It does not establish postal-district status. See the [source limitation table](https://github.com/awiedem/german_election_data/blob/main/data/state_elections/metadata/source_limitations.csv) and the SH 1983 postal-vote caveat above. |
 | **MV 1990 parties and coverage** | The official municipality source covers in-person voting and lists CSU and DSU separately, as does the [complete state result](https://www.laiv-mv.de/static/LAIV/Wahlen/Dateien/Dokumente/Landtagswahlen/Ergebnisseite/LW%201990%20Erst-Zweitstimmen.pdf). Preserve both entries; `cdu_csu` excludes DSU. |
 | **BW 1952** | The constituent-assembly election is included in `state_unharm` on **1 January 1979 municipal boundaries**. Municipality-level electorate and turnout are unavailable (`NA`). See the [source notes](https://github.com/awiedem/german_election_data/blob/main/docs/sources/bw_1952.md) for the retained source discrepancies. |
-| **Coverage varies** | Municipality BW begins in 1952, TH in 1994 and NI in 1974. TH 1990 is available at constituency level. Ranges do not imply every election is present; consult [actual coverage and completeness](https://github.com/awiedem/german_election_data/blob/main/data/state_elections/metadata/election_completeness.csv). |
+| **Coverage varies** | Municipality BW begins in 1952, TH in 1994 and NI in 1974. NRW before 1975 is county-level. TH 1990 is available at constituency level. Ranges do not imply every election is present; consult [actual coverage and completeness](https://github.com/awiedem/german_election_data/blob/main/data/state_elections/metadata/election_completeness.csv). |
 | **Percentage-only data** | Bremen 1946&ndash;1995 provides party percentages without valid-vote totals; voter counts are available. Harmonized 1991/1995 files use voter counts as denominator proxies. Rheinland-Pfalz 1979&ndash;2016 has absolute vote counts but lacks turnout denominator data (`eligible_voters`, `number_voters`, `invalid_votes` are NA). |
 
 </div>
@@ -192,8 +190,6 @@ Kommunalwahl results at the municipality level, **1969&ndash;2026** (unharmonize
 | **Varying reporting standards** | States sometimes lump small local parties or independents into "Other." Disaggregated where possible; flagged otherwise. |
 | **Zero votes vs. no list (`replaced_0_with_na_*`)** | Where a source reports exactly **0** votes for one of the ten party columns, both the votes and the vote share are recoded 0 &rarr; `NA` and the matching `replaced_0_with_na_<party>` flag is set to 1. A reported 0 almost always means the party **fielded no list** in that municipality rather than that it ran and won no votes; the affected municipalities are overwhelmingly small (median &asymp; 950 valid votes, concentrated in Rheinland-Pfalz and Baden-Württemberg), and of the ~105,000 flagged cells only two record a council seat for the flagged party. Leaving the 0 in place would bias averages and time trends downward. So: a **non-`NA` value** means the party ran; **`NA` with flag = 1** means the source reported 0 (in practice: did not stand); **`NA` with flag = 0** means the party is not carried at all in that state-year's source (e.g. AfD before 2013, BSW before 2024). "Party X ran in municipality Y" is therefore simply `!is.na(x)`, and `NA` should **not** be replaced with 0 before averaging. The sources do not themselves separate "ran and received 0 votes" from "did not run", so that distinction cannot be recovered with certainty. |
 | **Council seats (`seats_*`)** | `municipal_unharm` carries the number of council mandates each party won, in ten `seats_*` columns, wherever the source reports them (see coverage below). `NA` means no seat source for that state-year, not zero seats. The `seats_*` columns cover only the ten major parties, so they **do not sum to council size**: local voter groups (Wählergruppen), joint nominations and independents hold many German local seats and are not yet included, making the row sum a lower bound. Seats are on the **unharmonized file only**: a population-weighted sum of seats across merged municipalities is not a real council. Coverage: Baden-Württemberg 1989&ndash;2024, Hessen 1993&ndash;2021, Thüringen 1994&ndash;2024, NRW 1994&ndash;2025 (kreisfreie Städte only from 2025), Brandenburg 2003&ndash;2024, Rheinland-Pfalz 2004&ndash;2019, Sachsen-Anhalt 1994&ndash;2019, Mecklenburg-Vorpommern 2019/2024, Saarland 2019, Niedersachsen 2011/2016/2021, Schleswig-Holstein 2018, and Bremen/Hamburg (Bürgerschaft). No seat data for Bayern, Berlin, Sachsen. |
-| **Mail-in vote allocation** | Shared Briefwahl districts require proportional allocation; same approximation method as federal elections. |
-| **Rounding from harmonization** | Minor vote total discrepancies from boundary harmonization. |
 
 </div>
 
@@ -201,23 +197,23 @@ Kommunalwahl results at the municipality level, **1969&ndash;2026** (unharmonize
   <summary>Data sources</summary>
   <div>
     <table>
-      <thead><tr><th>State</th><th>Source</th><th>Procured via</th></tr></thead>
+      <thead><tr><th>State</th><th>Source</th></tr></thead>
       <tbody>
-        <tr><td>Baden-W&uuml;rttemberg</td><td>Statistisches Landesamt Baden-W&uuml;rttemberg</td><td>email</td></tr>
-        <tr><td>Bayern</td><td>Bayerisches Landesamt f&uuml;r Statistik</td><td>website</td></tr>
-        <tr><td>Brandenburg</td><td>Amt f&uuml;r Statistik Berlin-Brandenburg</td><td>website</td></tr>
-        <tr><td>Bremen</td><td>Statistisches Landesamt Bremen</td><td>website</td></tr>
-        <tr><td>Hamburg</td><td>Statistik Nord</td><td>website</td></tr>
-        <tr><td>Hessen</td><td>Hessisches Statistisches Landesamt</td><td>website</td></tr>
-        <tr><td>Mecklenburg-Vorpommern</td><td>Landesamt f&uuml;r innere Verwaltung &amp; Statistisches Amt</td><td>website</td></tr>
-        <tr><td>Niedersachsen</td><td>Landesamt f&uuml;r Statistik Niedersachsen</td><td>website (post-2006), email (pre-2006)</td></tr>
-        <tr><td>Nordrhein-Westfalen</td><td>Statistisches Landesamt NRW</td><td>email</td></tr>
-        <tr><td>Rheinland-Pfalz</td><td>Statistisches Landesamt Rheinland-Pfalz</td><td>email</td></tr>
-        <tr><td>Saarland</td><td>Statistisches Landesamt des Saarlandes</td><td>email</td></tr>
-        <tr><td>Sachsen</td><td>Statistisches Landesamt des Freistaates Sachsen</td><td>website</td></tr>
-        <tr><td>Sachsen-Anhalt</td><td>Statistisches Landesamt Sachsen-Anhalt</td><td>website</td></tr>
-        <tr><td>Schleswig-Holstein</td><td>Statistisches Amt f&uuml;r Hamburg und Schleswig-Holstein</td><td>website (except 2013), email for 2013</td></tr>
-        <tr><td>Th&uuml;ringen</td><td>Th&uuml;ringer Landesamt f&uuml;r Statistik</td><td>website</td></tr>
+        <tr><td>Baden-W&uuml;rttemberg</td><td>Statistisches Landesamt Baden-W&uuml;rttemberg</td></tr>
+        <tr><td>Bayern</td><td>Bayerisches Landesamt f&uuml;r Statistik</td></tr>
+        <tr><td>Brandenburg</td><td>Amt f&uuml;r Statistik Berlin-Brandenburg</td></tr>
+        <tr><td>Bremen</td><td>Statistisches Landesamt Bremen</td></tr>
+        <tr><td>Hamburg</td><td>Statistik Nord</td></tr>
+        <tr><td>Hessen</td><td>Hessisches Statistisches Landesamt</td></tr>
+        <tr><td>Mecklenburg-Vorpommern</td><td>Landesamt f&uuml;r innere Verwaltung &amp; Statistisches Amt</td></tr>
+        <tr><td>Niedersachsen</td><td>Landesamt f&uuml;r Statistik Niedersachsen</td></tr>
+        <tr><td>Nordrhein-Westfalen</td><td>Statistisches Landesamt NRW</td></tr>
+        <tr><td>Rheinland-Pfalz</td><td>Statistisches Landesamt Rheinland-Pfalz</td></tr>
+        <tr><td>Saarland</td><td>Statistisches Landesamt des Saarlandes</td></tr>
+        <tr><td>Sachsen</td><td>Statistisches Landesamt des Freistaates Sachsen</td></tr>
+        <tr><td>Sachsen-Anhalt</td><td>Statistisches Landesamt Sachsen-Anhalt</td></tr>
+        <tr><td>Schleswig-Holstein</td><td>Statistisches Amt f&uuml;r Hamburg und Schleswig-Holstein</td></tr>
+        <tr><td>Th&uuml;ringen</td><td>Th&uuml;ringer Landesamt f&uuml;r Statistik</td></tr>
       </tbody>
     </table>
   </div>
@@ -239,7 +235,6 @@ European Parliament election results at the municipality level for **4 elections
 
 | Issue | Description |
 |-------|-------------|
-| **Limited time coverage** | Only 4 elections available; earlier European Parliament elections are not included. |
 | **Vote shares use valid votes** | Party shares are shares of `valid_votes`. Releases before 25 September 2026 used `number_voters`; multiply such an older share by `number_voters / valid_votes` to convert it. |
 | **Mail-in vote allocation** | Votes from shared Briefwahl districts distributed proportionally to municipalities. Each party's allocated votes are rounded separately, so shares in those municipalities can sum to slightly more or less than 1. |
 
@@ -264,7 +259,7 @@ European Parliament election results at the municipality level for **4 elections
 
 <div class="election-section-description" markdown="1">
 
-B&uuml;rgermeisterwahl results for **13 states**, **1945&ndash;2026**: Baden-W&uuml;rttemberg, Bayern, Brandenburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, Sachsen-Anhalt, Schleswig-Holstein and Th&uuml;ringen. Includes election results, candidates (with gender and migration background classifications), and an annual mayor panel that follows individuals across terms. Each municipality sets its own election schedule, so coverage depth varies by state: Bayern reaches back to 1945, Sachsen-Anhalt and Th&uuml;ringen to 1994, and several states cover only the current cycle. Landr&auml;te are in a [separate dataset](#landrat-elections).
+B&uuml;rgermeisterwahl results for **13 states**, **1945&ndash;2026**: Baden-W&uuml;rttemberg, Bayern, Brandenburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland, Sachsen, Sachsen-Anhalt, Schleswig-Holstein and Th&uuml;ringen. Includes election results, candidates (with predicted gender and name-based migration background), and an annual mayor panel that follows individuals across terms. Landr&auml;te are in a [separate dataset](#landrat-elections).
 
 **Files:** `mayoral_unharm`, `mayoral_harm`, `mayoral_candidates`, `mayor_panel`, `mayor_panel_harm`, `mayor_panel_annual`, `mayor_panel_annual_harm`
 
@@ -340,7 +335,6 @@ Kreistag (county council) election results, **1948&ndash;2026**, at both municip
 
 | Issue | Description |
 |-------|-------------|
-| **Partial state coverage** | Not all 16 states have county election data; coverage varies by state and time period. |
 | **Varying reporting standards** | States use different party categorization and reporting granularity for county council elections. |
 | **County council seats (`county_council_seats`)** | A separate yearly panel of Kreistag **composition**: 400 counties &times; **2008&ndash;2025**, one row per county-year, with each council's seat distribution carried forward until the next election changes it. Distinct from the election tables above (standing composition vs. election events). Party seat columns sum to `seats_total` via a residual `seats_other`. Uses a fixed set of ~400 current (2021) county codes: reform-created counties are `NA` before they existed (e.g. Mecklenburg-Vorpommern 2008&ndash;2010), and pre-reform predecessor councils are not included. For non-major-party time series use the derived `seats_local_other` column, which is comparable across all years; the `seats_freie_wahler` / `seats_regional` / `seats_other` split uses different conventions between the hand-compiled 2008&ndash;2022 rows and the parsed 2023&ndash;2025 rows. `government_party` is `NA` from 2023 on (the newer seat sources do not identify the governing party). |
 
@@ -353,14 +347,8 @@ Kreistag (county council) election results, **1948&ndash;2026**, at both municip
 Harmonized files map every election onto fixed municipal and county boundaries, using official crosswalks to track mergers, splits, and boundary shifts.
 
 - **Population-weighted aggregation**: Where multiple municipalities merged, votes are aggregated to the new municipality's boundaries using population-based weighting.
-- **Mail-in vote allocation**: For mail-in voting districts shared by multiple municipalities, mail-in votes are allocated proportionally based on the number of polling-card voters in each municipality.
-
-<details>
-  <summary>Harmonization versions</summary>
-  <div>
-    <p>State elections come in three versions: <code>state_harm_21</code>, <code>state_harm_23</code>, and <code>state_harm_25</code>, on 2021, 2023, and 2025 municipal boundaries. Federal elections come on 2021 and 2025 boundaries, based on crosswalks built from official records of municipality reforms.</p>
-  </div>
-</details>
+- **Mail-in vote allocation**: For mail-in voting districts shared by multiple municipalities, mail-in votes are allocated proportionally based on the number of polling-card voters in each municipality. This is an approximation.
+- **Rounding**: Aggregating merged municipalities can shift vote totals slightly, typically by a handful of votes.
 
 <details>
   <summary>Crosswalks and shapefiles</summary>
@@ -374,7 +362,7 @@ Harmonized files map every election onto fixed municipal and county boundaries, 
 
 ## Meinungsbild
 
-Meinungsbild gives public opinion estimates for 43 policy issues at three levels (federal states, electoral districts, counties), estimated with Multilevel Regression and Poststratification (MRP); methods and the interactive map are on the [Meinungsbild page](/meinungsbild/). The estimates are for exploration and description only: MRP can be unreliable for small units or issues with little survey data, and the estimates are not ground truth. The Meinungsbild data is not available for download.
+Public opinion estimates for 43 policy issues, for exploration only; the data is not available for download. Methods and the map are on the [Meinungsbild page](/meinungsbild/).
 
 ## Code Availability
 

@@ -43,7 +43,7 @@ Note: Changes to `_config.yml` require restarting the server.
 - `_data/package_datasets.yml` - Names the R and Python packages can load, written by `python3 scripts/update_package_datasets.py`; rerun after a package release. A Data page row gets a copy button only when its name is listed.
 - `_includes/citation.html` - The citation and BibTeX shown on the homepage and in the documentation
 
-**Data page rows** are Markdown tables inside `<section class="download-section">`, in six columns: Dataset, Geography, Years, Boundaries, Updated, Download. The first column holds the file stem in backticks, then an optional `<small>` label; the filter and copy buttons read that stem. Keep the anchors `#local-elections` and `#county-elections-kreistagswahlen`, which older links and the explorer use.
+**Data page rows** are Markdown tables inside `<section class="download-section">`, in six columns: Dataset, Geography, Years, Boundaries, Updated, Download. The first column holds the file stem in backticks, then an optional `<small>` label; the filter and copy buttons read that stem. Keep the anchors `#local-elections` and `#county-elections-kreistagswahlen`, which older links and the explorer use. Caveats and coverage details go in `usage_notes.md`, not under the tables; each section already links there. The exceptions are the citation request and external datasets.
 
 ## Writing update-log entries
 

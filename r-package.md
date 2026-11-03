@@ -26,7 +26,7 @@ library(gerda)
 data <- load_gerda_web("federal_cty_harm")
 ```
 
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.8.1**, available on [CRAN](https://cran.r-project.org/package=gerda) since 27 July 2026 and matching the development version on [GitHub](https://github.com/hhilbig/gerda). As of v0.8 the package exposes 47 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
+Current version: **0.8.1**, available on CRAN since 27 July 2026. It exposes 47 datasets, including crosswalks and covariates.
 
 </div>
 <div markdown="1">
@@ -42,7 +42,7 @@ import gerda
 data = gerda.load("federal_cty_harm")
 ```
 
-A lightweight Python loader is also available: [`gerda` on PyPI](https://pypi.org/project/gerda/) (source: [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py)). It exposes three functions, `gerda.load(name)`, `gerda.datasets()`, and `gerda.party_crosswalk(...)`, and returns pandas DataFrames (or polars, optionally). Bundled covariate / Census merge helpers are not yet ported; use the R package for those.
+A lightweight loader that returns pandas DataFrames, or polars optionally.
 
 </div>
 </div>
@@ -64,6 +64,9 @@ The R package includes covariate and Census merge helpers. These helpers are not
 R: [CRAN](https://cran.r-project.org/package=gerda) · [Vignette](https://cran.r-project.org/web/packages/gerda/vignettes/gerda.html) · [Reference manual (PDF)](https://cran.r-project.org/web/packages/gerda/gerda.pdf) · [GitHub](https://github.com/hhilbig/gerda)
 
 Python: [PyPI](https://pypi.org/project/gerda/) · [GitHub](https://github.com/hhilbig/gerda-py)
+
+Feedback: email <hhilbig@ucdavis.edu> or open an [issue on GitHub](https://github.com/hhilbig/gerda/issues).
+{: #feedback}
 
 <div class="package-reference copyable" markdown="1">
 
@@ -158,7 +161,3 @@ party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
 The underlying values never changed; only the names were wrong. Destatis groups ages 60–74 into a single bin, so true 50–64 and 65+ shares cannot be constructed from these tables. Code written against the old names will error rather than silently return the wrong age group, but any published results that relied on them describe different age ranges than their labels implied.
 
 </div>
-
-## Feedback
-
-Feedback is welcome. Please email <hhilbig@ucdavis.edu> or open an [issue on GitHub](https://github.com/hhilbig/gerda/issues).
