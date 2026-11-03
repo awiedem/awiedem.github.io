@@ -38,6 +38,7 @@ Note: Changes to `_config.yml` require restarting the server.
 
 **Configuration and design**:
 - `_data/navigation.yml` - Main navigation, in order
+- `_config.yml` `exclude` keeps `CLAUDE.md`, `CHANGELOG-session.md` and `scripts/` off the site. GitHub Pages publishes any Markdown file as a page, so add new non-site files there.
 - `assets/css/custom.css` - Design tokens and all shared styles; the explorers read the same tokens (`gerda-dashboard.css`, `gerda-meinungsbild.css`)
 - `assets/js/gerda-tools.js` - Copy buttons, the Data page filter, the documentation sidebar highlight. The pages work without it.
 - `_data/package_datasets.yml` - Names the R and Python packages can load, written by `python3 scripts/update_package_datasets.py`; rerun after a package release. A Data page row gets a copy button only when its name is listed.
