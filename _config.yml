@@ -53,14 +53,6 @@ feed:
       path: "updates.xml"
       title: "GERDA update log"
 
-header_pages:
-  - dashboard.md
-  - meinungsbild.md
-  - election-data.md
-  - r-package.md
-  - usage_notes.md
-  - update-log.md
-
 # SEO: Social card configuration
 # Note: twitter config block removed to avoid generating broken @-handle meta tags.
 # The card type is set via page defaults below.

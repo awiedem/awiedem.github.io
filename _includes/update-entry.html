@@ -1,0 +1,9 @@
+<article class="update-entry">
+  <div class="update-meta">
+    <time datetime="{{ include.entry.date | date: "%Y-%m-%d" }}">{{ include.entry.date | date: "%-d %B %Y" }}</time>
+    {%- if include.entry.major %}<span class="update-flag">Major update</span>{% endif %}
+  </div>
+  <div class="update-body">
+{{ include.entry.content }}
+  </div>
+</article>

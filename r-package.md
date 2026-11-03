@@ -1,28 +1,19 @@
 ---
 layout: default
-title: R package
-description: "The gerda R package: download and analyze German election data directly in R. Available on CRAN."
+title: R and Python
+description: "The gerda R and Python packages: download and analyze German election data directly in R or Python. Available on CRAN and PyPI."
 permalink: /r-package/
 order: 3
 ---
-## R Package
 
-The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.8.1**, available on [CRAN](https://cran.r-project.org/package=gerda) since 27 July 2026 and matching the development version on [GitHub](https://github.com/hhilbig/gerda). As of v0.8 the package exposes 47 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
+# R and Python {#r-package}
 
-### Python users
+<p class="page-intro">The gerda packages download the files listed on the <a href="/election-data/">data page</a>.</p>
 
-A lightweight Python loader is also available: [`gerda` on PyPI](https://pypi.org/project/gerda/) (source: [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py)). It exposes three functions, `gerda.load(name)`, `gerda.datasets()`, and `gerda.party_crosswalk(...)`, and returns pandas DataFrames (or polars, optionally). Bundled covariate / Census merge helpers are not yet ported; use the R package for those.
+<div class="packages-grid copyable" markdown="1">
+<div markdown="1">
 
-```bash
-pip install gerda
-```
-
-```python
-import gerda
-df = gerda.load("federal_cty_harm")
-```
-
-### Installation
+## R {#installation}
 
 ```R
 # Install from CRAN
@@ -30,7 +21,51 @@ install.packages("gerda")
 
 # Or install development version from GitHub
 devtools::install_github("hhilbig/gerda")
+
+library(gerda)
+data <- load_gerda_web("federal_cty_harm")
 ```
+
+The `gerda` R package provides tools to download and work with GERDA datasets directly in R. Current version: **0.8.1**, available on [CRAN](https://cran.r-project.org/package=gerda) since 27 July 2026 and matching the development version on [GitHub](https://github.com/hhilbig/gerda). As of v0.8 the package exposes 47 datasets covering local, state, federal, mayoral, Landrat (county executive), European Parliament, and county (Kreistag) elections, including federal and state results at the constituency (Wahlkreis) level, plus crosswalks and covariates. Federal county-level data goes back to 1953; the other election families extend through 2026.
+
+</div>
+<div markdown="1">
+
+## Python {#python-users}
+
+```bash
+pip install gerda
+```
+
+```python
+import gerda
+data = gerda.load("federal_cty_harm")
+```
+
+A lightweight Python loader is also available: [`gerda` on PyPI](https://pypi.org/project/gerda/) (source: [hhilbig/gerda-py](https://github.com/hhilbig/gerda-py)). It exposes three functions, `gerda.load(name)`, `gerda.datasets()`, and `gerda.party_crosswalk(...)`, and returns pandas DataFrames (or polars, optionally). Bundled covariate / Census merge helpers are not yet ported; use the R package for those.
+
+</div>
+</div>
+
+Both examples load federal county results on fixed 2021 boundaries. [Browse datasets](/election-data/)
+
+## Package differences
+
+The R package includes covariate and Census merge helpers. These helpers are not yet available in Python.
+
+| Task | R | Python |
+|---|---|---|
+| List datasets | `gerda_data_list()` | `gerda.datasets()` |
+| Load a dataset | `load_gerda_web(name)` | `gerda.load(name)` |
+| Party crosswalk | `party_crosswalk(...)` | `gerda.party_crosswalk(...)` |
+
+## Reference and source code {#documentation}
+
+R: [CRAN](https://cran.r-project.org/package=gerda) · [Vignette](https://cran.r-project.org/web/packages/gerda/vignettes/gerda.html) · [Reference manual (PDF)](https://cran.r-project.org/web/packages/gerda/gerda.pdf) · [GitHub](https://github.com/hhilbig/gerda)
+
+Python: [PyPI](https://pypi.org/project/gerda/) · [GitHub](https://github.com/hhilbig/gerda-py)
+
+<div class="package-reference copyable" markdown="1">
 
 ## Main Functions
 
@@ -122,11 +157,7 @@ party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
 
 The underlying values never changed; only the names were wrong. Destatis groups ages 60–74 into a single bin, so true 50–64 and 65+ shares cannot be constructed from these tables. Code written against the old names will error rather than silently return the wrong age group, but any published results that relied on them describe different age ranges than their labels implied.
 
-## Documentation
-
-- [Vignette: Introduction to gerda](https://cran.r-project.org/web/packages/gerda/vignettes/gerda.html)
-- [Reference Manual (PDF)](https://cran.r-project.org/web/packages/gerda/gerda.pdf)
-- [GitHub Repository](https://github.com/hhilbig/gerda)
+</div>
 
 ## Feedback
 

@@ -494,6 +494,25 @@
     });
   }
 
+  // Anchors on the Data and Documentation pages for each election type.
+  const datasetAnchors = {
+    federal: { data: "federal-elections", docs: "federal-elections" },
+    state: { data: "state-elections", docs: "state-elections" },
+    municipal: { data: "local-elections", docs: "municipal-elections" },
+    european: { data: "european-elections", docs: "european-elections" },
+    mayoral: { data: "mayoral-elections", docs: "mayoral-elections" },
+    landrat: { data: "landrat-elections", docs: "landrat-elections" },
+    county: { data: "county-elections-kreistagswahlen", docs: "county-elections" },
+    constituency: { data: "federal-elections", docs: "constituency-elections" }
+  };
+
+  function updateDatasetLinks(dataset) {
+    const anchors = datasetAnchors[dataset];
+    if (!anchors) return;
+    document.getElementById("map-link-data").href = `/election-data/#${anchors.data}`;
+    document.getElementById("map-link-docs").href = `/usage-notes/#${anchors.docs}`;
+  }
+
   async function switchDataset(dataset) {
     showLoading(`Loading ${datasetLabels[dataset] || dataset}...`);
 
@@ -509,6 +528,7 @@
 
     state.dataset = dataset;
     updateDatasetNote(dataset);
+    updateDatasetLinks(dataset);
 
     // Ensure current dataset is in time series datasets
     if (!state.timeDatasets.includes(dataset)) {
@@ -594,6 +614,21 @@
       state.year = years.length ? years[years.length - 1] : null;
     }
     if (state.year) elements.yearSelect.value = state.year;
+  }
+
+  // A link can open a specific view: /dashboard/?year=1998&show=winning_party
+  function applyLinkedView() {
+    const params = new URLSearchParams(window.location.search);
+    const show = params.get("show");
+    if ((datasetVariables[state.dataset] || []).includes(show)) {
+      state.variable = show;
+      elements.variableSelect.value = show;
+    }
+    const year = Number(params.get("year"));
+    if (yearsByDataset.get(state.dataset)?.has(year)) {
+      state.year = year;
+      elements.yearSelect.value = year;
+    }
   }
 
   // ---- Map helpers ----
@@ -921,6 +956,11 @@
     svg.transition().duration(500).call(zoomBehavior.transform, d3.zoomIdentity);
   }
 
+  function zoomBy(factor) {
+    if (!svg || !zoomBehavior) return;
+    svg.transition().duration(200).call(zoomBehavior.scaleBy, factor);
+  }
+
   function setSelectedAgs(ags, opts) {
     if (!ags) return;
     const shouldZoom = opts && opts.zoom;
@@ -1075,7 +1115,7 @@
       };
     }
 
-    if (elements.chart) Plotly.newPlot(elements.chart, traces, layout, { responsive: true, displayModeBar: false });
+    if (elements.chart) plotChart(elements.chart, traces, layout, { responsive: true, displayModeBar: false });
   }
 
   // ---- Plotly on demand ----
@@ -1085,6 +1125,11 @@
   // there yet they load it and re-run themselves.
 
   const PLOTLY_SRC = "https://cdn.plot.ly/plotly-2.32.0.min.js";
+  const CHART_FONT = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+
+  function plotChart(element, traces, layout, config) {
+    return Plotly.newPlot(element, traces, { ...layout, font: { family: CHART_FONT, ...(layout || {}).font } }, config);
+  }
   let plotlyPromise = null;
 
   function ensurePlotly() {
@@ -1226,7 +1271,7 @@
       paper_bgcolor: "#fff"
     };
 
-    Plotly.newPlot(elements.nationalChart, traces, layout, { responsive: true, displayModeBar: false });
+    plotChart(elements.nationalChart, traces, layout, { responsive: true, displayModeBar: false });
   }
 
   // ---- Municipality profile ----
@@ -1427,7 +1472,7 @@
       bargap: 0.02
     };
 
-    Plotly.newPlot(elements.distributionChart, traces, layout, { responsive: true });
+    plotChart(elements.distributionChart, traces, layout, { responsive: true });
   }
 
   // ---- Change analysis ----
@@ -1511,7 +1556,7 @@
       const vals = changes.map((c) => c.change);
       const metricLabel = metricLabels[metric] || metric;
 
-      Plotly.newPlot(elements.changeHistogram, [{
+      plotChart(elements.changeHistogram, [{
         x: vals,
         type: "histogram",
         nbinsx: 60,
@@ -1598,7 +1643,7 @@
     const xFmt = percentMetrics.has(xMetric) ? ".0%" : ",";
     const yFmt = percentMetrics.has(yMetric) ? ".0%" : ",";
 
-    Plotly.newPlot(elements.scatterChart, traces, {
+    plotChart(elements.scatterChart, traces, {
       margin: { t: 20, r: 30, l: 60, b: 50 },
       xaxis: { title: metricLabels[xMetric] || xMetric, tickformat: xFmt },
       yaxis: { title: metricLabels[yMetric] || yMetric, tickformat: yFmt },
@@ -1663,7 +1708,7 @@
       })
     );
 
-    Plotly.newPlot(elements.coverageChart, [{
+    plotChart(elements.coverageChart, [{
       z: zData,
       x: sortedYears,
       y: datasets.map((ds) => datasetLabels[ds]),
@@ -1978,6 +2023,8 @@
       if (state.analysisTab === "profile") updateProfile();
     });
 
+    document.getElementById("zoom-in").addEventListener("click", () => zoomBy(1.6));
+    document.getElementById("zoom-out").addEventListener("click", () => zoomBy(1 / 1.6));
     elements.zoomResetButton.addEventListener("click", () => {
       zoomReset();
     });
@@ -2178,6 +2225,7 @@
       // Init UI
       updateVariableOptions();
       updateYearOptions();
+      applyLinkedView();
       buildColorScale();
       updateSummaryStats();
       populateRegionLists();

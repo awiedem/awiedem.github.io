@@ -1,19 +1,28 @@
 ---
 layout: default
-title: Update log
+title: Updates
 description: "Changelog for GERDA datasets: track updates, corrections, and new data releases for German election data."
 permalink: /update-log/
 order: 5
 ---
 
-# Update Log
+<div class="section-line">
+  <h1 id="update-log">Updates</h1>
+  <a href="/updates.xml">Subscribe to the Atom feed</a>
+</div>
 
-This page tracks major updates to the German Election Database datasets. Subscribe to the [Atom feed](/updates.xml) to be notified of new entries.
+<p class="page-intro">Dataset additions and corrections.</p>
 
 {% assign entries = site.updates | sort: "date" | reverse %}
-{% for entry in entries %}
-<div class="update-entry{% if entry.major %} major{% endif %}">
-<p><span class="update-date">{{ entry.date | date: "%Y-%m-%d" }}</span></p>
-{{ entry.content }}
-</div>
+{% for entry in entries limit: 10 %}
+{% include update-entry.html entry=entry %}
 {% endfor %}
+
+{% if entries.size > 10 %}
+<details class="archive">
+<summary>Older updates</summary>
+{% for entry in entries offset: 10 %}
+{% include update-entry.html entry=entry %}
+{% endfor %}
+</details>
+{% endif %}

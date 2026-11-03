@@ -25,17 +25,25 @@ Note: Changes to `_config.yml` require restarting the server.
 
 ## Architecture
 
-**Static Site Generator**: Jekyll 4.3.3 with Minima theme
+**Static Site Generator**: Jekyll with the Minima theme gem (Gemfile pins 4.3.3 locally). GitHub Pages deploys `main` with its legacy build, so production runs the `github-pages` gem's Jekyll 3.10: avoid features newer than that. Only `{% seo %}` and the feed come from the theme; its stylesheet is not loaded.
 
-**Content Pages** (Markdown with YAML front matter):
-- `index.md` - Homepage with project overview, author info, citation
-- `election-data.md` - Data download links and dataset descriptions
-- `r-package.md` - R package documentation
-- `usage_notes.md` - Detailed usage notes and data sources
+**Content Pages** (Markdown with YAML front matter; URLs are stable, titles and nav labels are not):
+- `index.md` (`/`) - Homepage: six-map band of federal elections, dataset table, authors, citation
+- `election-data.md` (`/election-data/`) - Data download tables; nav label "Data"
+- `dashboard.md` (`/dashboard/`) - Election explorer; nav label "Map". Links can open a federal view with `?year=1998&show=winning_party`, which is how the homepage maps link in.
+- `meinungsbild.md` (`/meinungsbild/`) - Opinion map
+- `usage_notes.md` (`/usage-notes/`) - Documentation; uses `layout: docs` with a sidebar in `_includes/docs-sidebar.html`. Add new sections there too.
+- `r-package.md` (`/r-package/`) - R and Python packages; nav label "R / Python"
+- `update-log.md` (`/update-log/`) - Updates; the newest 10 entries show, older ones sit in a `<details>`
 
-**Configuration**:
-- `_config.yml` - Jekyll settings, site metadata, navigation order (`header_pages`)
-- `Gemfile` - Ruby dependencies
+**Configuration and design**:
+- `_data/navigation.yml` - Main navigation, in order
+- `assets/css/custom.css` - Design tokens and all shared styles; the explorers read the same tokens (`gerda-dashboard.css`, `gerda-meinungsbild.css`)
+- `assets/js/gerda-tools.js` - Copy buttons, the Data page filter, the documentation sidebar highlight. The pages work without it.
+- `_data/package_datasets.yml` - Names the R and Python packages can load, written by `python3 scripts/update_package_datasets.py`; rerun after a package release. A Data page row gets a copy button only when its name is listed.
+- `_includes/citation.html` - The citation and BibTeX shown on the homepage and in the documentation
+
+**Data page rows** are Markdown tables inside `<section class="download-section">`, in six columns: Dataset, Geography, Years, Boundaries, Updated, Download. The first column holds the file stem in backticks, then an optional `<small>` label; the filter and copy buttons read that stem. Keep the anchors `#local-elections` and `#county-elections-kreistagswahlen`, which older links and the explorer use.
 
 ## Writing update-log entries
 
@@ -81,8 +89,8 @@ The site is static and served by GitHub Pages with gzip, so download size is the
 
 - **Boundary files** (`assets/data/gerda_municipalities_2021.geojson`, `assets/data/meinungsbild/kreise.geojson`) are simplified with mapshaper before committing; the raw exports are 38 MB and 21 MB, the committed versions about 7 MB and 2 MB. Regenerate with `python3 scripts/simplify_boundaries.py <raw> <out>`, which runs mapshaper and then rewinds rings to the clockwise-exterior convention d3 needs (mapshaper alone writes the opposite winding, and the map renders as one solid block). Topology is preserved, and every feature keeps its properties.
 - **Dashboard CSVs** carry turnout and vote shares rounded to 4 decimals (`format_share()` in `scripts/generate_dashboard_data.py`). Full-precision floats doubled the download.
-- **Hero image** is 1600×800: `map_elec_fed_combined.webp` (about 160 KB) with `map_elec_fed_combined.jpg` as fallback and social preview. It shows the 2025 federal election (turnout, CDU/CSU, SPD by municipality on 2021 boundaries) and is drawn by `scripts/hero_map.R`, which downloads `federal_muni_harm_21` through the gerda package and reads the 2021 VG250 shapes from the sibling data repo; convert its PNG with `cwebp -q 82` and `sips` as the script header says. Do not commit the PNG.
-- **Download table sizes and dates** come from `_data/downloads.yml`, written by `python3 scripts/update_download_data.py` (Content-Length from the media mirror, last CSV commit date from the GitHub API). Rerun it after the data repo publishes; the table rows in `election-data.md` look the values up by file stem, so a new dataset needs a row with the usual links and nothing else.
+- **Homepage maps** are six text-free images, `assets/images/map_federal_<year>.webp` (420×567, `cwebp -m 6 -q 70`, about 45 KB each), drawn by `scripts/hero_map.R` from `assets/data/gerda_federal.csv` and the 2021 VG250 shapes in the sibling data repo. Years and the legend are page text in `index.md`. `map_elec_fed_combined.jpg` (1600×800) is only the social preview, written by the same script. Do not commit the PNGs.
+- **Download table sizes and dates** come from `_data/downloads.yml`, written by `python3 scripts/update_download_data.py` (Content-Length from the media mirror, last CSV commit date from the GitHub API). Rerun it after the data repo publishes; the table rows in `election-data.md` look the values up by file stem (`csv_mb`, `xlsx_mb`, `rds_mb`, `updated`), so a new dataset needs a row with the usual links and nothing else.
 - **Scripts** for the dashboard and Meinungsbild pages load with `defer`; the preconnect hints for d3 and Plotly are emitted only on those two pages (`_includes/head.html`).
 
 **Related Repositories**:

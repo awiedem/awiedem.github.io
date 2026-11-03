@@ -40,131 +40,112 @@ image: /assets/images/map_elec_fed_combined.jpg
 }
 </script>
 
-<div class="hero">
-  <div class="hero-content">
-    <div class="hero-badge"><a href="https://www.nature.com/articles/s41597-025-04811-5" style="text-decoration:none;color:inherit;">Published in <strong>Nature: Scientific Data</strong> (2025)</a></div>
-    <h1>GERDA: German Election Database</h1>
-    <p>Election results for Germany at the municipality and constituency level: federal, state, local, European, mayoral, Landrat, and county elections since 1945, plus subnational public opinion estimates for 43 policy issues.</p>
-    <div class="hero-actions">
-      <a href="/dashboard/" class="btn btn-primary">Explore Dashboard</a>
-      <a href="/election-data/" class="btn btn-secondary">Download Data</a>
-      <a href="/meinungsbild/" class="btn btn-secondary">Meinungsbild</a>
-    </div>
-  </div>
-  <div class="hero-image">
-    <picture>
-      <source srcset="/assets/images/map_elec_fed_combined.webp" type="image/webp">
-      <img src="/assets/images/map_elec_fed_combined.jpg" alt="Map showing federal election results across German municipalities" width="1600" height="800" loading="eager" fetchpriority="high">
-    </picture>
-  </div>
+<div class="home-lede">
+  <h1>German Election Database</h1>
+  <p class="page-intro">GERDA provides German election results at the municipality, county and constituency level. Original and harmonized files support analyses of individual elections and comparisons over time.</p>
 </div>
 
-## Datasets
+<figure class="map-strip">
+  <div class="map-strip-maps">
+    <a class="map-strip-item" href="/dashboard/?year=1990&amp;show=winning_party" title="Open 1990 in the election explorer"><span>1990</span><img src="/assets/images/map_federal_1990.webp" alt="Leading party by municipality in the 1990 federal election" width="420" height="567" decoding="async"></a>
+    <a class="map-strip-item" href="/dashboard/?year=1998&amp;show=winning_party" title="Open 1998 in the election explorer"><span>1998</span><img src="/assets/images/map_federal_1998.webp" alt="Leading party by municipality in the 1998 federal election" width="420" height="567" decoding="async"></a>
+    <a class="map-strip-item" href="/dashboard/?year=2005&amp;show=winning_party" title="Open 2005 in the election explorer"><span>2005</span><img src="/assets/images/map_federal_2005.webp" alt="Leading party by municipality in the 2005 federal election" width="420" height="567" decoding="async"></a>
+    <a class="map-strip-item" href="/dashboard/?year=2013&amp;show=winning_party" title="Open 2013 in the election explorer"><span>2013</span><img src="/assets/images/map_federal_2013.webp" alt="Leading party by municipality in the 2013 federal election" width="420" height="567" decoding="async" loading="lazy"></a>
+    <a class="map-strip-item" href="/dashboard/?year=2021&amp;show=winning_party" title="Open 2021 in the election explorer"><span>2021</span><img src="/assets/images/map_federal_2021.webp" alt="Leading party by municipality in the 2021 federal election" width="420" height="567" decoding="async" loading="lazy"></a>
+    <a class="map-strip-item" href="/dashboard/?year=2025&amp;show=winning_party" title="Open 2025 in the election explorer"><span>2025</span><img src="/assets/images/map_federal_2025.webp" alt="Leading party by municipality in the 2025 federal election" width="420" height="567" decoding="async" loading="lazy"></a>
+  </div>
+  <figcaption class="map-caption">
+    <span class="map-legend">
+      <span><i style="background:#20262c"></i>CDU/CSU</span>
+      <span><i style="background:#E3000F"></i>SPD</span>
+      <span><i style="background:#0489DB"></i>AfD</span>
+      <span><i style="background:#BE3075"></i>Die Linke</span>
+      <span><i style="background:#1AA037"></i>Greens</span>
+      <span><i style="background:#e8c200"></i>FDP</span>
+    </span>
+    <span>Leading party by municipality, on 2021 boundaries. Darker means a larger vote share. <a href="/dashboard/?show=winning_party">Explore all ten elections</a></span>
+  </figcaption>
+</figure>
 
-<div class="feature-grid">
-  <div class="feature-card">
-    <h3>Federal Elections</h3>
-    <div class="card-meta">Municipality level: 1980&ndash;2025 &middot; County level: 1953&ndash;2025</div>
-    <p>Turnout and vote shares for all parties, with harmonized datasets mapped to 2021 and 2025 boundaries.</p>
-    <a href="/usage-notes/#federal-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>State Elections</h3>
-    <div class="card-meta">Municipality level: 1946&ndash;2026 &middot; 16 states</div>
-    <p>State election results with three harmonization versions (2021, 2023, 2025 boundaries).</p>
-    <a href="/usage-notes/#state-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>Constituency Elections</h3>
-    <div class="card-meta">Federal: 2002&ndash;2025 &middot; State: 1980&ndash;2026</div>
-    <p>Results by Wahlkreis: all 299 Bundestag constituencies and the Landtag constituencies of all 16 states, with first and second votes.</p>
-    <a href="/usage-notes/#constituency-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>Municipal Elections</h3>
-    <div class="card-meta">1984&ndash;2026 &middot; All municipalities</div>
-    <p>Local election results across all German municipalities with turnout and party vote shares.</p>
-    <a href="/usage-notes/#municipal-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>European Elections</h3>
-    <div class="card-meta">2009&ndash;2024 &middot; Municipality level</div>
-    <p>European Parliament election results at the municipality level across four elections, harmonized to 2021 boundaries.</p>
-    <a href="/usage-notes/#european-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>Mayoral Elections</h3>
-    <div class="card-meta">1945&ndash;2026 &middot; 13 states</div>
-    <p>Election results, candidates, and a mayor panel that follows individuals across terms.</p>
-    <a href="/usage-notes/#mayoral-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>Landrat Elections</h3>
-    <div class="card-meta">1945&ndash;2026 &middot; 11 states</div>
-    <p>Direct elections of the heads of Landkreise and equivalent regions, with election and candidate data.</p>
-    <a href="/usage-notes/#landrat-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>County Elections</h3>
-    <div class="card-meta">1948&ndash;2026 &middot; Municipality &amp; county level</div>
-    <p>County council election results, harmonized to 2021 boundaries.</p>
-    <a href="/usage-notes/#county-elections" class="card-link-subtle">Usage notes</a>
-  </div>
-  <div class="feature-card">
-    <h3>Meinungsbild</h3>
-    <div class="card-meta">43 policy issues &middot; MRP estimates</div>
-    <p>Subnational public opinion estimates across states, electoral districts, and counties based on ~118,000 survey responses.</p>
-    <a href="/meinungsbild/" class="card-link-subtle">Details</a>
-  </div>
-  <div class="feature-card">
-    <h3>Harmonization</h3>
-    <div class="card-meta">Consistent boundaries across time</div>
-    <p>Harmonized versions map results onto fixed municipal boundaries with population-weighted crosswalks.</p>
-    <a href="/usage-notes/#harmonization" class="card-link-subtle">Usage notes</a>
-  </div>
+<div class="section-line">
+  <h2 id="datasets">Election data</h2>
+  <p class="muted">CSV &middot; Excel &middot; RDS</p>
 </div>
 
-<hr class="section-divider">
-
-## Authors
-
-- [Vincent Heddesheimer](https://vincentheddesheimer.github.io/) (<vincent.heddesheimer@princeton.edu>)
-- [Hanno Hilbig](https://www.hannohilbig.com/) (<hhilbig@ucdavis.edu>)
-- [Florian Sichart](https://www.floriansichart.com/) (<fsichart@princeton.edu>)
-- [Andreas Wiedemann](https://www.abwiedemann.com/) (<awiedemann@princeton.edu>)
-
-<hr class="section-divider">
-
-<div class="citation-card" markdown="1">
-
-## Citation
-
-Please cite the accompanying [paper](https://www.nature.com/articles/s41597-025-04811-5) when using this dataset:
-
-Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2025. *GERDA: German Election Database*. Nature: Scientific Data, 12: 618.
-
-```
-@article{Heddesheimer2025GERDA,
-   author = {Vincent Heddesheimer and Hanno Hilbig and Florian Sichart and Andreas Wiedemann},
-   doi = {10.1038/s41597-025-04811-5},
-   issn = {2052-4463},
-   issue = {1},
-   journal = {Scientific Data},
-   month = {4},
-   pages = {618},
-   title = {GERDA: The German Election Database},
-   volume = {12},
-   url = {https://www.nature.com/articles/s41597-025-04811-5},
-   year = {2025}
-}
-```
-
+<div class="table-responsive home-table-wrap">
+  <table class="home-table">
+    <thead>
+      <tr><th>Election series</th><th>Geography</th><th>Coverage</th><th>Files</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="series-name">Federal elections</span><span class="series-de">Bundestagswahlen</span></td>
+        <td>Municipalities, counties, constituencies</td>
+        <td>1953&ndash;2025</td>
+        <td><div class="file-links"><a href="/election-data/#federal-elections" aria-label="Download federal elections">Download</a><a href="/usage-notes/#federal-elections" aria-label="Documentation for federal elections">Documentation</a></div></td>
+      </tr>
+      <tr>
+        <td><span class="series-name">State elections</span><span class="series-de">Landtagswahlen</span></td>
+        <td>Municipalities, constituencies</td>
+        <td>1946&ndash;2026</td>
+        <td><div class="file-links"><a href="/election-data/#state-elections" aria-label="Download state elections">Download</a><a href="/usage-notes/#state-elections" aria-label="Documentation for state elections">Documentation</a></div></td>
+      </tr>
+      <tr>
+        <td><span class="series-name">Municipal elections</span><span class="series-de">Gemeinderats- und Stadtratswahlen</span></td>
+        <td>Municipalities</td>
+        <td>1969&ndash;2026</td>
+        <td><div class="file-links"><a href="/election-data/#local-elections" aria-label="Download municipal elections">Download</a><a href="/usage-notes/#municipal-elections" aria-label="Documentation for municipal elections">Documentation</a></div></td>
+      </tr>
+      <tr>
+        <td><span class="series-name">European elections</span><span class="series-de">Europawahlen</span></td>
+        <td>Municipalities</td>
+        <td>2009&ndash;2024</td>
+        <td><div class="file-links"><a href="/election-data/#european-elections" aria-label="Download european elections">Download</a><a href="/usage-notes/#european-elections" aria-label="Documentation for european elections">Documentation</a></div></td>
+      </tr>
+      <tr>
+        <td><span class="series-name">Mayoral elections</span><span class="series-de">Bürgermeisterwahlen</span></td>
+        <td>Municipalities</td>
+        <td>1945&ndash;2026</td>
+        <td><div class="file-links"><a href="/election-data/#mayoral-elections" aria-label="Download mayoral elections">Download</a><a href="/usage-notes/#mayoral-elections" aria-label="Documentation for mayoral elections">Documentation</a></div></td>
+      </tr>
+      <tr>
+        <td><span class="series-name">Landrat elections</span><span class="series-de">Landratswahlen</span></td>
+        <td>Counties</td>
+        <td>1945&ndash;2026</td>
+        <td><div class="file-links"><a href="/election-data/#landrat-elections" aria-label="Download landrat elections">Download</a><a href="/usage-notes/#landrat-elections" aria-label="Documentation for landrat elections">Documentation</a></div></td>
+      </tr>
+      <tr>
+        <td><span class="series-name">County council elections</span><span class="series-de">Kreistagswahlen</span></td>
+        <td>Municipalities, counties</td>
+        <td>1948&ndash;2026</td>
+        <td><div class="file-links"><a href="/election-data/#county-elections-kreistagswahlen" aria-label="Download county council elections">Download</a><a href="/usage-notes/#county-elections" aria-label="Documentation for county council elections">Documentation</a></div></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<div class="contributing" markdown="1">
+<div class="home-notes">
+  <div class="home-links">
+    <a href="/election-data/#additional-files">Crosswalks, boundaries and covariates</a>
+    <a href="/usage-notes/#harmonization">Harmonization</a>
+    <a href="/meinungsbild/">Meinungsbild: opinion estimates for 43 policy issues</a>
+  </div>
+  <p class="small">Years refer to each series as a whole. Coverage varies by state, geography and file.</p>
+</div>
 
-## Contributing
-
-The database is maintained and extended regularly. For suggestions, data issues, or contributions, [open an issue](https://github.com/awiedem/german_election_data/issues) on GitHub or email us.
-
+<div class="credit-grid">
+  <div id="authors">
+    <h2>Authors</h2>
+    <ul class="author-list">
+      <li><a href="https://vincentheddesheimer.github.io/">Vincent Heddesheimer</a></li>
+      <li><a href="https://www.hannohilbig.com/">Hanno Hilbig</a></li>
+      <li><a href="https://www.floriansichart.com/">Florian Sichart</a></li>
+      <li><a href="https://www.abwiedemann.com/">Andreas Wiedemann</a></li>
+    </ul>
+    <p class="small" id="contributing">GERDA is maintained and extended regularly. For suggestions, data issues or contributions, <a href="https://github.com/awiedem/german_election_data/issues">open an issue</a> on GitHub or <a href="mailto:vincent.heddesheimer@princeton.edu">email us</a>.</p>
+  </div>
+  <div id="citation">
+    <h2>Citation</h2>
+    {% include citation.html %}
+  </div>
 </div>

@@ -70,7 +70,7 @@ permalink: /meinungsbild/
 
   <p>Estimates come from <strong>Multilevel Regression and Poststratification (MRP)</strong>, which models survey responses on respondent and area characteristics and reweights the predictions to each area's census composition, so that small areas get estimates too.</p>
 
-  <div class="feature-grid" style="margin-top: 24px;">
+  <div class="feature-grid">
     <div class="feature-card">
       <h3>Survey Data</h3>
       <p>~118,000 survey responses aggregated from five German survey programs: GLES Tracking, GLES Cross-Section 2025, GLES RCS 2025, GLES Cumulation, and ALLBUS (2009&ndash;2025).</p>

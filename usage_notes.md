@@ -1,41 +1,16 @@
 ---
-layout: default
-title: Usage notes
+layout: docs
+title: Documentation
 description: "Documentation for GERDA: dataset descriptions, known issues, harmonization methods, data sources, and citation guidelines."
 permalink: /usage-notes/
 order: 4
 ---
 
-# Usage Notes
+# Documentation {#usage-notes}
 
 <p class="page-intro">GERDA collects election results that were scattered across federal and state sources and reported in inconsistent formats, puts them in one standardized format, and maps historical results onto consistent municipal boundaries despite administrative changes.</p>
 
-<div class="section-nav-grid">
-  <a href="#federal-elections" class="section-nav-card">Federal Elections</a>
-  <a href="#state-elections" class="section-nav-card">State Elections</a>
-  <a href="#constituency-elections" class="section-nav-card">Constituency Elections</a>
-  <a href="#municipal-elections" class="section-nav-card">Municipal Elections</a>
-  <a href="#european-elections" class="section-nav-card">European Elections</a>
-  <a href="#mayoral-elections" class="section-nav-card">Mayoral Elections</a>
-  <a href="#landrat-elections" class="section-nav-card">Landrat Elections</a>
-  <a href="#county-elections" class="section-nav-card">County Elections</a>
-</div>
-
-<div class="toc" markdown="1">
-
-**Also on this page**
-- [How to use the data](#how-to-use-the-data)
-- [Denominators, missingness and result versions](#denominators-and-missingness)
-- [Opening in Excel / In Excel öffnen](#opening-in-excel)
-- [Harmonization](#harmonization)
-- [Meinungsbild (MRP)](#meinungsbild)
-- [Code availability](#code-availability)
-- [Authors](#authors)
-- [Citation](#citation)
-
-</div>
-
-## How to Use the Data
+## Choosing a dataset {#how-to-use-the-data}
 
 <div class="feature-grid">
   <div class="feature-card">
@@ -204,7 +179,7 @@ Election results at the constituency (Wahlkreis) level, for both federal and sta
 
 <div class="election-section-description" markdown="1">
 
-Kommunalwahl results at the municipality level, **1984&ndash;2026** (unharmonized) and **1990&ndash;2026** (harmonized), covering all 16 states. Includes turnout, party vote shares, and, where available, council **seats** (`seats_*` columns). Municipal elections are not synchronized across Germany&mdash;each state sets its own schedule.
+Kommunalwahl results at the municipality level, **1969&ndash;2026** (unharmonized) and **1990&ndash;2026** (harmonized), covering all 16 states. Includes turnout, party vote shares, and, where available, council **seats** (`seats_*` columns). Municipal elections are not synchronized across Germany&mdash;each state sets its own schedule.
 
 **Files:** `municipal_unharm`, `municipal_harm`, `municipal_harm_25`
 
@@ -415,28 +390,8 @@ The code that generates the datasets is in the `code` folder of our [GitHub repo
 
 We thank Cornelius Erfort, Sascha Riaz and Moritz Marbach for helpful comments. We also thank the anonymous reviewers at *Scientific Data* for their constructive feedback. Thanks to Daniela Gaus, Maurice Baudet von Gersdorff, and Luca Schenk for excellent research assistance and Victor Kreitman for providing code and data on election dates.
 
-<div class="citation-card" markdown="1">
+<h2 id="citation">Citation</h2>
 
-## Citation
+Please cite the accompanying paper when using this dataset:
 
-Please cite the accompanying [paper](https://www.nature.com/articles/s41597-025-04811-5) when using this dataset:
-
-Heddesheimer, Vincent, Hanno Hilbig, Florian Sichart, & Andreas Wiedemann. 2025. *GERDA: German Election Database*. Nature: Scientific Data, 12: 618.
-
-```
-@article{Heddesheimer2025GERDA,
-   author = {Vincent Heddesheimer and Hanno Hilbig and Florian Sichart and Andreas Wiedemann},
-   doi = {10.1038/s41597-025-04811-5},
-   issn = {2052-4463},
-   issue = {1},
-   journal = {Scientific Data},
-   month = {4},
-   pages = {618},
-   title = {GERDA: The German Election Database},
-   volume = {12},
-   url = {https://www.nature.com/articles/s41597-025-04811-5},
-   year = {2025}
-}
-```
-
-</div>
+{% include citation.html %}

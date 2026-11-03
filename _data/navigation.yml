@@ -1,0 +1,13 @@
+# Main navigation, in order. The labels are short; each page keeps its own title.
+- label: Data
+  url: /election-data/
+- label: Map
+  url: /dashboard/
+- label: Meinungsbild
+  url: /meinungsbild/
+- label: Documentation
+  url: /usage-notes/
+- label: R / Python
+  url: /r-package/
+- label: Updates
+  url: /update-log/

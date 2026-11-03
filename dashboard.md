@@ -1,27 +1,38 @@
 ---
 layout: default
-title: "Dashboard"
+title: "Election explorer"
 description: "Interactive map of German election results by municipality. Explore turnout and party vote shares across federal, state, municipal, European, mayoral, and county elections."
 permalink: /dashboard/
 ---
 
 <link rel="stylesheet" href="/assets/css/gerda-dashboard.css">
 
-<h1>Election Explorer</h1>
-<p class="dashboard-intro">German election results at every level of government. Select an election type, year, and measure to show on the map.</p>
+<h1>Election explorer</h1>
+<p class="page-intro">German election results at every level of government. Choose an election, year and measure. Search for a place or select it on the map.</p>
 
 <nav class="election-tabs" role="tablist" aria-label="Election type">
   <button class="tab-btn active" data-dataset="federal" role="tab" aria-selected="true">Federal</button>
   <button class="tab-btn" data-dataset="state" role="tab" aria-selected="false">State</button>
   <button class="tab-btn" data-dataset="municipal" role="tab" aria-selected="false">Municipal</button>
+  <button class="tab-btn" data-dataset="european" role="tab" aria-selected="false">European</button>
   <button class="tab-btn" data-dataset="mayoral" role="tab" aria-selected="false">Mayoral</button>
   <button class="tab-btn" data-dataset="landrat" role="tab" aria-selected="false">Landrat</button>
-  <button class="tab-btn" data-dataset="county" role="tab" aria-selected="false">County</button>
+  <button class="tab-btn" data-dataset="county" role="tab" aria-selected="false">County council</button>
   <button class="tab-btn" data-dataset="constituency" role="tab" aria-selected="false">Constituency</button>
-  <button class="tab-btn" data-dataset="european" role="tab" aria-selected="false">European</button>
 </nav>
 
 <p class="dashboard-note" id="dataset-note" hidden></p>
+
+<div class="map-toolbar">
+  <label for="municipality-search">Place name or geographic code</label>
+  <div class="search-row">
+    <div class="search-wrapper">
+      <input id="municipality-search" placeholder="Type a name or code..." aria-label="Search for a place by name or geographic code" autocomplete="off">
+      <div id="search-dropdown" class="search-dropdown" role="listbox" aria-label="Search results"></div>
+    </div>
+    <button id="municipality-clear" type="button" aria-label="Clear selection">Clear</button>
+  </div>
+</div>
 
 <div class="gerda-dashboard" role="application" aria-label="German Election Data Explorer">
   <aside class="dashboard-sidebar" role="region" aria-label="Map controls">
@@ -59,50 +70,54 @@ permalink: /dashboard/
       </div>
     </div>
 
-    <div class="summary-stats" id="summary-stats">
-      <div class="stat-row">
-        <span class="stat-label">National avg.</span>
-        <span class="stat-value" id="stat-avg">—</span>
+    <details class="map-options">
+      <summary>Statistics, layers and export</summary>
+      <div class="summary-stats" id="summary-stats">
+        <div class="stat-row">
+          <span class="stat-label">National avg.</span>
+          <span class="stat-value" id="stat-avg">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Highest</span>
+          <span class="stat-value" id="stat-max">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Lowest</span>
+          <span class="stat-value" id="stat-min">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Regions</span>
+          <span class="stat-value" id="stat-count">—</span>
+        </div>
       </div>
-      <div class="stat-row">
-        <span class="stat-label">Highest</span>
-        <span class="stat-value" id="stat-max">—</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Lowest</span>
-        <span class="stat-value" id="stat-min">—</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Regions</span>
-        <span class="stat-value" id="stat-count">—</span>
-      </div>
-    </div>
 
-    <div class="control-group layer-toggles-group">
-      <label>Map layers</label>
-      <div class="layer-toggles">
-        <label class="toggle-label">
-          <input type="checkbox" id="toggle-borders" checked>
-          <span>Region borders</span>
-        </label>
-        <label class="toggle-label">
-          <input type="checkbox" id="toggle-states">
-          <span>State borders</span>
-        </label>
-        <label class="toggle-label">
-          <input type="checkbox" id="toggle-cities">
-          <span>City labels</span>
-        </label>
+      <div class="control-group layer-toggles-group">
+        <label>Map layers</label>
+        <div class="layer-toggles">
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-borders" checked>
+            <span>Region borders</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-states">
+            <span>State borders</span>
+          </label>
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-cities">
+            <span>City labels</span>
+          </label>
+        </div>
       </div>
-    </div>
 
-    <div class="control-group download-group">
-      <label>Download map</label>
-      <div class="download-buttons">
-        <button id="download-svg" type="button">SVG</button>
-        <button id="download-png" type="button">PNG</button>
+      <div class="control-group download-group">
+        <label>Download map</label>
+        <div class="download-buttons">
+          <button id="download-svg" type="button">SVG</button>
+          <button id="download-png" type="button">PNG</button>
+        </div>
       </div>
-    </div>
+      <p class="map-note">Averages and ranges treat every region equally, so they are not national totals.</p>
+    </details>
   </aside>
 
   <section class="dashboard-map" role="region" aria-label="Interactive election map">
@@ -111,21 +126,21 @@ permalink: /dashboard/
         <div class="loading-spinner" aria-hidden="true"></div>
         <div class="loading-text">Loading election data...</div>
       </div>
-      <button id="zoom-reset" class="zoom-reset-btn" type="button" aria-label="Reset map zoom" title="Reset zoom">&#x21BA;</button>
+      <div class="map-zoom">
+        <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
+        <button id="zoom-out" type="button" aria-label="Zoom out">&minus;</button>
+        <button id="zoom-reset" type="button" aria-label="Reset map zoom">Reset view</button>
+      </div>
     </div>
     <div id="hover-info" class="hover-info" aria-live="polite">Hover a region to see details.</div>
     <p class="map-hint">Scroll to zoom · Drag to pan</p>
 
-    <div class="map-toolbar">
-      <label for="municipality-search">Search</label>
-      <div class="search-wrapper">
-        <input id="municipality-search" placeholder="Type a municipality name..." aria-label="Search for a municipality by name" autocomplete="off">
-        <div id="search-dropdown" class="search-dropdown" role="listbox" aria-label="Search results"></div>
-      </div>
-      <button id="municipality-clear" type="button" aria-label="Clear selection">Clear</button>
-    </div>
-
     <div id="selection-info" class="selection-info" aria-live="polite" role="status"></div>
+
+    <div class="map-links">
+      <a id="map-link-data" href="/election-data/#federal-elections">Download this election series</a>
+      <a id="map-link-docs" href="/usage-notes/#federal-elections">Coverage and documentation</a>
+    </div>
   </section>
 </div>
 
