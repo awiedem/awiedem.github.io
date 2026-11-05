@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Election explorer"
-description: "Interactive map of German election results by municipality. Explore turnout and party vote shares across federal, state, municipal, European, mayoral, and county elections."
+description: "Interactive map of German election results by municipality. Explore turnout and party vote shares across federal, state, municipal, European, mayoral, Landrat, county council and constituency elections."
 permalink: /dashboard/
 ---
 

@@ -86,7 +86,7 @@ Feedback: email <hhilbig@ucdavis.edu> or open an [issue on GitHub](https://githu
   - `max_retries`: Extra download attempts after the first, with backoff (default `2`). GERDA files are served through Git LFS; a download that returns the LFS pointer instead of the data is now caught and retried.
   - `cache`: If `TRUE`, downloaded datasets are cached on disk and reused on later calls instead of being re-downloaded (default `FALSE`). `refresh = TRUE` forces a fresh download.
   - Includes fuzzy matching for file names and suggests close matches if an exact match isn't found.
-  - Party vote-share columns (`cdu`, `spd`, etc.) are fractions of valid votes and do not sum to 1 across named major parties: the remainder sits in smaller-party columns and an `other` category.
+  - Party vote-share columns (`cdu`, `spd`, etc.) have denominators that differ by file ([details](/usage-notes/#denominators-and-missingness)) and do not sum to 1 across named major parties: the remainder sits in smaller-party columns and an `other` category.
 
 - **`clear_gerda_cache()`** and **`gerda_cache_dir()`**: Clear and locate the on-disk download cache used when `cache = TRUE`. The cache lives under `tools::R_user_dir("gerda", "cache")` and is only written when caching is switched on.
 
@@ -113,6 +113,8 @@ Feedback: email <hhilbig@ucdavis.edu> or open an [issue on GitHub](https://githu
 - **`gerda_join_diagnostics(x)`**: Takes a data frame returned by `add_gerda_covariates()` or `add_gerda_census()` and returns a machine-readable report on the joins that produced it, one row per join in execution order (so a pipe doing both gives two rows). Columns cover input and output row counts, matched and unmatched rows and units, unmatched rows split into out-of-coverage years versus unexpected non-matches versus missing keys, and the eligible match rate. Both helpers also verify that the bundled reference keys are complete and unique and that the join leaves the input row count unchanged, so a merge cannot silently duplicate or drop observations.
 
 ```R
+library(dplyr)
+
 merged <- load_gerda_web("federal_cty_harm") %>%
   add_gerda_covariates(unmatched = "error")
 
@@ -129,6 +131,7 @@ gerda_join_diagnostics(merged)
 
 ```R
 library(gerda)
+library(dplyr)
 
 # List available datasets
 gerda_data_list()
@@ -144,7 +147,7 @@ federal_county <- load_gerda_web("federal_cty_harm") %>%
 gerda_covariates_codebook()
 
 # Map party names to ParlGov
-party_crosswalk(c("cdu_csu", "spd", "gruene"), "party_name_english")
+party_crosswalk(c("cdu", "spd", "gruene"), "party_name_english")
 ```
 
 ## Breaking changes in v0.8

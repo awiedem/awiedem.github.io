@@ -75,7 +75,7 @@ permalink: /meinungsbild/
     </div>
     <div class="feature-card">
       <h3>Geographic Coverage</h3>
-      <p>Estimates at three levels: 16 federal states (Bundesl&auml;nder), 299 electoral districts (Wahlkreise), and 401 counties (Kreise).</p>
+      <p>Estimates at three levels: 16 federal states (Bundesl&auml;nder), 299 electoral districts (Wahlkreise), and 400 counties (Kreise).</p>
     </div>
     <div class="feature-card">
       <h3>Validation</h3>

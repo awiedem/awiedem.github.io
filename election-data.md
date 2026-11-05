@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Data
-description: "Download German election datasets: municipal (1969-2026), state (1946-2026), federal (1980-2025), constituency/Wahlkreis (1980-2026), European (2009-2024), mayoral (1945-2026), Landrat (1945-2026), and county (1948-2026) elections in Excel, CSV and RDS formats."
+description: "Download German election datasets: municipal (1969-2026), state (1946-2026), federal (1953-2025), constituency/Wahlkreis (1980-2026), European (2009-2024), mayoral (1945-2026), Landrat (1945-2026), and county (1948-2026) elections in Excel, CSV and RDS formats."
 permalink: /election-data/
 order: 2
 ---
