@@ -41,6 +41,29 @@ permalink: /dashboard/
       <select id="year-select" aria-label="Select election year"></select>
     </div>
 
+    <div class="control-group" id="land-group" hidden>
+      <label for="land-select">Land</label>
+      <select id="land-select" aria-label="Show one Land">
+        <option value="">All L&auml;nder</option>
+        <option value="08">Baden-W&uuml;rttemberg</option>
+        <option value="09">Bayern</option>
+        <option value="11">Berlin</option>
+        <option value="12">Brandenburg</option>
+        <option value="04">Bremen</option>
+        <option value="02">Hamburg</option>
+        <option value="06">Hessen</option>
+        <option value="13">Mecklenburg-Vorpommern</option>
+        <option value="03">Niedersachsen</option>
+        <option value="05">Nordrhein-Westfalen</option>
+        <option value="07">Rheinland-Pfalz</option>
+        <option value="10">Saarland</option>
+        <option value="14">Sachsen</option>
+        <option value="15">Sachsen-Anhalt</option>
+        <option value="01">Schleswig-Holstein</option>
+        <option value="16">Th&uuml;ringen</option>
+      </select>
+    </div>
+
     <div class="control-group">
       <label for="variable-select">Show on map</label>
       <select id="variable-select" aria-label="Select what to show on map">
@@ -70,11 +93,19 @@ permalink: /dashboard/
       </div>
     </div>
 
+    <div class="control-group download-group">
+      <label>Download map with legend</label>
+      <div class="download-buttons">
+        <button id="download-png" type="button">PNG</button>
+        <button id="download-svg" type="button">SVG</button>
+      </div>
+    </div>
+
     <details class="map-options">
-      <summary>Statistics, layers and export</summary>
+      <summary>Statistics and layers</summary>
       <div class="summary-stats" id="summary-stats">
         <div class="stat-row">
-          <span class="stat-label">National avg.</span>
+          <span class="stat-label" id="stat-avg-label">Average across municipalities</span>
           <span class="stat-value" id="stat-avg">—</span>
         </div>
         <div class="stat-row">
@@ -95,11 +126,11 @@ permalink: /dashboard/
         <label>Map layers</label>
         <div class="layer-toggles">
           <label class="toggle-label">
-            <input type="checkbox" id="toggle-borders" checked>
+            <input type="checkbox" id="toggle-borders">
             <span>Region borders</span>
           </label>
           <label class="toggle-label">
-            <input type="checkbox" id="toggle-states">
+            <input type="checkbox" id="toggle-states" checked>
             <span>State borders</span>
           </label>
           <label class="toggle-label">
@@ -108,15 +139,6 @@ permalink: /dashboard/
           </label>
         </div>
       </div>
-
-      <div class="control-group download-group">
-        <label>Download map</label>
-        <div class="download-buttons">
-          <button id="download-svg" type="button">SVG</button>
-          <button id="download-png" type="button">PNG</button>
-        </div>
-      </div>
-      <p class="map-note">Averages and ranges treat every region equally, so they are not national totals.</p>
     </details>
   </aside>
 
@@ -145,16 +167,14 @@ permalink: /dashboard/
 
 <section class="dashboard-analysis" role="region" aria-label="Data analysis">
   <nav class="analysis-tabs" role="tablist" aria-label="Analysis views">
-    <button class="analysis-tab active" data-tab="national" role="tab" aria-selected="true">National trends</button>
+    <button class="analysis-tab active" data-tab="national" role="tab" aria-selected="true">Trends over time</button>
     <button class="analysis-tab" data-tab="profile" role="tab" aria-selected="false">Municipality profile</button>
-    <button class="analysis-tab" data-tab="change" role="tab" aria-selected="false">Change analysis</button>
-    <button class="analysis-tab" data-tab="scatter" role="tab" aria-selected="false">Scatter plot</button>
     <button class="analysis-tab" data-tab="coverage" role="tab" aria-selected="false">Data coverage</button>
   </nav>
 
   <!-- National trends (default) -->
   <div class="analysis-panel active" id="panel-national" role="tabpanel">
-    <p class="panel-description">National averages over time for the selected election type.</p>
+    <p class="panel-description" id="national-description">Average across municipalities, by election year.</p>
     <div id="national-chart" class="analysis-chart"></div>
   </div>
 
@@ -215,85 +235,6 @@ permalink: /dashboard/
         <div id="timeseries-chart" class="analysis-chart"></div>
       </div>
     </div>
-  </div>
-
-  <!-- Change analysis -->
-  <div class="analysis-panel" id="panel-change" role="tabpanel">
-    <div class="change-controls">
-      <div class="control-group">
-        <label for="change-metric">Metric</label>
-        <select id="change-metric">
-          <option value="turnout">Turnout</option>
-          <option value="cdu_csu">CDU/CSU</option>
-          <option value="spd">SPD</option>
-          <option value="gruene">Greens</option>
-          <option value="fdp">FDP</option>
-          <option value="linke_pds">Die Linke</option>
-          <option value="afd" selected>AfD</option>
-          <option value="bsw">BSW</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label for="change-year-from">From</label>
-        <select id="change-year-from"></select>
-      </div>
-      <div class="control-group">
-        <label for="change-year-to">To</label>
-        <select id="change-year-to"></select>
-      </div>
-    </div>
-    <div class="change-results">
-      <div class="change-column">
-        <h4 class="change-title change-title-up">Biggest gains</h4>
-        <div id="change-gainers" class="change-list"></div>
-      </div>
-      <div class="change-column">
-        <h4 class="change-title change-title-down">Biggest losses</h4>
-        <div id="change-losers" class="change-list"></div>
-      </div>
-    </div>
-    <div id="change-histogram" class="analysis-chart analysis-chart-sm"></div>
-  </div>
-
-  <!-- Scatter plot -->
-  <div class="analysis-panel" id="panel-scatter" role="tabpanel">
-    <p class="panel-description">Explore relationships between variables. Each dot is a municipality.</p>
-    <div class="scatter-controls">
-      <div class="control-group">
-        <label for="scatter-x">X axis</label>
-        <select id="scatter-x">
-          <option value="turnout" selected>Turnout</option>
-          <option value="cdu_csu">CDU/CSU</option>
-          <option value="spd">SPD</option>
-          <option value="gruene">Greens</option>
-          <option value="fdp">FDP</option>
-          <option value="linke_pds">Die Linke</option>
-          <option value="afd">AfD</option>
-          <option value="bsw">BSW</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label for="scatter-y">Y axis</label>
-        <select id="scatter-y">
-          <option value="turnout">Turnout</option>
-          <option value="cdu_csu">CDU/CSU</option>
-          <option value="spd">SPD</option>
-          <option value="gruene">Greens</option>
-          <option value="fdp">FDP</option>
-          <option value="linke_pds">Die Linke</option>
-          <option value="afd" selected>AfD</option>
-          <option value="bsw">BSW</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label for="scatter-color">Color by</label>
-        <select id="scatter-color">
-          <option value="state" selected>State</option>
-          <option value="winning_party">Winning party</option>
-        </select>
-      </div>
-    </div>
-    <div id="scatter-chart" class="analysis-chart"></div>
   </div>
 
   <!-- Data coverage -->

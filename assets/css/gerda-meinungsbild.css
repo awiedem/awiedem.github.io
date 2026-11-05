@@ -152,6 +152,10 @@
   font-weight: 600;
 }
 
+.methodology-details + p {
+  margin-top: 14px;
+}
+
 .methodology-details .methodology-content {
   max-width: 54rem;
 }

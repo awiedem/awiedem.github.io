@@ -155,9 +155,10 @@
       "/assets/data/meinungsbild/kreise.geojson",
       "https://raw.githubusercontent.com/awiedem/german_election_data/main/meinungsbild/web/public/data/kreise.geojson"
     ],
-    // 299 Bundestag Wahlkreise on 2021 boundaries, shipped for Meinungsbild and
-    // reused here. Constituencies are redrawn between elections, so other years
-    // are drawn on these 2021 shapes — flagged in the Constituency tab.
+    // 299 Bundestag Wahlkreise on 2021 boundaries. Constituencies are redrawn
+    // between elections and keep their numbers only partly (190 of 299 numbers
+    // point at a different area in 2025), so only years drawn on matching shapes
+    // are shown; see constituencyYears.
     wkrGeo: [
       "/assets/data/meinungsbild/wahlkreise.geojson",
       `${BASE_REPO}/meinungsbild/wahlkreise.geojson`,
@@ -220,8 +221,9 @@
     compareAgs: null,
     timeDatasets: ["federal"],
     timeMetrics: ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd"],
-    showBorders: true,
-    showStates: false,
+    land: "",
+    showBorders: false,
+    showStates: true,
     showCities: false,
     analysisTab: "national",
     analysisSeen: false,
@@ -261,6 +263,8 @@
   const elements = {
     datasetNote: document.getElementById("dataset-note"),
     yearSelect: document.getElementById("year-select"),
+    landGroup: document.getElementById("land-group"),
+    landSelect: document.getElementById("land-select"),
     variableSelect: document.getElementById("variable-select"),
     legend: document.getElementById("legend"),
     hoverInfo: document.getElementById("hover-info"),
@@ -280,11 +284,13 @@
     downloadSvg: document.getElementById("download-svg"),
     downloadPng: document.getElementById("download-png"),
     statAvg: document.getElementById("stat-avg"),
+    statAvgLabel: document.getElementById("stat-avg-label"),
     statMax: document.getElementById("stat-max"),
     statMin: document.getElementById("stat-min"),
     statCount: document.getElementById("stat-count"),
     // Analysis panels
     nationalChart: document.getElementById("national-chart"),
+    nationalDescription: document.getElementById("national-description"),
     profilePrompt: document.getElementById("profile-prompt"),
     profileContent: document.getElementById("profile-content"),
     profileName: document.getElementById("profile-name"),
@@ -293,16 +299,6 @@
     distributionChart: document.getElementById("distribution-chart"),
     distMetricLabel: document.getElementById("dist-metric-label"),
     distYearLabel: document.getElementById("dist-year-label"),
-    changeMetric: document.getElementById("change-metric"),
-    changeYearFrom: document.getElementById("change-year-from"),
-    changeYearTo: document.getElementById("change-year-to"),
-    changeGainers: document.getElementById("change-gainers"),
-    changeLosers: document.getElementById("change-losers"),
-    changeHistogram: document.getElementById("change-histogram"),
-    scatterX: document.getElementById("scatter-x"),
-    scatterY: document.getElementById("scatter-y"),
-    scatterColor: document.getElementById("scatter-color"),
-    scatterChart: document.getElementById("scatter-chart"),
     coverageChart: document.getElementById("coverage-chart")
   };
 
@@ -399,6 +395,10 @@
     return parsed;
   };
 
+  // The Constituency tab shows only elections held on the 2021 Wahlkreis
+  // boundaries that the map draws. Add a year here only with its own shapes.
+  const constituencyYears = new Set([2021]);
+
   async function loadDatasetCSV(dataset) {
     if (dataCache[dataset]) return dataCache[dataset];
 
@@ -406,12 +406,15 @@
     if (!sources) return [];
 
     try {
-      const rows = await fetchWithFallback(sources, (response) =>
+      let rows = await fetchWithFallback(sources, (response) =>
         response.text().then((text) => d3.csvParse(text, (row) => {
           row.dataset = dataset;
           return parseRow(row);
         }))
       );
+      if (constituencyDatasets.has(dataset)) {
+        rows = rows.filter((row) => constituencyYears.has(row.election_year));
+      }
       dataCache[dataset] = rows;
       return rows;
     } catch (e) {
@@ -427,9 +430,9 @@
   // lives in the usage notes.
   const datasetNotes = {
     constituency:
-      "Zweitstimme (list vote) results for the 299 Bundestag constituencies. " +
-      "The map uses 2021 constituency boundaries; Wahlkreise are redrawn between " +
-      "elections, so other years are drawn on these shapes and are approximate.",
+      "Zweitstimme (list vote) results for the 299 Bundestag constituencies in 2021. " +
+      "Wahlkreise are redrawn between elections and the map has 2021 shapes only, " +
+      "so other years are in the download files but not on this map.",
     landrat:
       "Direct elections for county executives (Landräte), shown on county " +
       "boundaries. Baden-Württemberg and Schleswig-Holstein elect their Landräte " +
@@ -530,10 +533,26 @@
     updateDatasetNote(dataset);
     updateDatasetLinks(dataset);
 
+    // The Land menu belongs to the State tab; leaving it shows all of Germany.
+    const showLand = landDatasets.has(dataset);
+    elements.landGroup.hidden = !showLand;
+    if (!showLand && state.land) {
+      state.land = "";
+      elements.landSelect.value = "";
+    }
+
     // Ensure current dataset is in time series datasets
     if (!state.timeDatasets.includes(dataset)) {
       state.timeDatasets.push(dataset);
       if (elements.timeDatasetSelect) setMultiSelect(elements.timeDatasetSelect, state.timeDatasets);
+    }
+
+    // Region borders: off on municipality maps, where they would hide the
+    // colour of small Gemeinden; on for the few, large counties and Wahlkreise.
+    const largeUnits = countyLevelDatasets.has(dataset) || constituencyDatasets.has(dataset);
+    if (state.showBorders !== largeUnits) {
+      state.showBorders = largeUnits;
+      elements.toggleBorders.checked = largeUnits;
     }
 
     // Switch geographic level if needed
@@ -568,8 +587,8 @@
 
     hideLoading();
     refreshMap();
+    if (state.land) zoomToLand();
     updateTimeSeries();
-    populateChangeYears();
     refreshAnalysis();
   }
 
@@ -598,9 +617,24 @@
 
   // ---- Year options ----
 
-  function updateYearOptions() {
-    const years = Array.from(yearsByDataset.get(state.dataset) || []).sort((a, b) => a - b);
+  // keep: hold on to the selected year when it still exists (used when the
+  // Land changes); otherwise each tab opens on its default year.
+  function updateYearOptions(keep = false) {
+    latestByLand = landDatasets.has(state.dataset) ? latestYearByLand() : new Map();
+    let years = Array.from(yearsByDataset.get(state.dataset) || []).sort((a, b) => a - b);
+    if (state.land) {
+      years = years.filter((year) =>
+        (dataByDatasetYear.get(`${state.dataset}|${year}`) || []).some((row) => inView(row.ags)));
+    }
+    const offerLatest = landDatasets.has(state.dataset) && !state.land;
+
     elements.yearSelect.innerHTML = "";
+    if (offerLatest) {
+      const opt = document.createElement("option");
+      opt.value = LATEST;
+      opt.textContent = "Latest per Land";
+      elements.yearSelect.appendChild(opt);
+    }
     years.forEach((year) => {
       const opt = document.createElement("option");
       opt.value = year;
@@ -608,7 +642,12 @@
       elements.yearSelect.appendChild(opt);
     });
 
-    if (state.dataset === "federal" && years.includes(2025)) {
+    const previous = keep ? state.year : null;
+    if (previous && (previous === LATEST ? offerLatest : years.includes(previous))) {
+      state.year = previous;
+    } else if (offerLatest) {
+      state.year = LATEST;
+    } else if (state.dataset === "federal" && years.includes(2025)) {
       state.year = 2025;
     } else {
       state.year = years.length ? years[years.length - 1] : null;
@@ -635,9 +674,64 @@
 
   const getRow = (dataset, year, ags) => dataByKey.get(`${dataset}|${year}|${ags}`);
 
+  // ---- Current view ----
+  // The year can be "latest" on the State tab, meaning each Land's most recent
+  // election, and the State tab can be narrowed to one Land.
+
+  const LATEST = "latest";
+  const landDatasets = new Set(["state"]);
+
+  function latestYearByLand() {
+    const latest = new Map();
+    (yearsByDataset.get(state.dataset) || new Set()).forEach((year) => {
+      (dataByDatasetYear.get(`${state.dataset}|${year}`) || []).forEach((row) => {
+        const land = row.ags.slice(0, 2);
+        if (!latest.has(land) || latest.get(land) < year) latest.set(land, year);
+      });
+    });
+    return latest;
+  }
+
+  let latestByLand = new Map();
+
+  const inView = (ags) => !state.land || ags.slice(0, 2) === state.land;
+
+  const viewYear = (ags) => (state.year === LATEST ? latestByLand.get(ags.slice(0, 2)) : state.year);
+
+  const getViewRow = (ags) => {
+    if (!state.dataset || !state.year || !inView(ags)) return undefined;
+    const year = viewYear(ags);
+    return year ? getRow(state.dataset, year, ags) : undefined;
+  };
+
+  function getViewRows() {
+    let rows;
+    if (state.year === LATEST) {
+      rows = [];
+      latestByLand.forEach((year, land) => {
+        (dataByDatasetYear.get(`${state.dataset}|${year}`) || []).forEach((row) => {
+          if (row.ags.slice(0, 2) === land) rows.push(row);
+        });
+      });
+    } else {
+      rows = dataByDatasetYear.get(`${state.dataset}|${state.year}`) || [];
+    }
+    return state.land ? rows.filter((row) => inView(row.ags)) : rows;
+  }
+
+  const yearLabel = () => (state.year === LATEST ? "latest election in each Land" : String(state.year));
+  const landLabel = () => (state.land ? stateByAgsPrefix[state.land] : "");
+
+  // What a region on the current map is: averages are taken over these units.
+  const unitLabel = () => {
+    if (countyLevelDatasets.has(state.dataset)) return "counties";
+    if (constituencyDatasets.has(state.dataset)) return "constituencies";
+    return "municipalities";
+  };
+
   const getValue = (ags) => {
     if (!state.dataset || !state.year) return null;
-    const row = getRow(state.dataset, state.year, ags);
+    const row = getViewRow(ags);
     if (!row) return null;
     const value = row[state.variable];
     return value === null || value === undefined || Number.isNaN(value) ? null : Number(value);
@@ -693,7 +787,7 @@
       return;
     }
 
-    const rows = dataByDatasetYear.get(`${state.dataset}|${state.year}`) || [];
+    const rows = getViewRows();
     const values = rows
       .map((row) => Number(row[state.variable]))
       .filter((v) => Number.isFinite(v));
@@ -754,7 +848,10 @@
   // ---- Summary stats ----
 
   function updateSummaryStats() {
-    const rows = dataByDatasetYear.get(`${state.dataset}|${state.year}`) || [];
+    const rows = getViewRows();
+    if (elements.statAvgLabel) {
+      elements.statAvgLabel.textContent = `Average across ${unitLabel()}`;
+    }
     const isCategorical = state.variable === "winning_party" || state.variable === "winner_party";
 
     if (isCategorical || !rows.length) {
@@ -793,7 +890,7 @@
     const isCategorical = state.variable === "winning_party" || state.variable === "winner_party";
 
     if (isCategorical) {
-      const row = getRow(state.dataset, state.year, ags);
+      const row = getViewRow(ags);
       const winner = getWinningParty(row);
       return winner && partyColors[winner] ? partyColors[winner] : "#f2f2f2";
     }
@@ -812,7 +909,8 @@
     sel.attr("fill", fill)
       .attr("fill-opacity", fill === "#f2f2f2" ? 0.25 : 0.8)
       .attr("stroke", "#6a6a6a")
-      .attr("stroke-width", 0.4);
+      .attr("stroke-width", 0.4)
+      .attr("stroke-opacity", state.showBorders ? 1 : 0);
   };
 
   const applyHoverStyle = (sel, feature) => {
@@ -820,7 +918,8 @@
     sel.attr("fill", brighten(fill))
       .attr("fill-opacity", fill === "#f2f2f2" ? 0.35 : 0.9)
       .attr("stroke", "#333")
-      .attr("stroke-width", 1.4);
+      .attr("stroke-width", 1.4)
+      .attr("stroke-opacity", 1);
   };
 
   const applySelectedStyle = (sel, feature) => {
@@ -828,7 +927,19 @@
     sel.attr("fill", brighten(fill))
       .attr("fill-opacity", fill === "#f2f2f2" ? 0.4 : 0.95)
       .attr("stroke", "#111")
-      .attr("stroke-width", 1.6);
+      .attr("stroke-width", 1.6)
+      .attr("stroke-opacity", 1);
+  };
+
+  const hoverText = (ags, name) => {
+    const row = getViewRow(ags);
+    const year = row && state.year === LATEST ? ` (${row.election_year})` : "";
+    const isCat = state.variable === "winning_party" || state.variable === "winner_party";
+    if (isCat) {
+      const winner = getWinningParty(row);
+      return `${name} — Winner: ${winner ? (metricLabels[winner] || winner) : "No data"}${year}`;
+    }
+    return `${name} — ${metricLabels[state.variable]}: ${formatValue(state.variable, getValue(ags))}${year}`;
   };
 
   const resetHighlight = (layer, feature) => {
@@ -880,16 +991,7 @@
         const ags = getFeatureAgs(feature);
         const name = regionByAgs.get(ags) || ags;
         applyHoverStyle(d3.select(this), feature);
-        const isCat = state.variable === "winning_party" || state.variable === "winner_party";
-        if (isCat) {
-          const row = getRow(state.dataset, state.year, ags);
-          const winner = getWinningParty(row);
-          const label = winner ? (metricLabels[winner] || winner) : "No data";
-          elements.hoverInfo.textContent = `${name} — Winner: ${label}`;
-        } else {
-          const value = getValue(ags);
-          elements.hoverInfo.textContent = `${name} — ${metricLabels[state.variable]}: ${formatValue(state.variable, value)}`;
-        }
+        elements.hoverInfo.textContent = hoverText(ags, name);
       })
       .on("mouseout", function (event, feature) {
         resetHighlight(d3.select(this), feature);
@@ -907,8 +1009,6 @@
 
     geoLayer.append("title").text((f) => getFeatureName(f) || getFeatureAgs(f));
 
-    // Update border visibility
-    geoLayer.attr("stroke-opacity", state.showBorders ? 1 : 0);
     renderStateBoundaries();
     renderCityLabels();
 
@@ -931,7 +1031,7 @@
 
   // ---- Selection ----
 
-  function zoomToFeature(feature) {
+  function zoomToFeature(feature, fill = 0.4) {
     if (!feature || !svg || !zoomBehavior || !pathGenerator) return;
     const { width, height } = getMapSize();
     const [[x0, y0], [x1, y1]] = pathGenerator.bounds(feature);
@@ -939,7 +1039,7 @@
     const bh = y1 - y0;
     if (bw <= 0 || bh <= 0) return;
 
-    const scale = Math.min(6, 0.4 / Math.max(bw / width, bh / height));
+    const scale = Math.min(6, fill / Math.max(bw / width, bh / height));
     const cx = (x0 + x1) / 2;
     const cy = (y0 + y1) / 2;
     const tx = width / 2 - scale * cx;
@@ -949,6 +1049,15 @@
       zoomBehavior.transform,
       d3.zoomIdentity.translate(tx, ty).scale(scale)
     );
+  }
+
+  function zoomToLand() {
+    if (!state.land || !currentGeoData) {
+      zoomReset();
+      return;
+    }
+    const features = currentGeoData.features.filter((f) => getFeatureAgs(f).slice(0, 2) === state.land);
+    if (features.length) zoomToFeature({ type: "FeatureCollection", features }, 0.9);
   }
 
   function zoomReset() {
@@ -988,10 +1097,10 @@
 
     const ags = state.selectedAgs;
     const name = regionByAgs.get(ags) || ags;
-    const row = getRow(state.dataset, state.year, ags);
+    const row = getViewRow(ags);
 
     if (!row) {
-      elements.selectionInfo.innerHTML = `<strong>${name}</strong><br>No data for ${state.year}.`;
+      elements.selectionInfo.innerHTML = `<strong>${name}</strong><br>No data for ${state.land && !inView(ags) ? landLabel() : yearLabel()}.`;
       return;
     }
 
@@ -1026,7 +1135,7 @@
 
     elements.selectionInfo.innerHTML = `
       <strong>${name}</strong><br>
-      <span>${datasetLabels[state.dataset]} (${state.year})</span>
+      <span>${datasetLabels[state.dataset]} (${row.election_year})</span>
       <ul>${listItems}</ul>
     `;
   }
@@ -1203,8 +1312,6 @@
     switch (state.analysisTab) {
       case "national": updateNationalTrends(); break;
       case "profile": updateProfile(); break;
-      case "change": updateChangeAnalysis(); break;
-      case "scatter": updateScatterPlot(); break;
       case "coverage": updateCoverage(); break;
     }
   }
@@ -1221,6 +1328,12 @@
       return;
     }
 
+    if (elements.nationalDescription) {
+      const where = state.land ? ` in ${landLabel()}` : "";
+      elements.nationalDescription.textContent =
+        `Average across ${unitLabel()}${where}, by election year. Each region counts equally, so these are not official totals.`;
+    }
+
     const sortedYears = Array.from(years).sort((a, b) => a - b);
     const metrics = dataset === "mayoral" ? ["turnout"] : ["turnout", ...partyMetrics.filter((p) => {
       const vars = datasetVariables[dataset] || [];
@@ -1230,7 +1343,7 @@
     const traces = metrics.map((metric) => {
       const yearAvgs = sortedYears.map((year) => {
         const key = `${dataset}|${year}`;
-        const rows = dataByDatasetYear.get(key) || [];
+        const rows = (dataByDatasetYear.get(key) || []).filter((r) => inView(r.ags));
         const vals = rows.map((r) => r[metric]).filter(Number.isFinite);
         return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
       });
@@ -1257,7 +1370,7 @@
         linecolor: "#e2e8f0"
       },
       yaxis: {
-        title: { text: "National average", font: { size: 12, color: "#6b7280" } },
+        title: { text: `Average across ${unitLabel()}`, font: { size: 12, color: "#6b7280" } },
         tickformat: ".0%",
         rangemode: "tozero",
         gridcolor: "#f1f5f9",
@@ -1411,14 +1524,13 @@
       return;
     }
 
-    const key = `${state.dataset}|${state.year}`;
-    const rows = dataByDatasetYear.get(key) || [];
+    const rows = getViewRows();
     const vals = rows.map((r) => r[metric]).filter(Number.isFinite);
-    const muniRow = getRow(state.dataset, state.year, ags);
+    const muniRow = getViewRow(ags);
     const muniVal = muniRow ? muniRow[metric] : null;
 
     if (elements.distMetricLabel) elements.distMetricLabel.textContent = metricLabels[metric] || metric;
-    if (elements.distYearLabel) elements.distYearLabel.textContent = state.year;
+    if (elements.distYearLabel) elements.distYearLabel.textContent = yearLabel();
 
     if (!vals.length) {
       Plotly.purge(elements.distributionChart);
@@ -1437,7 +1549,7 @@
     const shapes = [];
     const annotations = [];
 
-    // National average line
+    // Average across the units on the map
     const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
     shapes.push({
       type: "line", x0: avg, x1: avg, y0: 0, y1: 1, yref: "paper",
@@ -1473,183 +1585,6 @@
     };
 
     plotChart(elements.distributionChart, traces, layout, { responsive: true });
-  }
-
-  // ---- Change analysis ----
-
-  function populateChangeYears() {
-    const years = yearsByDataset.get(state.dataset);
-    if (!years) return;
-    const sorted = Array.from(years).sort((a, b) => a - b);
-    [elements.changeYearFrom, elements.changeYearTo].forEach((sel, i) => {
-      if (!sel) return;
-      sel.innerHTML = sorted.map((y) =>
-        `<option value="${y}"${i === 0 && y === sorted[sorted.length > 1 ? sorted.length - 2 : 0] ? " selected" : ""}${i === 1 && y === sorted[sorted.length - 1] ? " selected" : ""}>${y}</option>`
-      ).join("");
-    });
-  }
-
-  function updateChangeAnalysis() {
-    if (!needPlotly(updateChangeAnalysis)) return;
-    if (!elements.changeGainers || !elements.changeLosers) return;
-
-    const metric = elements.changeMetric ? elements.changeMetric.value : "afd";
-    const yearFrom = elements.changeYearFrom ? Number(elements.changeYearFrom.value) : null;
-    const yearTo = elements.changeYearTo ? Number(elements.changeYearTo.value) : null;
-    if (!yearFrom || !yearTo || yearFrom === yearTo) return;
-
-    const dataset = state.dataset;
-    const keyFrom = `${dataset}|${yearFrom}`;
-    const keyTo = `${dataset}|${yearTo}`;
-    const rowsFrom = dataByDatasetYear.get(keyFrom) || [];
-    const rowsTo = dataByDatasetYear.get(keyTo) || [];
-
-    const fromMap = new Map(rowsFrom.map((r) => [r.ags, r]));
-    const changes = [];
-
-    rowsTo.forEach((rTo) => {
-      const rFrom = fromMap.get(rTo.ags);
-      if (!rFrom) return;
-      const vTo = rTo[metric];
-      const vFrom = rFrom[metric];
-      if (!Number.isFinite(vTo) || !Number.isFinite(vFrom)) return;
-      changes.push({
-        ags: rTo.ags,
-        name: regionByAgs.get(rTo.ags) || rTo.ags,
-        state: stateByAgsPrefix[rTo.ags.slice(0, 2)] || "",
-        change: vTo - vFrom,
-        from: vFrom,
-        to: vTo
-      });
-    });
-
-    changes.sort((a, b) => b.change - a.change);
-
-    const top15 = changes.slice(0, 15);
-    const bottom15 = changes.slice(-15).reverse();
-
-    const renderList = (container, items) => {
-      container.innerHTML = items.map((item) => {
-        const sign = item.change > 0 ? "+" : "";
-        const cls = item.change > 0 ? "positive" : "negative";
-        return `<div class="change-row" data-ags="${item.ags}">
-          <span class="change-row-name">${item.name}</span>
-          <span class="change-row-state">${item.state}</span>
-          <span class="change-row-value ${cls}">${sign}${formatPercent(item.change)}</span>
-        </div>`;
-      }).join("");
-
-      container.querySelectorAll(".change-row").forEach((row) => {
-        row.addEventListener("click", () => {
-          setSelectedAgs(row.dataset.ags, { zoom: true });
-          elements.searchInput.value = regionByAgs.get(row.dataset.ags) || "";
-          switchAnalysisTab("profile");
-        });
-      });
-    };
-
-    renderList(elements.changeGainers, top15);
-    renderList(elements.changeLosers, bottom15);
-
-    // Histogram of all changes
-    if (elements.changeHistogram && changes.length) {
-      const vals = changes.map((c) => c.change);
-      const metricLabel = metricLabels[metric] || metric;
-
-      plotChart(elements.changeHistogram, [{
-        x: vals,
-        type: "histogram",
-        nbinsx: 60,
-        marker: {
-          color: vals.map((v) => v >= 0 ? "rgba(22, 163, 74, 0.5)" : "rgba(220, 38, 38, 0.5)"),
-          line: { color: vals.map((v) => v >= 0 ? "rgba(22, 163, 74, 0.8)" : "rgba(220, 38, 38, 0.8)"), width: 1 }
-        },
-        hovertemplate: "%{x:+.1%}<extra>%{y} regions</extra>"
-      }], {
-        margin: { t: 10, r: 20, l: 50, b: 50 },
-        xaxis: { title: `Change in ${metricLabel} (${yearFrom} → ${yearTo})`, tickformat: "+.0%" },
-        yaxis: { title: "Regions" },
-        shapes: [{
-          type: "line", x0: 0, x1: 0, y0: 0, y1: 1, yref: "paper",
-          line: { color: "#374151", width: 2, dash: "dash" }
-        }],
-        showlegend: false
-      }, { responsive: true });
-    }
-  }
-
-  // ---- Scatter plot ----
-
-  function updateScatterPlot() {
-    if (!needPlotly(updateScatterPlot)) return;
-    if (!elements.scatterChart) return;
-
-    const xMetric = elements.scatterX ? elements.scatterX.value : "turnout";
-    const yMetric = elements.scatterY ? elements.scatterY.value : "afd";
-    const colorBy = elements.scatterColor ? elements.scatterColor.value : "state";
-
-    const key = `${state.dataset}|${state.year}`;
-    const rows = dataByDatasetYear.get(key) || [];
-
-    const points = rows.filter((r) =>
-      Number.isFinite(r[xMetric]) && Number.isFinite(r[yMetric])
-    );
-
-    if (!points.length) {
-      Plotly.purge(elements.scatterChart);
-      return;
-    }
-
-    let traces;
-
-    if (colorBy === "state") {
-      // Group by state
-      const byState = new Map();
-      points.forEach((r) => {
-        const st = stateByAgsPrefix[r.ags.slice(0, 2)] || "Other";
-        if (!byState.has(st)) byState.set(st, []);
-        byState.get(st).push(r);
-      });
-
-      traces = Array.from(byState.entries()).map(([st, pts]) => ({
-        x: pts.map((r) => r[xMetric]),
-        y: pts.map((r) => r[yMetric]),
-        mode: "markers",
-        name: st,
-        text: pts.map((r) => regionByAgs.get(r.ags) || r.ags),
-        marker: { size: 4, opacity: 0.6 },
-        hovertemplate: "%{text}<br>" + (metricLabels[xMetric] || xMetric) + ": %{x:.1%}<br>" + (metricLabels[yMetric] || yMetric) + ": %{y:.1%}<extra>" + st + "</extra>"
-      }));
-    } else {
-      // Color by winning party
-      const byParty = new Map();
-      points.forEach((r) => {
-        const winner = getWinningParty(r) || "other";
-        if (!byParty.has(winner)) byParty.set(winner, []);
-        byParty.get(winner).push(r);
-      });
-
-      traces = Array.from(byParty.entries()).map(([party, pts]) => ({
-        x: pts.map((r) => r[xMetric]),
-        y: pts.map((r) => r[yMetric]),
-        mode: "markers",
-        name: metricLabels[party] || party,
-        text: pts.map((r) => regionByAgs.get(r.ags) || r.ags),
-        marker: { size: 4, opacity: 0.6, color: partyColors[party] || "#999" },
-        hovertemplate: "%{text}<br>" + (metricLabels[xMetric] || xMetric) + ": %{x:.1%}<br>" + (metricLabels[yMetric] || yMetric) + ": %{y:.1%}<extra>" + (metricLabels[party] || party) + "</extra>"
-      }));
-    }
-
-    const xFmt = percentMetrics.has(xMetric) ? ".0%" : ",";
-    const yFmt = percentMetrics.has(yMetric) ? ".0%" : ",";
-
-    plotChart(elements.scatterChart, traces, {
-      margin: { t: 20, r: 30, l: 60, b: 50 },
-      xaxis: { title: metricLabels[xMetric] || xMetric, tickformat: xFmt },
-      yaxis: { title: metricLabels[yMetric] || yMetric, tickformat: yFmt },
-      legend: { orientation: "h", y: -0.2, x: 0.5, xanchor: "center" },
-      hovermode: "closest"
-    }, { responsive: true });
   }
 
   // ---- Data coverage ----
@@ -1773,7 +1708,9 @@
 
   const getMapFilename = () => {
     const variable = metricLabels[state.variable] || state.variable;
-    return `germany_${state.dataset}_${state.year}_${variable.toLowerCase().replace(/[^a-z0-9]/g, "_")}`;
+    const slug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, "_");
+    const place = state.land ? slug(landLabel()) : "germany";
+    return `${place}_${state.dataset}_${state.year}_${slug(variable)}`;
   };
 
   const createSvgElement = (tag, attrs = {}) => {
@@ -1787,7 +1724,7 @@
     const isCat = state.variable === "winning_party" || state.variable === "winner_party";
     const bgHeight = isCat ? 160 : 80;
     legendGroup.appendChild(createSvgElement("rect", {
-      x: 0, y: 0, width: 160, height: bgHeight, rx: 8,
+      x: 0, y: 0, width: 230, height: bgHeight, rx: 8,
       fill: "white", stroke: "#e0e0e0", "stroke-width": 1
     }));
 
@@ -1796,7 +1733,7 @@
     legendGroup.appendChild(title);
 
     const subtitle = createSvgElement("text", { x: 10, y: 36, "font-size": "10px", fill: "#666" });
-    subtitle.textContent = `${datasetLabels[state.dataset]} ${state.year}`;
+    subtitle.textContent = `${datasetLabels[state.dataset]}, ${yearLabel()}${state.land ? `, ${landLabel()}` : ""}`;
     legendGroup.appendChild(subtitle);
 
     if (isCat) {
@@ -1833,13 +1770,20 @@
       legendGroup.appendChild(maxLabel);
     }
     svgClone.appendChild(legendGroup);
+
+    const { width, height } = getMapSize();
+    const source = createSvgElement("text", {
+      x: width - 10, y: height - 10, "font-size": "11px", fill: "#666", "text-anchor": "end"
+    });
+    source.textContent = "GERDA · german-elections.com";
+    svgClone.appendChild(source);
   };
 
   const downloadMapSvg = () => {
     if (!svg) return;
     const svgClone = svg.node().cloneNode(true);
     const style = createSvgElement("style");
-    style.textContent = `.state-boundaries{fill:none;stroke:#374151;stroke-width:1.5}.city-label{font-size:11px;font-weight:600;fill:#1f2937;text-anchor:middle}`;
+    style.textContent = `text{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.state-boundaries{fill:none;stroke:#374151;stroke-width:1;vector-effect:non-scaling-stroke}path.region{vector-effect:non-scaling-stroke}.city-label{font-size:11px;font-weight:600;fill:#1f2937;text-anchor:middle}`;
     svgClone.insertBefore(style, svgClone.firstChild);
     svgClone.insertBefore(createSvgElement("rect", { width: "100%", height: "100%", fill: "#fafafa" }), svgClone.firstChild);
     addLegendToSvg(svgClone);
@@ -1857,7 +1801,7 @@
     const svgClone = svg.node().cloneNode(true);
     const { width, height } = getMapSize();
     const style = createSvgElement("style");
-    style.textContent = `.state-boundaries{fill:none;stroke:#374151;stroke-width:1.5}.city-label{font-size:11px;font-weight:600;fill:#1f2937;text-anchor:middle}`;
+    style.textContent = `text{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.state-boundaries{fill:none;stroke:#374151;stroke-width:1;vector-effect:non-scaling-stroke}path.region{vector-effect:non-scaling-stroke}.city-label{font-size:11px;font-weight:600;fill:#1f2937;text-anchor:middle}`;
     svgClone.insertBefore(style, svgClone.firstChild);
     svgClone.insertBefore(createSvgElement("rect", { width: "100%", height: "100%", fill: "#fafafa" }), svgClone.firstChild);
     addLegendToSvg(svgClone);
@@ -1905,8 +1849,17 @@
     });
 
     elements.yearSelect.addEventListener("change", (e) => {
-      state.year = Number(e.target.value);
+      state.year = e.target.value === LATEST ? LATEST : Number(e.target.value);
       refreshMap();
+      updateTimeSeries();
+      refreshAnalysis();
+    });
+
+    elements.landSelect.addEventListener("change", (e) => {
+      state.land = e.target.value;
+      updateYearOptions(true);
+      refreshMap();
+      zoomToLand();
       updateTimeSeries();
       refreshAnalysis();
     });
@@ -2139,7 +2092,7 @@
 
     elements.toggleBorders.addEventListener("change", (e) => {
       state.showBorders = e.target.checked;
-      if (geoLayer) geoLayer.attr("stroke-opacity", state.showBorders ? 1 : 0);
+      refreshMap();
     });
 
     elements.toggleStates.addEventListener("change", (e) => {
@@ -2164,28 +2117,6 @@
         switchAnalysisTab(this.dataset.tab);
       });
     });
-
-    // Change analysis controls
-    if (elements.changeMetric) {
-      elements.changeMetric.addEventListener("change", updateChangeAnalysis);
-    }
-    if (elements.changeYearFrom) {
-      elements.changeYearFrom.addEventListener("change", updateChangeAnalysis);
-    }
-    if (elements.changeYearTo) {
-      elements.changeYearTo.addEventListener("change", updateChangeAnalysis);
-    }
-
-    // Scatter plot controls
-    if (elements.scatterX) {
-      elements.scatterX.addEventListener("change", updateScatterPlot);
-    }
-    if (elements.scatterY) {
-      elements.scatterY.addEventListener("change", updateScatterPlot);
-    }
-    if (elements.scatterColor) {
-      elements.scatterColor.addEventListener("change", updateScatterPlot);
-    }
   }
 
   // ---- Initialize ----
@@ -2256,15 +2187,7 @@
           const ags = getFeatureAgs(feature);
           const name = regionByAgs.get(ags) || ags;
           applyHoverStyle(d3.select(this), feature);
-          const isCat = state.variable === "winning_party" || state.variable === "winner_party";
-          if (isCat) {
-            const row = getRow(state.dataset, state.year, ags);
-            const winner = getWinningParty(row);
-            elements.hoverInfo.textContent = `${name} — Winner: ${winner ? (metricLabels[winner] || winner) : "No data"}`;
-          } else {
-            const value = getValue(ags);
-            elements.hoverInfo.textContent = `${name} — ${metricLabels[state.variable]}: ${formatValue(state.variable, value)}`;
-          }
+          elements.hoverInfo.textContent = hoverText(ags, name);
         })
         .on("mouseout", function (event, feature) {
           resetHighlight(d3.select(this), feature);
@@ -2281,6 +2204,7 @@
         });
 
       geoLayer.append("title").text((f) => f.properties.GEN || f.properties.AGS);
+      renderStateBoundaries();
 
       // Resize handler
       window.addEventListener("resize", () => {
@@ -2297,7 +2221,6 @@
       hideLoading();
 
       // Initialize analysis section; charts draw once it scrolls into view
-      populateChangeYears();
       refreshAnalysis();
       watchAnalysisSection();
     } catch (error) {

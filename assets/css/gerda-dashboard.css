@@ -80,6 +80,10 @@
   gap: 6px;
 }
 
+.dashboard-sidebar .control-group[hidden] {
+  display: none;
+}
+
 .dashboard-sidebar .control-group > label {
   font-weight: 500;
 }
@@ -146,7 +150,7 @@
   flex-shrink: 0;
 }
 
-/* ---- Statistics, layers and export ---- */
+/* ---- Statistics and layers ---- */
 
 .map-options {
   padding-top: 14px;
@@ -155,12 +159,6 @@
 
 .map-options > summary {
   font-size: 15px;
-}
-
-.map-note {
-  margin: 12px 0 0;
-  color: var(--color-text-secondary);
-  font-size: 13px;
 }
 
 .summary-stats {
@@ -340,8 +338,7 @@
 
 /* ---- Layer toggles & download ---- */
 
-.layer-toggles-group,
-.download-group {
+.layer-toggles-group {
   margin-top: 14px;
 }
 
@@ -396,8 +393,14 @@
 .state-boundaries {
   fill: none;
   stroke: var(--color-navy, #1a2332);
-  stroke-width: 1.5;
+  stroke-width: 1;
   pointer-events: none;
+}
+
+/* Lines keep their width when the map is zoomed. */
+#map path.region,
+#map .state-boundaries {
+  vector-effect: non-scaling-stroke;
 }
 
 /* ---- Analysis section ---- */
@@ -566,108 +569,6 @@
   margin-bottom: var(--space-md, 16px);
 }
 
-/* ---- Change analysis ---- */
-
-.change-controls {
-  display: flex;
-  gap: var(--space-md, 16px);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-lg, 24px);
-}
-
-.change-controls .control-group {
-  min-width: 160px;
-}
-
-.change-results {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-lg, 24px);
-  margin-bottom: var(--space-lg, 24px);
-}
-
-.change-title {
-  margin: 0 0 12px 0;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.change-title-up::before {
-  content: "\25B2";
-  color: #16a34a;
-  font-size: 0.75rem;
-}
-
-.change-title-down::before {
-  content: "\25BC";
-  color: #dc2626;
-  font-size: 0.75rem;
-}
-
-.change-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.change-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: var(--color-surface, #f8f9fa);
-  border: 1px solid var(--color-border, #e2e8f0);
-  
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.change-row:hover {
-  background: var(--color-surface-alt);
-}
-
-.change-row-name {
-  color: var(--color-navy, #1a2332);
-  font-weight: 500;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.change-row-state {
-  color: var(--color-text-secondary, #4a5568);
-  font-size: 0.78rem;
-  margin-left: 8px;
-  flex-shrink: 0;
-}
-
-.change-row-value {
-  font-weight: 700;
-  margin-left: 12px;
-  flex-shrink: 0;
-}
-
-.change-row-value.positive { color: #16a34a; }
-.change-row-value.negative { color: #dc2626; }
-
-/* ---- Scatter plot ---- */
-
-.scatter-controls {
-  display: flex;
-  gap: var(--space-md, 16px);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-md, 16px);
-}
-
-.scatter-controls .control-group {
-  min-width: 160px;
-}
-
 /* ---- Data coverage ---- */
 
 #coverage-chart {
@@ -747,6 +648,7 @@
   }
 
   .dashboard-legend,
+  .download-group,
   .map-options {
     grid-column: 1 / -1;
   }
@@ -789,17 +691,8 @@
     min-height: 300px;
   }
 
-  .change-results {
-    grid-template-columns: 1fr;
-  }
-
   .sparkline-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
-
-  .change-controls,
-  .scatter-controls {
-    flex-direction: column;
   }
 
   .map-links {
