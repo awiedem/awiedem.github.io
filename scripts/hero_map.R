@@ -1,13 +1,14 @@
 #!/usr/bin/env Rscript
-# Homepage map filmstrip: the leading party in each municipality at six federal
+# Homepage maps: the leading party in each municipality at the last three federal
 # elections, one text-free image per year, plus a social preview card.
 #
-# Reads assets/data/gerda_federal.csv (the explorer's data, on 2021 boundaries)
-# and the 2021 VG250 shapes from the sibling data repo. Years and the legend are
+# Reads assets/data/gerda_federal.csv (the explorer's data, from
+# federal_muni_harm_21, so on 2021 boundaries) and the 2021 VG250 shapes from
+# the sibling data repo. Years and the legend are
 # page text in index.md, so they stay sharp and readable at any size.
 #
 # Usage: Rscript scripts/hero_map.R <out_dir> [vg250_dir]
-# Then:  for y in 1990 1998 2005 2013 2021 2025; do
+# Then:  for y in 2017 2021 2025; do
 #          cwebp -m 6 -q 70 <out_dir>/map_federal_$y.png -o assets/images/map_federal_$y.webp
 #        done
 #        sips -s format jpeg -s formatOptions 85 <out_dir>/map_elec_fed_combined.png \
@@ -27,7 +28,7 @@ shp_dir <- if (length(args) >= 2) args[2] else
   file.path("..", "german_election_data", "data", "shapefiles", "2021", "vg250_ebenen_0101")
 stopifnot("2021 VG250 shapefile not found" = dir.exists(shp_dir))
 
-years <- c(1990, 1998, 2005, 2013, 2021, 2025)
+years <- c(2017, 2021, 2025)
 font <- "Helvetica Neue"
 ink <- "#20262c"
 no_data <- "#e9ecef"
@@ -82,7 +83,7 @@ layer_map <- function(data, state_lines, line = 0.16) {
 }
 
 box <- st_bbox(gem)
-map_w <- 420L
+map_w <- 560L
 map_h <- as.integer(round(map_w * (box["ymax"] - box["ymin"]) / (box["xmax"] - box["xmin"])))
 
 for (year in years) {

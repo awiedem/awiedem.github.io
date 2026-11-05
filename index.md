@@ -47,12 +47,9 @@ image: /assets/images/map_elec_fed_combined.jpg
 
 <figure class="map-strip">
   <div class="map-strip-maps">
-    <a class="map-strip-item" href="/dashboard/?year=1990&amp;show=winning_party" title="Open 1990 in the election explorer"><span>1990</span><img src="/assets/images/map_federal_1990.webp" alt="Leading party by municipality in the 1990 federal election" width="420" height="567" decoding="async"></a>
-    <a class="map-strip-item" href="/dashboard/?year=1998&amp;show=winning_party" title="Open 1998 in the election explorer"><span>1998</span><img src="/assets/images/map_federal_1998.webp" alt="Leading party by municipality in the 1998 federal election" width="420" height="567" decoding="async"></a>
-    <a class="map-strip-item" href="/dashboard/?year=2005&amp;show=winning_party" title="Open 2005 in the election explorer"><span>2005</span><img src="/assets/images/map_federal_2005.webp" alt="Leading party by municipality in the 2005 federal election" width="420" height="567" decoding="async"></a>
-    <a class="map-strip-item" href="/dashboard/?year=2013&amp;show=winning_party" title="Open 2013 in the election explorer"><span>2013</span><img src="/assets/images/map_federal_2013.webp" alt="Leading party by municipality in the 2013 federal election" width="420" height="567" decoding="async" loading="lazy"></a>
-    <a class="map-strip-item" href="/dashboard/?year=2021&amp;show=winning_party" title="Open 2021 in the election explorer"><span>2021</span><img src="/assets/images/map_federal_2021.webp" alt="Leading party by municipality in the 2021 federal election" width="420" height="567" decoding="async" loading="lazy"></a>
-    <a class="map-strip-item" href="/dashboard/?year=2025&amp;show=winning_party" title="Open 2025 in the election explorer"><span>2025</span><img src="/assets/images/map_federal_2025.webp" alt="Leading party by municipality in the 2025 federal election" width="420" height="567" decoding="async" loading="lazy"></a>
+    <a class="map-strip-item" href="/dashboard/?year=2017&amp;show=winning_party" title="Open 2017 in the election explorer"><span>2017</span><img src="/assets/images/map_federal_2017.webp" alt="Leading party by municipality in the 2017 federal election" width="560" height="756" decoding="async"></a>
+    <a class="map-strip-item" href="/dashboard/?year=2021&amp;show=winning_party" title="Open 2021 in the election explorer"><span>2021</span><img src="/assets/images/map_federal_2021.webp" alt="Leading party by municipality in the 2021 federal election" width="560" height="756" decoding="async"></a>
+    <a class="map-strip-item" href="/dashboard/?year=2025&amp;show=winning_party" title="Open 2025 in the election explorer"><span>2025</span><img src="/assets/images/map_federal_2025.webp" alt="Leading party by municipality in the 2025 federal election" width="560" height="756" decoding="async"></a>
   </div>
   <figcaption class="map-caption">
     <span class="map-legend">
@@ -132,18 +129,7 @@ image: /assets/images/map_elec_fed_combined.jpg
   <p class="small">Years refer to each series as a whole. Coverage varies by state, geography and file.</p>
 </div>
 
-<div class="credit-grid" id="contributing">
-  <div id="authors">
-    <h2>Authors</h2>
-    <ul class="author-list">
-      <li><a href="https://vincentheddesheimer.github.io/">Vincent Heddesheimer</a></li>
-      <li><a href="https://www.hannohilbig.com/">Hanno Hilbig</a></li>
-      <li><a href="https://www.floriansichart.com/">Florian Sichart</a></li>
-      <li><a href="https://www.abwiedemann.com/">Andreas Wiedemann</a></li>
-    </ul>
-  </div>
-  <div id="citation">
-    <h2>Citation</h2>
-    {% include citation.html %}
-  </div>
-</div>
+<section class="home-citation" id="citation">
+  <h2>Citation</h2>
+  {% include citation.html %}
+</section>

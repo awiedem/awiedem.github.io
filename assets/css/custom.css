@@ -419,13 +419,14 @@ tbody tr:hover {
 }
 
 .map-strip {
+  max-width: 54rem;
   margin: 0 0 8px;
 }
 
 .map-strip-maps {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .map-strip-item {
@@ -529,33 +530,23 @@ tbody tr:hover {
   gap: 4px 24px;
 }
 
-.credit-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 55px;
+.home-citation {
   padding-top: 16px;
   border-top: 1px solid var(--color-border);
 }
 
-.credit-grid h2 {
+.home-citation h2 {
   margin: 0 0 6px;
   font-size: 23px;
 }
 
-.credit-grid p {
+.home-citation p {
   margin-bottom: 8px;
   font-size: 16px;
 }
 
-.author-list {
-  margin: 0 0 12px;
-  padding: 0;
-  list-style: none;
-  font-size: 16px;
-}
-
-.author-list li {
-  margin: 0;
+.home-citation .citation-detail {
+  max-width: var(--measure);
 }
 
 .citation-detail {
@@ -901,8 +892,8 @@ a[aria-busy="true"] { cursor: progress; }
   h2 { font-size: 24px; }
   .page-intro { font-size: 18px; }
   .home-lede h1 { font-size: 28px; }
-  .credit-grid, .packages-grid { grid-template-columns: 1fr; gap: 20px; }
-  .map-strip-maps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .packages-grid { grid-template-columns: 1fr; gap: 20px; }
+  .map-strip-maps { gap: 8px; }
   .home-table th:nth-child(2), .home-table td:nth-child(2) { display: none; }
   .home-table th, .home-table td { padding-left: 0; padding-right: 8px; font-size: 15px; }
   .series-name { font-size: 16px; }

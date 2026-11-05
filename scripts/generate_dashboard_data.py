@@ -27,17 +27,20 @@ GITHUB_API = f"https://api.github.com/repos/{REPO}/contents"
 GITHUB_RAW = f"https://github.com/{REPO}/raw/refs/heads/main"
 
 # Dataset definitions: where to find files in the repo
-# For each dataset, we define the directory and file selection strategy
+# For each dataset, we define the directory and file selection strategy.
+# The explorer draws municipalities on 2021 shapes, so federal and state are
+# pinned to the 2021-boundary files. Municipal takes the newest boundaries
+# because only municipal_harm_25 carries Rheinland-Pfalz 1969-1989.
 DATASET_DEFS = {
     "federal": {
         "dir": "data/federal_elections/municipality_level/final",
-        "pattern": r"federal_muni_harm_(\d+)\.csv",
+        "pattern": r"federal_muni_harm_21\.csv",
         "fallback": "federal_muni_harm_21.csv",
         "type": "standard",
     },
     "state": {
         "dir": "data/state_elections/final",
-        "pattern": r"state_harm_(\d+)\.csv",
+        "pattern": r"state_harm_21\.csv",
         "fallback": "state_harm_21.csv",
         "type": "standard",
     },
