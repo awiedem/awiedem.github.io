@@ -31,7 +31,7 @@ Note: Changes to `_config.yml` require restarting the server.
 - `index.md` (`/`) - Homepage: six-map band of federal elections, dataset table, authors, citation
 - `election-data.md` (`/election-data/`) - Data download tables; nav label "Data"
 - `dashboard.md` (`/dashboard/`) - Election explorer; nav label "Map". Links can open a federal view with `?year=1998&show=winning_party`, which is how the homepage maps link in.
-- `meinungsbild.md` (`/meinungsbild/`) - Opinion map
+- `meinungsbild.md` (`/meinungsbild/`) - Opinion map, Länder level only (Wahlkreis and Kreis estimates are not published). `assets/data/meinungsbild/wahlkreise.geojson` and `kreise.geojson` stay: the explorer draws its Constituency, County council and Landrat tabs on them
 - `usage_notes.md` (`/usage-notes/`) - Documentation; uses `layout: docs` with a sidebar in `_includes/docs-sidebar.html`. Add new sections there too.
 - `r-package.md` (`/r-package/`) - R and Python packages; nav label "R / Python"
 - `update-log.md` (`/update-log/`) - Updates; the newest 10 entries show, older ones sit in a `<details>`

@@ -32,33 +32,6 @@
   width: 100%;
 }
 
-/* Geographic level toggle */
-.mb-geo-toggle {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 18px;
-}
-
-.geo-btn {
-  padding: 4px 0;
-  border: 0;
-  background: none;
-  color: #3d5063;
-  font-size: 15px;
-}
-
-.geo-btn:hover:not(.active) {
-  background: none;
-  color: var(--color-accent);
-}
-
-.geo-btn.active {
-  background: none;
-  color: var(--color-accent);
-  font-weight: 600;
-  box-shadow: 0 2px var(--color-accent);
-}
-
 /* Issue info */
 .issue-question {
   color: var(--color-text-secondary);
@@ -167,24 +140,16 @@
   stroke: var(--color-navy, #1a2332);
 }
 
-.mb-map-container path.state-border {
-  fill: none;
-  stroke: var(--color-navy, #1a2332);
-  stroke-width: 1;
-  pointer-events: none;
-}
-
 /* Methodology section */
 .mb-methodology {
-  margin-top: 48px;
-  padding-top: 32px;
+  margin-top: 40px;
+  padding-top: 20px;
   border-top: 1px solid var(--color-border, #e2e8f0);
 }
 
-.methodology-details {
-  margin-top: 20px;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-border);
+.methodology-details > summary {
+  font-size: 1.15rem;
+  font-weight: 600;
 }
 
 .methodology-details .methodology-content {

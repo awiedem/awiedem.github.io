@@ -127,7 +127,7 @@ image: /assets/images/map_elec_fed_combined.jpg
 <div class="home-notes">
   <div class="home-links">
     <a href="/election-data/#additional-files">Crosswalks, boundaries and covariates</a>
-    <a href="/meinungsbild/">Meinungsbild: opinion estimates for 43 policy issues</a>
+    <a href="/meinungsbild/">Meinungsbild: opinion estimates for 42 policy issues</a>
   </div>
   <p class="small">Years refer to each series as a whole. Coverage varies by state, geography and file.</p>
 </div>

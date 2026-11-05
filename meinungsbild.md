@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Meinungsbild"
-description: "Interactive map of subnational public opinion in Germany. MRP estimates for 43 policy issues across states, electoral districts, and counties."
+description: "Interactive map of public opinion in the German Länder. MRP estimates for 42 policy issues."
 permalink: /meinungsbild/
 ---
 
@@ -9,7 +9,7 @@ permalink: /meinungsbild/
 
 <h1>Meinungsbild</h1>
 
-<p class="page-intro">Subnational public opinion estimates for 43 policy issues in Germany, estimated from GESIS data using Multilevel Regression and Poststratification (MRP). Explore how opinions vary across states, electoral districts, and counties.</p>
+<p class="page-intro">Public opinion estimates for 42 policy issues in the 16 Länder, estimated from GESIS survey data using Multilevel Regression and Poststratification (MRP).</p>
 
 <p class="page-note download-help">
 <strong>Note:</strong> These estimates are intended for exploration and descriptive purposes. MRP estimates can suffer from validity concerns, particularly for small geographic units or issues with limited survey data. They should not be interpreted as ground truth. The underlying data is not available for download.
@@ -27,15 +27,6 @@ permalink: /meinungsbild/
     <div class="control-group">
       <label for="mb-issue-select">Policy issue</label>
       <select id="mb-issue-select" aria-label="Select a policy issue"></select>
-    </div>
-
-    <div class="control-group">
-      <label>Geographic level</label>
-      <div class="mb-geo-toggle" role="radiogroup" aria-label="Select geographic level">
-        <button class="geo-btn active" data-level="bundeslaender" role="radio" aria-checked="true">States</button>
-        <button class="geo-btn" data-level="wahlkreise" role="radio" aria-checked="false">Electoral districts</button>
-        <button class="geo-btn" data-level="kreise" role="radio" aria-checked="false">Counties</button>
-      </div>
     </div>
 
     <div class="mb-issue-info" id="mb-issue-info">
@@ -66,26 +57,13 @@ permalink: /meinungsbild/
 </div>
 
 <section class="mb-methodology">
-  <h2>Methodology</h2>
-
-  <div class="feature-grid">
-    <div class="feature-card">
-      <h3>Survey Data</h3>
-      <p>~118,000 survey responses aggregated from five German survey programs: GLES Tracking, GLES Cross-Section 2025, GLES RCS 2025, GLES Cumulation, and ALLBUS (2009&ndash;2025).</p>
-    </div>
-    <div class="feature-card">
-      <h3>Geographic Coverage</h3>
-      <p>Estimates at three levels: 16 federal states (Bundesl&auml;nder), 299 electoral districts (Wahlkreise), and 400 counties (Kreise).</p>
-    </div>
-    <div class="feature-card">
-      <h3>Validation</h3>
-      <p>MRP estimates validated against direct state-level survey estimates with median correlation r&nbsp;=&nbsp;0.899 and median RMSE&nbsp;=&nbsp;5.5 percentage points.</p>
-    </div>
-  </div>
-
   <details class="methodology-details">
-    <summary>Read more about the methodology</summary>
+    <summary>Methodology</summary>
     <div class="methodology-content">
+      <p><strong>Survey data.</strong> About 118,000 survey responses from five German survey programs: GLES Tracking, GLES Cross-Section 2025, GLES RCS 2025, GLES Cumulation, and ALLBUS (2009&ndash;2025).</p>
+      <p><strong>Coverage.</strong> Estimates for the 16 L&auml;nder. Wahlkreis and Kreis estimates are not shown for now.</p>
+      <p><strong>Validation.</strong> Compared with direct state-level survey estimates, the median correlation across the 42 issues is r&nbsp;=&nbsp;0.899 and the median RMSE 5.5 percentage points.</p>
+
       <h3>MRP Approach</h3>
       <p>Multilevel Regression and Poststratification (MRP) is a two-step process for estimating subnational public opinion from national surveys:</p>
       <ol>
@@ -106,7 +84,7 @@ permalink: /meinungsbild/
       </table>
 
       <h3>Variable Harmonization</h3>
-      <p>Each of the 43 policy issues is harmonized across survey programs. Variable-specific concordance tables map different question wordings and response scales onto a common binary scale. The <code>issue_concordance.csv</code> file documents the exact mapping for each issue across all five surveys.</p>
+      <p>Each of the 42 policy issues is harmonized across survey programs. Variable-specific concordance tables map different question wordings and response scales onto a common binary scale. The <code>issue_concordance.csv</code> file documents the exact mapping for each issue across all five surveys.</p>
 
       <h3>References</h3>
       <ul>

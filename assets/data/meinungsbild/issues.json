@@ -99,17 +99,6 @@
     "direction": "higher=improved"
   },
   {
-    "issue_id": "eu_integration",
-    "label": "Advance EU integration",
-    "label_de": "Europäische Einigung",
-    "category": "eu",
-    "question_de": "EU-Staaten sollten finanziell stärker unterstützt werden.",
-    "question_en": "EU member states should receive more financial support.",
-    "response_type": "scale_1_5",
-    "binary_rule": "y=1 if >= 4",
-    "direction": "higher=support"
-  },
-  {
     "issue_id": "fear_climate",
     "label": "Fear of climate change",
     "label_de": "Angst Klimawandel",

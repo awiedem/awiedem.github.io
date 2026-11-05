@@ -1,16 +1,15 @@
 (function () {
   "use strict";
 
-  // Data URLs from GitHub raw
+  // Estimates are shown for the 16 Länder only. The model also produces
+  // Wahlkreis and Kreis estimates; they are not published until they can be
+  // validated. (wahlkreise.geojson and kreise.geojson in this folder are used
+  // by the election explorer, not by this page.)
   const BASE = "/assets/data/meinungsbild";
   const DATA_URLS = {
     issues: `${BASE}/issues.json`,
-    bundeslaender: `${BASE}/estimates_bundesland.json`,
-    wahlkreise: `${BASE}/estimates_wkr.json`,
-    kreise: `${BASE}/estimates_kreis.json`,
-    geo_bundeslaender: `${BASE}/bundeslaender.geojson`,
-    geo_wahlkreise: `${BASE}/wahlkreise.geojson`,
-    geo_kreise: `${BASE}/kreise.geojson`,
+    estimates: `${BASE}/estimates_bundesland.json`,
+    geo: `${BASE}/bundeslaender.geojson`,
   };
 
   // Color palette (sequential blue, matching original app)
@@ -27,9 +26,8 @@
   // State
   let issues = [];
   let estimates = {};
-  let geoData = {};
+  let geoData = null;
   let selectedIssue = null;
-  let geoLevel = "bundeslaender";
   let svg, projection, path, tooltip, mapGroup, zoomBehavior;
   let width, height;
 
@@ -120,23 +118,15 @@
 
   async function loadData() {
     try {
-      const [issueData, bl, wkr, kr, geoBl, geoWkr, geoKr] = await Promise.all([
+      const [issueData, est, geo] = await Promise.all([
         d3.json(DATA_URLS.issues),
-        d3.json(DATA_URLS.bundeslaender),
-        d3.json(DATA_URLS.wahlkreise),
-        d3.json(DATA_URLS.kreise),
-        d3.json(DATA_URLS.geo_bundeslaender),
-        d3.json(DATA_URLS.geo_wahlkreise),
-        d3.json(DATA_URLS.geo_kreise),
+        d3.json(DATA_URLS.estimates),
+        d3.json(DATA_URLS.geo),
       ]);
 
       issues = issueData;
-      estimates = { bundeslaender: bl, wahlkreise: wkr, kreise: kr };
-      geoData = {
-        bundeslaender: rewindGeoJSON(geoBl),
-        wahlkreise: rewindGeoJSON(geoWkr),
-        kreise: rewindGeoJSON(geoKr),
-      };
+      estimates = est;
+      geoData = rewindGeoJSON(geo);
 
       return true;
     } catch (err) {
@@ -246,11 +236,10 @@
       .attr("class", "mb-tooltip")
       .style("display", "none");
 
-    // Fit projection to Germany bounds using bundeslaender
     projection = d3.geoMercator();
     path = d3.geoPath().projection(projection);
 
-    fitProjection(geoData.bundeslaender);
+    fitProjection(geoData);
   }
 
   function fitProjection(geo) {
@@ -258,55 +247,29 @@
     path = d3.geoPath().projection(projection);
   }
 
-  function getEstimatesForLevel(issueId, level) {
-    const data = estimates[level];
-    if (!data || !data[issueId]) return {};
-
-    const arr = data[issueId];
+  function getEstimates(issueId) {
     const map = {};
-
-    arr.forEach((d) => {
-      let code;
-      if (level === "bundeslaender") {
-        code = d.state_code;
-      } else if (level === "wahlkreise") {
-        code = String(d.wkr_nr);
-      } else {
-        code = d.county_code;
-      }
-      if (code) map[code] = d.estimate;
+    (estimates[issueId] || []).forEach((d) => {
+      if (d.state_code) map[d.state_code] = d.estimate;
     });
-
     return map;
   }
 
-  function getFeatureCode(feature, level) {
+  function getFeatureCode(feature) {
     const p = feature.properties;
-    if (level === "bundeslaender") {
-      return p.state_code || p.SN_L || p.RS || p.AGS;
-    } else if (level === "wahlkreise") {
-      return String(p.wkr_nr || p.WKR_NR || p.wkr);
-    } else {
-      return p.county_code || p.RS || p.AGS || p.KRS;
-    }
+    return p.state_code || p.SN_L || p.RS || p.AGS;
   }
 
-  function getFeatureName(feature, level) {
+  function getFeatureName(feature) {
     const p = feature.properties;
-    if (level === "bundeslaender") {
-      return p.state_name || p.GEN || p.name || "Unknown";
-    } else if (level === "wahlkreise") {
-      return p.name || p.WKR_NAME || `WKR ${p.wkr_nr || ""}`;
-    } else {
-      return p.county_name || p.GEN || p.name || "Unknown";
-    }
+    return p.state_name || p.GEN || p.name || "Unknown";
   }
 
   function renderMap() {
-    if (!selectedIssue || !geoData[geoLevel]) return;
+    if (!selectedIssue || !geoData) return;
 
-    const geo = geoData[geoLevel];
-    const estMap = getEstimatesForLevel(selectedIssue.issue_id, geoLevel);
+    const geo = geoData;
+    const estMap = getEstimates(selectedIssue.issue_id);
     const values = Object.values(estMap).filter((v) => v != null && !isNaN(v));
     const min = values.length ? d3.min(values) : 0;
     const max = values.length ? d3.max(values) : 100;
@@ -319,7 +282,6 @@
       svg.call(zoomBehavior.transform, d3.zoomIdentity);
     }
 
-    // Fit projection to current geo level
     fitProjection(geo);
 
     // Clear and draw
@@ -333,14 +295,12 @@
       .attr("class", "region")
       .attr("d", path)
       .attr("fill", (d) => {
-        const code = getFeatureCode(d, geoLevel);
-        const val = estMap[code];
+        const val = estMap[getFeatureCode(d)];
         return estimateToColor(val, min, max);
       })
       .on("mouseover", function (event, d) {
-        const code = getFeatureCode(d, geoLevel);
-        const name = getFeatureName(d, geoLevel);
-        const val = estMap[code];
+        const name = getFeatureName(d);
+        const val = estMap[getFeatureCode(d)];
 
         // Format value: detect 0-1 vs 0-100 scale
         const displayVal = val != null ? (val <= 1.5 ? (val * 100).toFixed(1) : val.toFixed(1)) : null;
@@ -369,16 +329,6 @@
         document.getElementById("mb-hover-estimate").textContent = "";
         tooltip.style("display", "none");
       });
-
-    // Draw state borders overlay (always visible for context)
-    if (geoLevel !== "bundeslaender" && geoData.bundeslaender) {
-      mapGroup
-        .selectAll("path.state-border")
-        .data(geoData.bundeslaender.features)
-        .join("path")
-        .attr("class", "state-border")
-        .attr("d", path);
-    }
   }
 
   // ---- Event handlers ----
@@ -395,19 +345,6 @@
       selectedIssue = issues.find((d) => d.issue_id === this.value);
       updateIssueInfo();
       renderMap();
-    });
-
-    document.querySelectorAll(".geo-btn").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        document.querySelectorAll(".geo-btn").forEach((b) => {
-          b.classList.remove("active");
-          b.setAttribute("aria-checked", "false");
-        });
-        this.classList.add("active");
-        this.setAttribute("aria-checked", "true");
-        geoLevel = this.dataset.level;
-        renderMap();
-      });
     });
   }
 

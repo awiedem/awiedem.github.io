@@ -362,7 +362,7 @@ Harmonized files map every election onto fixed municipal and county boundaries, 
 
 ## Meinungsbild
 
-Public opinion estimates for 43 policy issues, for exploration only; the data is not available for download. Methods and the map are on the [Meinungsbild page](/meinungsbild/).
+Public opinion estimates for 42 policy issues in the 16 L&auml;nder, for exploration only; the data is not available for download. Methods and the map are on the [Meinungsbild page](/meinungsbild/).
 
 ## Code Availability
 
