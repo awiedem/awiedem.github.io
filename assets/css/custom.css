@@ -665,18 +665,6 @@ a[aria-busy="true"] { cursor: progress; }
   color: var(--color-accent);
 }
 
-.load-buttons {
-  display: flex;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.load-buttons button {
-  padding: 0 7px;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
 /* ============================================
    Documentation
    ============================================ */
@@ -930,7 +918,7 @@ a[aria-busy="true"] { cursor: progress; }
 }
 
 @media print {
-  .site-header .main-nav, .data-filter, .copy-button, .load-buttons, .skip-link { display: none; }
+  .site-header .main-nav, .data-filter, .copy-button, .skip-link { display: none; }
   .wrapper { padding: 0; }
   a { color: var(--color-text); }
   .docs-sidebar { display: none; }

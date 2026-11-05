@@ -244,7 +244,7 @@ European Parliament election results at the municipality level for **4 elections
 <details>
   <summary>Data sources</summary>
   <div>
-    <p>Bundeswahlleiterin. European Parliament election results at the municipality level.</p>
+    <p>Bundeswahlleiterin, results by polling district (Wahlbezirksstatistik), aggregated to municipalities. The <a href="https://github.com/awiedem/german_election_data/tree/main/data/european_elections/raw">original files</a> are in the repository.</p>
     <ul>
       <li><a href="https://www.bundeswahlleiterin.de/europawahlen/2024.html">Europawahl 2024</a></li>
       <li><a href="https://www.bundeswahlleiterin.de/europawahlen/2019.html">Europawahl 2019</a></li>

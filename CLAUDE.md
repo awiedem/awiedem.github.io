@@ -40,11 +40,11 @@ Note: Changes to `_config.yml` require restarting the server.
 - `_data/navigation.yml` - Main navigation, in order
 - `_config.yml` `exclude` keeps `CLAUDE.md`, `CHANGELOG-session.md` and `scripts/` off the site. GitHub Pages publishes any Markdown file as a page, so add new non-site files there.
 - `assets/css/custom.css` - Design tokens and all shared styles; the explorers read the same tokens (`gerda-dashboard.css`, `gerda-meinungsbild.css`)
-- `assets/js/gerda-tools.js` - Copy buttons, the Data page filter, the documentation sidebar highlight. The pages work without it.
-- `_data/package_datasets.yml` - Names the R and Python packages can load, written by `python3 scripts/update_package_datasets.py`; rerun after a package release. A Data page row gets a copy button only when its name is listed.
+- `assets/js/gerda-tools.js` - Copy buttons on code blocks, the Data page filter, the documentation sidebar highlight. The pages work without it.
+- `_data/package_datasets.yml` - Names the R and Python packages can load, written by `python3 scripts/update_package_datasets.py`. No page reads it since the Data page's copy column was removed (2026-11-05).
 - `_includes/citation.html` - The citation and BibTeX shown on the homepage and in the documentation
 
-**Data page rows** are Markdown tables inside `<section class="download-section">`, in six columns: Dataset, Geography, Years, Boundaries, Updated, Download. The first column holds the file stem in backticks, then an optional `<small>` label; the filter and copy buttons read that stem. Keep the anchors `#local-elections` and `#county-elections-kreistagswahlen`, which older links and the explorer use. Caveats and coverage details go in `usage_notes.md`, not under the tables; each section already links there. The exceptions are the citation request and external datasets.
+**Data page rows** are Markdown tables inside `<section class="download-section">`, in six columns: Dataset, Geography, Years, Boundaries, Updated, Download. The first column holds the file stem in backticks, then a `<small>` line saying what the file holds (for example "Party vote counts"); every row has one. The filter reads both. Keep the anchors `#local-elections` and `#county-elections-kreistagswahlen`, which older links and the explorer use. Caveats and coverage details go in `usage_notes.md`, not under the tables; each section already links there. The exceptions are the citation request and external datasets.
 
 ## Writing update-log entries
 

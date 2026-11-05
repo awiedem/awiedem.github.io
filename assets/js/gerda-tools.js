@@ -1,4 +1,4 @@
-/* Small page tools: copy buttons, the Data page filter, and the documentation
+/* Small page tools: code copy buttons, the Data page filter, and the documentation
    sidebar highlight. Every page works without this file. */
 (() => {
   'use strict';
@@ -48,10 +48,6 @@
 
   const filterBox = document.getElementById('data-filter');
   if (filterBox) {
-    const packages = {
-      r: new Set(JSON.parse(filterBox.dataset.r)),
-      python: new Set(JSON.parse(filterBox.dataset.python))
-    };
     const rows = [];
 
     const normalize = (text) => text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -59,32 +55,13 @@
     document.querySelectorAll('.download-section').forEach((section) => {
       const table = section.querySelector('table');
       if (!table) return;
-      const head = table.querySelector('thead tr');
-      const loadHead = document.createElement('th');
-      loadHead.textContent = 'Load in code';
-      head.appendChild(loadHead);
 
       const context = `${section.querySelector('h2').textContent} ${section.dataset.terms || ''}`;
       table.querySelectorAll('tbody tr').forEach((row) => {
         const cells = row.querySelectorAll('td');
-        const name = row.querySelector('code').textContent.trim();
         const years = cells[2].textContent;
         const boundaries = cells[3].textContent;
         const harmonized = /boundaries|harmonized/i.test(boundaries);
-
-        const load = document.createElement('td');
-        const buttons = document.createElement('div');
-        buttons.className = 'load-buttons';
-        if (packages.r.has(name)) {
-          buttons.appendChild(makeCopyButton('R', `Copy R code that loads ${name}`,
-            () => `data <- gerda::load_gerda_web("${name}")`));
-        }
-        if (packages.python.has(name)) {
-          buttons.appendChild(makeCopyButton('Python', `Copy Python code that loads ${name}`,
-            () => `import gerda\ndata = gerda.load("${name}")`));
-        }
-        load.appendChild(buttons);
-        row.appendChild(load);
 
         const ranges = [...years.matchAll(/(\d{4})\s*[–→-]\s*(\d{4})/g)].map((m) => [Number(m[1]), Number(m[2])]);
         rows.push({
