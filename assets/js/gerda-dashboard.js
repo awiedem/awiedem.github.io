@@ -155,14 +155,16 @@
       "/assets/data/meinungsbild/kreise.geojson",
       "https://raw.githubusercontent.com/awiedem/german_election_data/main/meinungsbild/web/public/data/kreise.geojson"
     ],
-    // 299 Bundestag Wahlkreise on 2021 boundaries. Constituencies are redrawn
-    // between elections and keep their numbers only partly (190 of 299 numbers
-    // point at a different area in 2025), so only years drawn on matching shapes
-    // are shown; see constituencyYears.
-    wkrGeo: [
+    // The 299 Bundestag Wahlkreise of 2021 and of 2025; see constituencyShapes.
+    wkr2021: [
       "/assets/data/meinungsbild/wahlkreise.geojson",
       `${BASE_REPO}/meinungsbild/wahlkreise.geojson`,
       `${CDN_BASE}/meinungsbild/wahlkreise.geojson`
+    ],
+    wkr2025: [
+      "/assets/data/wahlkreise_2025.geojson",
+      `${BASE_REPO}/wahlkreise_2025.geojson`,
+      `${CDN_BASE}/wahlkreise_2025.geojson`
     ]
   };
 
@@ -237,13 +239,17 @@
   let dataByDatasetYear = new Map();
   let yearsByDataset = new Map();
   let regionByAgs = new Map();
+  // Land names from the shapes. Wahlkreis numbers do not begin with a Land
+  // code the way an AGS does, so their features carry the name instead.
+  let regionLandByAgs = new Map();
+  const landOf = (ags) => regionLandByAgs.get(ags) || stateByAgsPrefix[ags.slice(0, 2)] || "";
   let regionOptions = [];
 
   // Geo
   let muniGeoData = null;
   let statesGeoData = null;
   let countyGeoData = null;
-  let wkrGeoData = null;
+  const wkrGeoCache = {};     // shape set -> promise of the Wahlkreis GeoJSON
   let currentGeoData = null;
   let colorScale = null;
   let svg = null;
@@ -395,9 +401,18 @@
     return parsed;
   };
 
-  // The Constituency tab shows only elections held on the 2021 Wahlkreis
-  // boundaries that the map draws. Add a year here only with its own shapes.
-  const constituencyYears = new Set([2021]);
+  // The Constituency tab shows each Bundestag election on the Wahlkreise it was
+  // held on: year -> key of the shapes in dataSources. Wahlkreise are redrawn
+  // between elections and keep their numbers only partly (190 of 299 numbers
+  // point at a different area in 2025 than in 2021), so a number names one
+  // area only within one set of shapes. Add a year here only with its shapes.
+  const constituencyShapes = new Map([[2021, "wkr2021"], [2025, "wkr2025"]]);
+
+  // Charts that follow one region over time leave out constituency rows from
+  // years drawn on other shapes than the selected year.
+  const onViewShapes = (row) =>
+    !constituencyDatasets.has(row.dataset) ||
+    constituencyShapes.get(row.election_year) === constituencyShapes.get(state.year);
 
   async function loadDatasetCSV(dataset) {
     if (dataCache[dataset]) return dataCache[dataset];
@@ -413,7 +428,7 @@
         }))
       );
       if (constituencyDatasets.has(dataset)) {
-        rows = rows.filter((row) => constituencyYears.has(row.election_year));
+        rows = rows.filter((row) => constituencyShapes.has(row.election_year));
       }
       dataCache[dataset] = rows;
       return rows;
@@ -430,9 +445,10 @@
   // lives in the usage notes.
   const datasetNotes = {
     constituency:
-      "Zweitstimme (list vote) results for the 299 Bundestag constituencies in 2021. " +
-      "Wahlkreise are redrawn between elections and the map has 2021 shapes only, " +
-      "so other years are in the download files but not on this map.",
+      "Zweitstimme (list vote) results for the 299 Bundestag constituencies in 2021 " +
+      "and 2025, each on that election's Wahlkreise. Many were redrawn or renumbered " +
+      "for 2025, so a number can be a different area in each year. Earlier years " +
+      "are in the download files.",
     landrat:
       "Direct elections for county executives (Landräte), shown on county " +
       "boundaries. Baden-Württemberg and Schleswig-Holstein elect their Landräte " +
@@ -455,16 +471,36 @@
     }
   }
 
-  async function loadWkrGeo() {
-    if (wkrGeoData) return wkrGeoData;
-    try {
-      const geo = await fetchWithFallback(dataSources.wkrGeo, (r) => r.json());
-      wkrGeoData = rewindGeoJSON(geo);
-      return wkrGeoData;
-    } catch (e) {
-      console.error("Failed to load Wahlkreis GeoJSON", e);
-      return null;
+  // Wahlkreis shapes for an election year, fetched once per shape set.
+  function loadWkrGeo(year) {
+    const key = constituencyShapes.get(year);
+    if (!key) return Promise.resolve(null);
+    if (!wkrGeoCache[key]) {
+      wkrGeoCache[key] = fetchWithFallback(dataSources[key], (r) => r.json())
+        .then(rewindGeoJSON)
+        .catch((e) => {
+          delete wkrGeoCache[key];
+          console.error(`Failed to load Wahlkreis GeoJSON for ${year}`, e);
+          return null;
+        });
     }
+    return wkrGeoCache[key];
+  }
+
+  // Draws the Wahlkreise of the selected year. The map is rebuilt, and the
+  // selection dropped, only when that year is on other shapes than the map.
+  async function showConstituencyShapes() {
+    const year = state.year;
+    const geo = await loadWkrGeo(year);
+    if (!geo || geo === currentGeoData) return;
+    if (!constituencyDatasets.has(state.dataset) || state.year !== year) return;
+    currentGeoData = geo;
+    state.selectedAgs = null;
+    state.compareAgs = null;
+    elements.selectionInfo.innerHTML = "";
+    elements.searchInput.value = "";
+    if (elements.compareInput) elements.compareInput.value = "";
+    rebuildMap();
   }
 
   async function loadCountyGeo() {
@@ -555,6 +591,10 @@
       elements.toggleBorders.checked = largeUnits;
     }
 
+    // The year comes first: it decides which Wahlkreis shapes to draw.
+    updateVariableOptions();
+    updateYearOptions();
+
     // Switch geographic level if needed
     if (countyLevelDatasets.has(dataset)) {
       const geo = await loadCountyGeo();
@@ -563,7 +603,7 @@
         rebuildMap();
       }
     } else if (constituencyDatasets.has(dataset)) {
-      const geo = await loadWkrGeo();
+      const geo = await loadWkrGeo(state.year);
       if (geo) {
         currentGeoData = geo;
         rebuildMap();
@@ -573,8 +613,6 @@
       rebuildMap();
     }
 
-    updateVariableOptions();
-    updateYearOptions();
     buildColorScale();
     updateSummaryStats();
 
@@ -971,10 +1009,12 @@
 
     // Rebuild region name map
     regionByAgs = new Map();
+    regionLandByAgs = new Map();
     currentGeoData.features.forEach((f) => {
       const ags = getFeatureAgs(f);
       const name = getFeatureName(f);
       if (ags) regionByAgs.set(ags, name);
+      if (ags && f.properties.state_name) regionLandByAgs.set(ags, f.properties.state_name);
     });
 
     // Draw regions
@@ -1155,7 +1195,7 @@
     if (state.compareAgs && state.compareAgs !== state.selectedAgs) agsList.push(state.compareAgs);
 
     const rows = allLoadedData.filter(
-      (row) => datasets.includes(row.dataset) && agsList.includes(row.ags)
+      (row) => datasets.includes(row.dataset) && agsList.includes(row.ags) && onViewShapes(row)
     );
 
     if (!rows.length) {
@@ -1401,7 +1441,7 @@
 
     const ags = state.selectedAgs;
     const name = regionByAgs.get(ags) || ags;
-    const stateName = stateByAgsPrefix[ags.slice(0, 2)] || "";
+    const stateName = landOf(ags);
 
     if (elements.profileName) elements.profileName.textContent = name;
     if (elements.profileState) elements.profileState.textContent = stateName;
@@ -1432,7 +1472,7 @@
     const metrics = ["turnout", ...partyMetrics.filter((p) => (datasetVariables[dataset] || []).includes(p))];
 
     const rows = allLoadedData
-      .filter((r) => r.dataset === dataset && r.ags === ags)
+      .filter((r) => r.dataset === dataset && r.ags === ags && onViewShapes(r))
       .sort((a, b) => a.election_year - b.election_year);
 
     if (!rows.length) {
@@ -1698,7 +1738,7 @@
 
   function populateRegionLists() {
     regionOptions = Array.from(regionByAgs.entries()).map(([ags, name]) => {
-      const stateName = stateByAgsPrefix[ags.slice(0, 2)] || "";
+      const stateName = landOf(ags);
       return { ags, name, stateName, label: `${name} (${stateName || ags})` };
     });
     regionOptions.sort((a, b) => a.name.localeCompare(b.name));
@@ -1848,8 +1888,13 @@
       });
     });
 
-    elements.yearSelect.addEventListener("change", (e) => {
+    elements.yearSelect.addEventListener("change", async (e) => {
       state.year = e.target.value === LATEST ? LATEST : Number(e.target.value);
+      if (constituencyDatasets.has(state.dataset)) {
+        showLoading("Loading Wahlkreise...");
+        await showConstituencyShapes();
+        hideLoading();
+      }
       refreshMap();
       updateTimeSeries();
       refreshAnalysis();

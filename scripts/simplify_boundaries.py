@@ -3,7 +3,7 @@
 
 Usage: python3 scripts/simplify_boundaries.py RAW.geojson OUT.geojson [PERCENT]
 
-Runs mapshaper (brew install mapshaper) with Visvalingam simplification at
+Runs mapshaper (npm install -g mapshaper) with Visvalingam simplification at
 PERCENT (default 20) keeping every shape, rounds coordinates to 5 decimals,
 then rewinds rings so exterior rings are clockwise and holes counterclockwise,
 which is what d3-geo expects. mapshaper writes RFC 7946 winding (the
