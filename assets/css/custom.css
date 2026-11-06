@@ -420,7 +420,7 @@ tbody tr:hover {
 
 .map-strip {
   max-width: 54rem;
-  margin: 0 0 8px;
+  margin: 0 auto 8px;
 }
 
 .map-strip-maps {
@@ -438,6 +438,7 @@ tbody tr:hover {
 .map-strip-item span {
   display: block;
   margin-bottom: 2px;
+  text-align: center;
   font-size: 16px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
@@ -460,7 +461,8 @@ tbody tr:hover {
 .map-caption {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   align-items: baseline;
   gap: 6px 24px;
   margin-top: 10px;
@@ -471,6 +473,7 @@ tbody tr:hover {
 .map-legend {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 2px 14px;
 }
 
