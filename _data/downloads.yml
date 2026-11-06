@@ -3,13 +3,18 @@
 ags_1990_to_2025_crosswalk:
   csv_mb: 29.6
   rds_mb: 1.2
-  updated: 2026-07-30
+  updated: 2026-11-04
   xlsx_mb: 17.8
 ags_area_pop_emp:
-  csv_mb: 20.6
-  rds_mb: 3.2
-  updated: 2026-03-27
-  xlsx_mb: 13.8
+  csv_mb: 22.5
+  rds_mb: 3.5
+  updated: 2026-11-04
+  xlsx_mb: 14.4
+ags_area_pop_emp_2023:
+  csv_mb: 21.8
+  rds_mb: 3.5
+  updated: 2026-11-04
+  xlsx_mb: 14.7
 ags_crosswalks:
   csv_mb: 28.5
   rds_mb: 2.2
@@ -23,13 +28,13 @@ county_council_seats:
 county_elec_harm_21_cty:
   csv_mb: 2.1
   rds_mb: 0.3
-  updated: 2026-09-28
+  updated: 2026-11-04
   xlsx_mb: 0.6
 county_elec_harm_21_muni:
-  csv_mb: 41.3
+  csv_mb: 41.6
   rds_mb: 4.7
-  updated: 2026-09-28
-  xlsx_mb: 11.0
+  updated: 2026-11-04
+  xlsx_mb: 11.3
 county_elec_unharm:
   csv_mb: 59.5
   rds_mb: 5.4
@@ -38,7 +43,7 @@ county_elec_unharm:
 cty_area_pop_emp:
   csv_mb: 0.8
   rds_mb: 0.2
-  updated: 2026-10-13
+  updated: 2026-11-04
   xlsx_mb: 0.6
 cty_crosswalks:
   csv_mb: 1.0
@@ -56,9 +61,9 @@ european_muni_unharm:
   updated: 2026-09-28
   xlsx_mb: 24.2
 federal_cty_harm:
-  csv_mb: 2.5
-  rds_mb: 0.7
-  updated: 2026-03-05
+  csv_mb: 2.6
+  rds_mb: 0.8
+  updated: 2026-11-04
   xlsx_mb: 2.3
 federal_cty_unharm:
   csv_mb: 4.0
@@ -66,15 +71,15 @@ federal_cty_unharm:
   updated: 2026-03-27
   xlsx_mb: 2.3
 federal_muni_harm_21:
-  csv_mb: 65.1
+  csv_mb: 65.3
   rds_mb: 17.2
-  updated: 2026-09-28
-  xlsx_mb: 44.0
+  updated: 2026-11-04
+  xlsx_mb: 44.7
 federal_muni_harm_25:
-  csv_mb: 64.7
-  rds_mb: 17.1
-  updated: 2026-09-28
-  xlsx_mb: 43.9
+  csv_mb: 64.9
+  rds_mb: 17.2
+  updated: 2026-11-04
+  xlsx_mb: 44.5
 federal_muni_raw:
   csv_mb: 45.5
   rds_mb: 10.4
@@ -156,15 +161,15 @@ mayoral_unharm:
   updated: 2026-10-29
   xlsx_mb: 6.3
 municipal_harm:
-  csv_mb: 15.8
+  csv_mb: 15.9
   rds_mb: 2.7
-  updated: 2026-10-13
-  xlsx_mb: 11.0
+  updated: 2026-11-04
+  xlsx_mb: 11.3
 municipal_harm_25:
-  csv_mb: 18.1
+  csv_mb: 18.3
   rds_mb: 3.0
-  updated: 2026-10-13
-  xlsx_mb: 12.6
+  updated: 2026-11-04
+  xlsx_mb: 12.9
 municipal_unharm:
   csv_mb: 19.4
   rds_mb: 3.8
@@ -173,17 +178,17 @@ municipal_unharm:
 state_harm_21:
   csv_mb: 62.9
   rds_mb: 11.0
-  updated: 2026-10-20
+  updated: 2026-11-04
   xlsx_mb: 24.3
 state_harm_23:
   csv_mb: 62.9
   rds_mb: 11.0
-  updated: 2026-10-20
+  updated: 2026-11-04
   xlsx_mb: 24.3
 state_harm_25:
   csv_mb: 62.8
   rds_mb: 11.0
-  updated: 2026-10-20
+  updated: 2026-11-04
   xlsx_mb: 24.3
 state_unharm:
   csv_mb: 92.3

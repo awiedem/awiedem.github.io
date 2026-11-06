@@ -21,7 +21,7 @@ image: /assets/images/map_elec_fed_combined.jpg
   ],
   "license": "https://creativecommons.org/licenses/by/4.0/",
   "datePublished": "2025-04-14",
-  "dateModified": "2026-07-21",
+  "dateModified": "2026-11-05",
   "citation": "Heddesheimer, V., Hilbig, H., Sichart, F., & Wiedemann, A. (2025). GERDA: The German Election Database. Scientific Data, 12, 618.",
   "temporalCoverage": "1945/2026",
   "spatialCoverage": {"@type": "Place", "name": "Germany"},

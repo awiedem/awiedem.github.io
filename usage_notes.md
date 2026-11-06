@@ -361,6 +361,8 @@ Harmonized files map every election onto fixed municipal and county boundaries, 
   </div>
 </details>
 
+**Covariates.** `ags_area_pop_emp` and `cty_area_pop_emp` use 2021 boundaries: population and area cover 1990&ndash;2024, employees 1997&ndash;2020. `ags_area_pop_emp_2023` uses 2023 boundaries: population and area cover 1990&ndash;2023, employees 1997&ndash;2021. Population moves to the Zensus 2022 base in 2024 for municipalities and apparently in 2023 for counties, which lowers national totals by about 1 % with no real change behind it.
+
 ## Meinungsbild
 
 Public opinion estimates for 42 policy issues in the 16 L&auml;nder, for exploration only; the data is not available for download. Methods and the map are on the [Meinungsbild page](/meinungsbild/).
