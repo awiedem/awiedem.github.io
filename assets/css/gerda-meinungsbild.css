@@ -39,6 +39,26 @@
   line-height: 1.5;
 }
 
+.issue-rule {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.issue-flag {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-left: 3px solid var(--color-warning, #b45309);
+  background: var(--color-warning-bg, rgba(180, 83, 9, 0.08));
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.issue-flag[hidden] {
+  display: none;
+}
+
 /* Legend */
 .mb-legend .legend-title {
   margin-bottom: 8px;

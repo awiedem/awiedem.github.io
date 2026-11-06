@@ -23,6 +23,27 @@
 
   const FALLBACK_COLOR = "#e5e7eb";
 
+  // Questions whose Land estimates correlate below 0.5 with direct survey
+  // estimates (meinungsbild/docs/methodology_notes.md in the data repo).
+  const LOW_RELIABILITY = new Set([
+    "internet_control", "income_reduce", "econ_current_personal",
+    "mandatory_service", "fear_war", "higher_earners_tax"
+  ]);
+
+  // Turn response_type ("scale_1_5") and binary_rule ("y=1 if <= 2") into a
+  // plain sentence about which answers count.
+  function describeRule(issue) {
+    const scale = /scale_1_(\d+)/.exec(issue.response_type || "");
+    const rule = /(<=|>=)\s*(\d+)/.exec(issue.binary_rule || "");
+    if (!scale || !rule) return "";
+    const n = Number(scale[1]);
+    const cut = Number(rule[2]);
+    const k = rule[1] === "<=" ? cut : n - cut + 1;
+    const end = ((issue.direction || "").split("=")[1] || "agreeing").trim();
+    return `Counts the ${k} of ${n} answer options at the \u201c${end}\u201d end of the scale. ` +
+      "All other answers count as no.";
+  }
+
   // State
   let issues = [];
   let estimates = {};
@@ -178,6 +199,10 @@
     if (!selectedIssue) return;
     const q = document.getElementById("mb-question");
     q.textContent = selectedIssue.question_en || selectedIssue.question_de || "";
+    const rule = document.getElementById("mb-rule");
+    if (rule) rule.textContent = describeRule(selectedIssue);
+    const flag = document.getElementById("mb-flag");
+    if (flag) flag.hidden = !LOW_RELIABILITY.has(selectedIssue.issue_id);
   }
 
   // ---- Legend ----

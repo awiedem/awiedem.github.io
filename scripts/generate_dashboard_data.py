@@ -103,6 +103,15 @@ def fix_ags(value):
 
 PARTY_COLS = ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw"]
 STANDARD_OUTPUT_COLS = ["ags", "election_year", "turnout"] + PARTY_COLS + ["number_voters", "eligible_voters"]
+
+# Municipal elections: everything outside the seven parties above, combined.
+# In most municipalities local lists (Wählergruppen), Freie Wähler and
+# independents together are the largest group, so without this column the
+# explorer's winning-party map picks a party that came second. The source
+# shares sum to one across these columns plus PARTY_COLS.
+OTHER_LOCAL_COLS = ["freie_wahler", "piraten", "die_partei", "npd_heimat",
+                    "freie_sachsen", "iii_weg", "other"]
+OTHER_LOCAL_DATASETS = {"municipal"}
 MAYORAL_OUTPUT_COLS = ["ags", "election_year", "turnout"] + PARTY_COLS + [
     "winner_party", "winner_voteshare", "election_type", "round", "number_voters", "eligible_voters"]
 
@@ -309,15 +318,23 @@ def process_standard(name, source_file, output_file):
     nv_col = find_column(headers, ["number_voters"])
     ev_col = find_column(headers, ["eligible_voters"])
 
+    other_cols = []
+    if name in OTHER_LOCAL_DATASETS:
+        other_cols = [c for c in OTHER_LOCAL_COLS if c in headers]
+        if "other" not in other_cols:
+            sys.exit(f"  {name}: source has no 'other' column; cannot build other_local")
+
     print(f"  ags={ags_col}, year={year_col}, turnout={turnout_col}")
     print(f"  Party mapping: { {k: v for k, v in party_map.items() if v} }")
+    if other_cols:
+        print(f"  other_local = sum of {other_cols}")
 
     count = 0
     with open(source_file, "r", encoding="utf-8") as fin, \
          open(output_file, "w", newline="", encoding="utf-8") as fout:
         reader = csv.DictReader(fin)
         writer = csv.writer(fout)
-        writer.writerow(STANDARD_OUTPUT_COLS)
+        writer.writerow(STANDARD_OUTPUT_COLS + (["other_local"] if other_cols else []))
 
         for row in reader:
             out_row = [
@@ -331,6 +348,8 @@ def process_standard(name, source_file, output_file):
                 format_value(row.get(nv_col, "")) if nv_col else "",
                 format_value(row.get(ev_col, "")) if ev_col else "",
             ])
+            if other_cols:
+                out_row.append(sum_party_values(row, other_cols))
             writer.writerow(out_row)
             count += 1
 

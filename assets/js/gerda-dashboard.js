@@ -37,13 +37,19 @@
     winner_voteshare: "Winner vote share",
     number_voters: "Voters",
     eligible_voters: "Eligible voters",
-    other: "Other / Independent"
+    other: "Other / Independent",
+    other_local: "Local lists and other parties"
   };
 
   const partyMetrics = ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw"];
 
+  // Municipal files also carry other_local: Freie Wähler, local lists
+  // (Wählergruppen), independents and small parties, combined. It competes for
+  // the winning-party map wherever a row has it.
+  const winnerMetrics = [...partyMetrics, "other_local"];
+
   const percentMetrics = new Set([
-    "turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winner_voteshare"
+    "turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winner_voteshare", "other_local"
   ]);
 
   const countMetrics = new Set(["number_voters", "eligible_voters"]);
@@ -57,6 +63,7 @@
     linke_pds: d3.interpolatePuRd,
     afd: d3.interpolatePuBu,
     bsw: d3.interpolateRdPu,
+    other_local: d3.interpolateYlGn,
     winner_voteshare: d3.interpolateViridis,
     number_voters: d3.interpolateOranges,
     eligible_voters: d3.interpolateOranges
@@ -71,6 +78,7 @@
     afd: "#0489DB",
     bsw: "#712B8C",
     other: "#999999",
+    other_local: "#9A6B3F",
     turnout: "#3F7FBF",
     number_voters: "#E38D3F",
     eligible_voters: "#9C6B3A"
@@ -96,7 +104,7 @@
   const datasetVariables = {
     federal: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"],
     state: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"],
-    municipal: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "winning_party", "number_voters"],
+    municipal: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "other_local", "winning_party", "number_voters"],
     european: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"],
     mayoral: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "winning_party", "winner_voteshare", "number_voters"],
     county: ["turnout", "cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "winning_party", "number_voters"],
@@ -386,7 +394,7 @@
     };
 
     // Party metrics
-    ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw"].forEach((p) => {
+    ["cdu_csu", "spd", "gruene", "fdp", "linke_pds", "afd", "bsw", "other_local"].forEach((p) => {
       parsed[p] = row[p] === "" || row[p] === undefined ? NaN : Number(row[p]);
     });
 
@@ -453,6 +461,12 @@
       "Direct elections for county executives (Landräte), shown on county " +
       "boundaries. Baden-Württemberg and Schleswig-Holstein elect their Landräte " +
       "through the Kreistag, so they do not appear.",
+    municipal:
+      "Council elections. \"Local lists and other parties\" combines Freie Wähler, " +
+      "local voter groups (Wählergruppen), independents and small parties. On the " +
+      "winning-party map it wins where that combined share is larger than every " +
+      "party's, even if no single list in it is. Each Land holds its council " +
+      "elections in different years, so a single year covers only some Länder.",
     mayoral:
       "Coverage varies sharply by state — Bayern reaches back to 1945, while " +
       "several states cover only the most recent cycle for each municipality."
@@ -781,7 +795,7 @@
     if (row.winner_party !== undefined) return normalizePartyName(row.winner_party);
     let maxParty = null;
     let maxValue = -Infinity;
-    for (const party of partyMetrics) {
+    for (const party of winnerMetrics) {
       const value = Number(row[party]);
       if (Number.isFinite(value) && value > maxValue) {
         maxValue = value;
@@ -871,7 +885,7 @@
 
     const parties = isMayoral
       ? [...partyMetrics, "other"]
-      : partyMetrics;
+      : state.dataset === "municipal" ? winnerMetrics : partyMetrics;
 
     const swatches = parties
       .map((party) => {
@@ -1375,7 +1389,7 @@
     }
 
     const sortedYears = Array.from(years).sort((a, b) => a - b);
-    const metrics = dataset === "mayoral" ? ["turnout"] : ["turnout", ...partyMetrics.filter((p) => {
+    const metrics = dataset === "mayoral" ? ["turnout"] : ["turnout", ...winnerMetrics.filter((p) => {
       const vars = datasetVariables[dataset] || [];
       return vars.includes(p);
     })];
@@ -1469,7 +1483,7 @@
     grid.innerHTML = "";
 
     const dataset = state.dataset;
-    const metrics = ["turnout", ...partyMetrics.filter((p) => (datasetVariables[dataset] || []).includes(p))];
+    const metrics = ["turnout", ...winnerMetrics.filter((p) => (datasetVariables[dataset] || []).includes(p))];
 
     const rows = allLoadedData
       .filter((r) => r.dataset === dataset && r.ags === ags && onViewShapes(r))
@@ -1762,7 +1776,8 @@
   const addLegendToSvg = (svgClone) => {
     const legendGroup = createSvgElement("g", { transform: "translate(10, 10)" });
     const isCat = state.variable === "winning_party" || state.variable === "winner_party";
-    const bgHeight = isCat ? 160 : 80;
+    const legendParties = state.dataset === "municipal" ? winnerMetrics : partyMetrics;
+    const bgHeight = isCat ? 56 + legendParties.length * 14 : 80;
     legendGroup.appendChild(createSvgElement("rect", {
       x: 0, y: 0, width: 230, height: bgHeight, rx: 8,
       fill: "white", stroke: "#e0e0e0", "stroke-width": 1
@@ -1777,7 +1792,7 @@
     legendGroup.appendChild(subtitle);
 
     if (isCat) {
-      partyMetrics.forEach((party, i) => {
+      legendParties.forEach((party, i) => {
         const y = 48 + i * 14;
         legendGroup.appendChild(createSvgElement("rect", {
           x: 10, y, width: 12, height: 10, rx: 2,
