@@ -26,7 +26,7 @@ library(gerda)
 data <- load_gerda_web("federal_cty_harm")
 ```
 
-Current version: **0.8.1**, available on CRAN since 27 July 2026. It exposes 47 datasets, including crosswalks and covariates.
+Current version: **0.8.2**, available on CRAN since 7 November 2026. It exposes 47 datasets, including crosswalks and covariates.
 
 </div>
 <div markdown="1">
@@ -90,10 +90,10 @@ Feedback: email <hhilbig@ucdavis.edu> or open an [issue on GitHub](https://githu
 
 - **`clear_gerda_cache()`** and **`gerda_cache_dir()`**: Clear and locate the on-disk download cache used when `cache = TRUE`. The cache lives under `tools::R_user_dir("gerda", "cache")` and is only written when caching is switched on.
 
-### Covariates (INKAR county-level, 1995–2022)
+### Covariates (INKAR county-level, 1995–2023)
 
 - **`add_gerda_covariates(election_data, unmatched = "warn")`**: Appends 30 INKAR county-level socioeconomic indicators (demographics, economy, labour market, education, income, healthcare, childcare, housing, transport, public finances) to county- or municipality-level election data. On municipality data, all municipalities in the same Kreis receive identical covariate values. Coverage is strongest for 1998–2021; several newer indicators are only available for more recent years. See `gerda_covariates_codebook()` for per-variable coverage.
-  - `unmatched`: What to do about election rows that find no covariate match. `"warn"` (default) reports the exact unmatched row and unit counts, `"error"` stops, and `"ignore"` stays silent. Use `"error"` in unattended pipelines. Election years outside the INKAR window (1995–2022) are reported separately and kept with missing covariate values.
+  - `unmatched`: What to do about election rows that find no covariate match. `"warn"` (default) reports the exact unmatched row and unit counts, `"error"` stops, and `"ignore"` stays silent. Use `"error"` in unattended pipelines. Election years outside the INKAR window (1995–2023) are reported separately and kept with missing covariate values.
   - Since v0.8, county codes must be five-digit character strings and municipality AGS codes eight-digit character strings. Numeric identifiers are rejected rather than silently mismatched, which guards against lost leading zeros.
 
 - **`gerda_covariates()`**: Returns the raw covariate data as a standalone tibble for manual merging.
@@ -126,6 +126,7 @@ gerda_join_diagnostics(merged)
 - **`party_crosswalk(party_gerda, destination)`**: Maps GERDA party names to corresponding values from the [ParlGov database](http://www.parlgov.org/).
   - `party_gerda`: Character vector of party names.
   - `destination`: Target column name from ParlGov crosswalk.
+  - Parties that ParlGov does not cover, including BSW and WerteUnion, return their names but `NA` for party family, ideology scales and identifiers.
 
 ## Usage Examples
 
